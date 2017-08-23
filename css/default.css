@@ -1,0 +1,73 @@
+body {
+  color: #2e3436;
+  background-color: #eeeeec;
+
+  font-size: 16px;
+  margin: auto;
+  width: 40pc;
+}
+
+header {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  text-align: center;
+}
+
+.logo {
+  margin: auto;
+}
+
+footer
+{
+    margin-top: 0.5em;
+    color: #888a85;
+    text-align: center;
+    clear: both;
+    font-size: small;
+    margin-bottom: 0.5em;
+}
+
+footer a
+{
+    color: #888a85;
+}
+
+main {
+    text-align: left;
+    padding: 2em;
+    border-color: #888a85;
+    border-style: solid;
+    border-width: 1px;
+    background-color: white;
+}
+
+/** links */
+a
+{
+    background-color: inherit;
+    color: #204a87;
+}
+
+a:visited
+{
+    color: #5c3566;
+}
+
+/** kill borders around link-images */
+a img
+{
+    border: 0px;
+}
+
+/** Diffs */
+ins
+{
+    text-decoration: none;
+    color: #4e9a06;
+}
+
+del
+{
+    text-decoration: line-through;
+    color: #888a85;
+}

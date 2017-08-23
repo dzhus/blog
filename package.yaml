@@ -1,0 +1,10 @@
+name: dzhus-hakyll-blog
+version: 0.1.0.0
+
+executables:
+  site:
+    main: site.hs
+    ghc-options: -threaded
+    dependencies:
+      - base
+      - hakyll
