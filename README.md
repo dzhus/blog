@@ -11,6 +11,8 @@ The last big changes to the old engine were made somewhere in 2009. In
 
 - Microformats, RDFa were «superseded» by [microformats2][]
 
+- Some `<link>` `rel` values were [dropped][rel-drop]
+
 ## TOCs
 
 It's possible to get Pandoc to include table of contents in the HTML
@@ -33,8 +35,32 @@ Perhaps it's best to leave it to the [client][client-toc].
 
 - [ ] list of tags on article page
 
-- [ ] next/previous page link?
+- [x] next/previous page link?
 
+    This one seems more difficult than it should be:
+
+    1. Pagination. `buildPaginateWith` has no means to specify sorting
+       order. It's unclear what `pattern` argument in `paginateRules`
+       refers to.
+
+       Somehow I got this to work:
+
+       - Make page identifiers equal to file identifiers
+
+       - Using paginateRules forces files with correct names to be
+         created (with a single identifier per page). The question is
+         how `pandocCompiler` picks the right source file if the
+         enclosing `Rules` are `create`, not `match`?
+
+    2. `sortChronologically` + `getMatches`: this operates on
+       Identifiers only, but it seems there's no way to go from an
+       Identifier to its URL outside of compiler context for the Item
+       which corresponds to that identifier. It means that mutual
+       (previous/next) links between consecutive items will result in
+       circular dependencies.
+
+
+[client-toc]: https://chrome.google.com/webstore/detail/smart-toc/lifgeihcfpkmmlfjbailfpfhbahhibba
 [hakyll]: https://jaspervdj.be/hakyll/index.html
 [microformats2]: http://microformats.org/wiki/microformats2
-[client-toc]: https://chrome.google.com/webstore/detail/smart-toc/lifgeihcfpkmmlfjbailfpfhbahhibba
+[rel-drop]: http://lists.w3.org/Archives/Public/public-html/2011Feb/att-0481/issue-118-decision.html

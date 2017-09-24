@@ -25,9 +25,17 @@ main =
 
     tags <- buildTags "posts/*" (fromCapture "tag/*")
 
-    match "posts/*" $ do
+    -- Paginate the whole history by pages of 1 to provide links to
+    -- previous/next post
+    allPosts <- getMatches "posts/*"
+    paginate <- buildPaginateWith (return . paginateEvery 1)
+                "posts/*"
+                -- Make page identifiers equal to file identifiers
+                (\n -> allPosts !! (n - 1))
+
+    paginateRules paginate $ \pn pat -> do
       route $ setExtension ""
-      let postCtx' = postCtxWithTags tags
+      let postCtx' = paginateContext paginate pn <> postCtxWithTags tags
       compile $
         pandocCompiler >>=
         loadAndApplyTemplate "templates/post.html" postCtx' >>=

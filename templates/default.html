@@ -10,6 +10,14 @@
     <link rel="icon" type="image/png" href="/images/favicon.png" />
     <link rel="stylesheet" href="/css/default.css" />
 
+    $if(previousPageUrl)$
+    <link rel="prev" href="$previousPageUrl$" />
+    $endif$
+
+    $if(nextPageUrl)$
+    <link rel="next" href="$nextPageUrl$" />
+    $endif$
+
     <title>Дмитрий Джус</title>
   </head>
   <body>
