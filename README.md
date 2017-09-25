@@ -27,7 +27,7 @@ Perhaps it's best to leave it to the [client][client-toc].
 
 ## Features
 
-- [ ] Atom feed
+- [x] Atom feed
 
 - [ ] article list page (w/ pagination)
 

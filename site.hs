@@ -3,6 +3,16 @@
 import Data.Monoid
 import Hakyll
 
+feedConfiguration :: FeedConfiguration
+feedConfiguration =
+  FeedConfiguration
+  { feedTitle = "Журнал Дмитрия Джуса"
+  , feedDescription = "Дмитрий Джус"
+  , feedAuthorName = "Дмитрий Джус"
+  , feedAuthorEmail = "dima@dzhus.org"
+  , feedRoot = "http://dzhus.org"
+  }
+
 main :: IO ()
 main =
   hakyll $ do
@@ -44,6 +54,7 @@ main =
         route $ setExtension ""
         compile $
           pandocCompiler >>=
+          saveSnapshot "html" >>=
           loadAndApplyTemplate "templates/post.html" postCtx' >>=
           loadAndApplyTemplate "templates/default.html" postCtx' >>=
           relativizeUrls
@@ -56,6 +67,14 @@ main =
     match "posts/*" $ version "raw" $ do
       route idRoute
       compile getResourceString
+
+    create ["atom.xml"] $ do
+      route idRoute
+      compile $ do
+        let feedCtx = postCtx `mappend` bodyField "description"
+        posts <- fmap (take 20) . recentFirst =<<
+                 loadAllSnapshots allPosts "html"
+        renderAtom feedConfiguration feedCtx posts
 
     create ["posts/index.html"] $ do
       route idRoute
