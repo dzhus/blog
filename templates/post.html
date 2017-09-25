@@ -6,4 +6,19 @@
   <section class="header">$date$</section>
   <section>Метки: $tags$.</section>
   <section>$body$</section>
+  <footer id="neighbour-links">
+    $if(previousPageUrl)$
+    <span style="float: left;">
+      <a rel="prev" href="$previousPageUrl$">←</a>
+    </span>
+    $endif$
+
+    <div style="display: inline-block; text-align: center;">$currentPageNum$/$numPages$</div>
+
+    $if(nextPageUrl)$
+    <span style="float: right;">
+      <a rel="next" href="$nextPageUrl$">→</a>
+    </span>
+    $endif$
+  </footer>
 </article>
