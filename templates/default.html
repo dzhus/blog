@@ -18,6 +18,11 @@
     <link rel="next" href="$nextPageUrl$" />
     $endif$
 
+    $if(alternates)$
+      $for(alternates)$
+      <link rel="alternate" href="$url$" type="text/markdown" />
+      $endfor$
+    $endif$
     <title>Дмитрий Джус</title>
   </head>
   <body>

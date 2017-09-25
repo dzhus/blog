@@ -25,7 +25,7 @@ placing `<!-- toc -->` comment at the desired position).
 
 Perhaps it's best to leave it to the [client][client-toc].
 
-## TODO
+## Features
 
 - [ ] Atom feed
 
@@ -34,6 +34,12 @@ Perhaps it's best to leave it to the [client][client-toc].
 - [ ] tagged article list page (w/ pagination)
 
 - [ ] list of tags on article page
+
+- [x] alternate links
+
+    For some reason, trying to do `loadAll pat .&&. hasVersion "raw"`
+    in the body of `paginateRules` results in no items loaded, so
+    we're using `load` instead (we know the identifier anyways).
 
 - [x] next/previous page link?
 

@@ -33,19 +33,31 @@ main =
                 -- Make page identifiers equal to file identifiers
                 (\n -> allPosts !! (n - 1))
 
-    paginateRules paginate $ \pn pat -> do
-      route $ setExtension ""
-      let postCtx' = paginateContext paginate pn <> postCtxWithTags tags
-      compile $
-        pandocCompiler >>=
-        loadAndApplyTemplate "templates/post.html" postCtx' >>=
-        loadAndApplyTemplate "templates/default.html" postCtx' >>=
-        relativizeUrls
+    paginateRules paginate $ \pn _ ->
+      let
+        loadRaw = load $ setVersion (Just "raw") (paginateMakeId paginate pn)
+        postCtx' =
+          listField "alternates" postCtx (return <$> loadRaw) <>
+          paginateContext paginate pn <>
+          postCtxWithTags tags
+      in do
+        route $ setExtension ""
+        compile $
+          pandocCompiler >>=
+          loadAndApplyTemplate "templates/post.html" postCtx' >>=
+          loadAndApplyTemplate "templates/default.html" postCtx' >>=
+          relativizeUrls
+
+    match "posts/*" $ version "raw" $ do
+      route idRoute
+      compile getResourceString
 
     create ["posts/index.html"] $ do
       route idRoute
       compile $ do
-        posts <- loadAll $ "posts/*" .&&. complement "posts/index.html"
+        posts <- loadAll $ "posts/*" .&&.
+                 hasNoVersion .&&.
+                 complement "posts/index.html"
         let ctx = listField "posts" postCtx (return posts) <>
                   defaultContext
         makeItem ""
