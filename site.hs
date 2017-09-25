@@ -48,6 +48,11 @@ main =
           loadAndApplyTemplate "templates/default.html" postCtx' >>=
           relativizeUrls
 
+    let allPosts =
+          "posts/*" .&&.
+          hasNoVersion .&&.
+          complement "posts/index.html"
+
     match "posts/*" $ version "raw" $ do
       route idRoute
       compile getResourceString
@@ -55,9 +60,7 @@ main =
     create ["posts/index.html"] $ do
       route idRoute
       compile $ do
-        posts <- loadAll $ "posts/*" .&&.
-                 hasNoVersion .&&.
-                 complement "posts/index.html"
+        posts <- loadAll allPosts
         let ctx = listField "posts" postCtx (return posts) <>
                   defaultContext
         makeItem ""
