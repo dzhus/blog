@@ -56,7 +56,8 @@ main =
         postCtx' =
           listField "alternates" postCtx (return <$> loadRaw) <>
           paginateContext postStream pn <>
-          postCtxWithTags tags
+          tagsField "tags" tags <>
+          postCtx
       in do
         route $ setExtension ""
         compile $
@@ -129,7 +130,3 @@ main =
 
 postCtx :: Context String
 postCtx = dateField "date" "%d.%m.%Y" <> defaultContext
-
-postCtxWithTags :: Tags -> Context String
-postCtxWithTags tags =
-  tagsField "tags" tags <> postCtx
