@@ -30,6 +30,7 @@ main =
       route $ gsubRoute "pages/" (const "") `composeRoutes` setExtension ""
       compile $
         pandocCompiler >>=
+        loadAndApplyTemplate "templates/single-page.html" defaultContext >>=
         loadAndApplyTemplate "templates/default.html" defaultContext >>=
         relativizeUrls
 
