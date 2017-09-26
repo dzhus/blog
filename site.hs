@@ -38,17 +38,17 @@ main =
     -- Paginate the whole history by pages of 1 to provide links to
     -- previous/next post
     allPosts <- sortChronological =<< getMatches "posts/*"
-    paginate <- buildPaginateWith (return . paginateEvery 1)
-                "posts/*"
-                -- Make page identifiers equal to file identifiers
-                (\n -> allPosts !! (n - 1))
+    postStream <- buildPaginateWith (return . paginateEvery 1)
+                  "posts/*"
+                  -- Make page identifiers equal to file identifiers
+                  (\n -> allPosts !! (n - 1))
 
-    paginateRules paginate $ \pn _ ->
+    paginateRules postStream $ \pn _ ->
       let
-        loadRaw = load $ setVersion (Just "raw") (paginateMakeId paginate pn)
+        loadRaw = load $ setVersion (Just "raw") (paginateMakeId postStream pn)
         postCtx' =
           listField "alternates" postCtx (return <$> loadRaw) <>
-          paginateContext paginate pn <>
+          paginateContext postStream pn <>
           postCtxWithTags tags
       in do
         route $ setExtension ""
