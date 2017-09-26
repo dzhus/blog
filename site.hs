@@ -37,7 +37,7 @@ main =
 
     -- Paginate the whole history by pages of 1 to provide links to
     -- previous/next post
-    allPosts <- getMatches "posts/*"
+    allPosts <- sortChronological =<< getMatches "posts/*"
     paginate <- buildPaginateWith (return . paginateEvery 1)
                 "posts/*"
                 -- Make page identifiers equal to file identifiers
@@ -79,7 +79,7 @@ main =
     create ["posts/index.html"] $ do
       route idRoute
       compile $ do
-        posts <- loadAll allPosts
+        posts <- recentFirst =<< loadAll allPosts
         let ctx = listField "posts" postCtx (return posts) <>
                   defaultContext
         makeItem ""
