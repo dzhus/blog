@@ -59,27 +59,27 @@ main =
           loadAndApplyTemplate "templates/default.html" postCtx' >>=
           relativizeUrls
 
-    let allPosts =
-          "posts/*" .&&.
-          hasNoVersion .&&.
-          complement "posts/index.html"
-
     match "posts/*" $ version "raw" $ do
       route idRoute
       compile getResourceString
+
+    let renderedPosts =
+          "posts/*" .&&.
+          hasNoVersion .&&.
+          complement "posts/index.html"
 
     create ["atom.xml"] $ do
       route idRoute
       compile $ do
         let feedCtx = postCtx `mappend` bodyField "description"
         posts <- fmap (take 20) . recentFirst =<<
-                 loadAllSnapshots allPosts "html"
+                 loadAllSnapshots renderedPosts "html"
         renderAtom feedConfiguration feedCtx posts
 
     create ["posts/index.html"] $ do
       route idRoute
       compile $ do
-        posts <- recentFirst =<< loadAll allPosts
+        posts <- recentFirst =<< loadAll renderedPosts
         let ctx = listField "posts" postCtx (return posts) <>
                   defaultContext
         makeItem ""
