@@ -29,7 +29,7 @@ Perhaps it's best to leave it to the [client][client-toc].
 
 - [x] Atom feed
 
-- [ ] article list page (w/ pagination)
+- [x] article list page (w/ pagination)
 
 - [ ] tagged article list page (w/ pagination)
 

@@ -1,0 +1,21 @@
+$for(posts)$
+<article>
+  $body$
+</article>
+$sep$<div class="article-separator" />
+$endfor$
+<footer id="neighbour-links">
+  $if(previousPageUrl)$
+  <span style="float: left;">
+    <a rel="prev" href="$previousPageUrl$">←</a>
+  </span>
+  $endif$
+
+  <div style="display: inline-block; text-align: center;">$currentPageNum$/$numPages$</div>
+
+  $if(nextPageUrl)$
+  <span style="float: right;">
+    <a rel="next" href="$nextPageUrl$">→</a>
+  </span>
+  $endif$
+</footer>

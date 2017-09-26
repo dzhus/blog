@@ -41,6 +41,10 @@ article {
     background-color: white;
 }
 
+.article-separator {
+    margin-bottom: 0.5em;
+}
+
 /** links */
 a
 {
