@@ -1,24 +1,7 @@
-<article>
-  <!-- We keep post title in an outside <h1> so that potential h1's --
-    -- inside the post content would not be viewed as starting new --
-    -- sections on the same level -->
-  <h1>$title$</h1>
-  <section class="header">$date$</section>
-  <section>Метки: $tags$.</section>
-  <section>$body$</section>
-  <footer id="neighbour-links">
-    $if(previousPageUrl)$
-    <span style="float: left;">
-      <a rel="prev" href="$previousPageUrl$">←</a>
-    </span>
-    $endif$
-
-    <div style="display: inline-block; text-align: center;">$currentPageNum$/$numPages$</div>
-
-    $if(nextPageUrl)$
-    <span style="float: right;">
-      <a rel="next" href="$nextPageUrl$">→</a>
-    </span>
-    $endif$
-  </footer>
-</article>
+<!-- We keep post title in an outside <h1> so that potential h1's --
+  -- inside the post content would not be viewed as starting new --
+  -- sections on the same level -->
+<h1>$title$</h1>
+<section class="header">$date$</section>
+<section>Метки: $tags$.</section>
+<section>$body$</section>

@@ -57,6 +57,8 @@ main =
           pandocCompiler >>=
           saveSnapshot "html" >>=
           loadAndApplyTemplate "templates/post.html" postCtx' >>=
+          loadAndApplyTemplate "templates/single-page.html" postCtx' >>=
+          loadAndApplyTemplate "templates/page-navigation.html" postCtx' >>=
           loadAndApplyTemplate "templates/default.html" postCtx' >>=
           relativizeUrls
 
