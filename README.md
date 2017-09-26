@@ -27,6 +27,16 @@ Perhaps it's best to leave it to the [client][client-toc].
 
 ## Features
 
+- [ ] Extract title from the first <h1> heading in the file
+
+- [ ] Home page
+
+- [ ] Multi-language support
+
+    Each entry should have a primary language.
+    There should be feeds in both languages.
+    Metadata must depends on entry language.
+
 - [x] Atom feed
 
 - [x] article list page (w/ pagination)
