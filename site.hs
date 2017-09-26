@@ -1,5 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
+import Data.Maybe
 import Data.Monoid
 import Hakyll
 import Skylighting.Format.HTML
@@ -52,13 +53,17 @@ main =
 
     paginateRules postStream $ \pn _ ->
       let
-        loadRaw = load $ setVersion (Just "raw") (paginateMakeId postStream pn)
-        postCtx' =
-          listField "alternates" postCtx (return <$> loadRaw) <>
-          paginateContext postStream pn <>
-          tagsField "tags" tags <>
-          postCtx
+        thisPostId = paginateMakeId postStream pn
+        loadRaw = load $ setVersion (Just "raw") thisPostId
       in do
+        hasTags <- getMetadataField thisPostId "tags"
+        let postCtx' =
+              listField "alternates" postCtx (return <$> loadRaw) <>
+              paginateContext postStream pn <>
+              boolField "hasTags" (const $ isJust hasTags) <>
+              tagsField "tags" tags <>
+              postCtx
+
         route $ setExtension ""
         compile $
           pandocCompiler >>=

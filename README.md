@@ -43,7 +43,7 @@ Perhaps it's best to leave it to the [client][client-toc].
 
 - [ ] tagged article list page (w/ pagination)
 
-- [ ] list of tags on article page
+- [x] list of tags on article page
 
 - [x] source code highlighting and scrolling
 
