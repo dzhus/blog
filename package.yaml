@@ -8,3 +8,4 @@ executables:
     dependencies:
       - base
       - hakyll
+      - skylighting

@@ -2,6 +2,8 @@
 
 import Data.Monoid
 import Hakyll
+import Skylighting.Format.HTML
+import Skylighting.Styles
 
 feedConfiguration :: FeedConfiguration
 feedConfiguration =
@@ -23,6 +25,10 @@ main =
     match "css/*" $ do
       route idRoute
       compile compressCssCompiler
+
+    create ["css/syntax.css"] $ do
+      route idRoute
+      compile $ makeItem $ styleToCss tango
 
     match "templates/*" $ compile templateBodyCompiler
 

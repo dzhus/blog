@@ -35,6 +35,8 @@ Perhaps it's best to leave it to the [client][client-toc].
 
 - [ ] list of tags on article page
 
+- [x] source code highlighting and scrolling
+
 - [x] alternate links
 
     For some reason, trying to do `loadAll pat .&&. hasVersion "raw"`
