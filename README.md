@@ -27,7 +27,7 @@ Perhaps it's best to leave it to the [client][client-toc].
 
 ## Features
 
-- [ ] Extract title from the first <h1> heading in the file
+- [x] Extract title from the first <h1> heading in the file
 
 - [ ] Home page
 

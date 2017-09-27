@@ -2,7 +2,11 @@
 
 import Data.Maybe
 import Data.Monoid
-import Hakyll
+import Hakyll hiding (fromList)
+import Text.Pandoc
+import Text.Pandoc.Builder
+import Text.Pandoc.Definition
+import Text.Pandoc.Walk
 import Skylighting.Format.HTML
 import Skylighting.Styles
 
@@ -15,6 +19,32 @@ feedConfiguration =
   , feedAuthorEmail = "dima@dzhus.org"
   , feedRoot = "http://dzhus.org"
   }
+
+-- | If there's a leading level-1 heading in the document, split it
+-- from the document and return it separately as a string along with
+-- the document sans the heading. Otherwise, return the document
+-- unchanged.
+extractLeadingH1
+  :: Pandoc
+  -> (Maybe String, Pandoc)
+extractLeadingH1 (Pandoc m (Header 1 _ text:rest)) =
+  (Just $ writePlain def $ doc $ fromList [Plain text], Pandoc m rest)
+extractLeadingH1 d = (Nothing, d)
+
+-- | Try 'extractLeadingH1' and add a new context field with the
+-- extracted heading text. Otherwise, return empty context and the
+-- document unchanged.
+extractLeadingH1Context
+  :: String
+  -- ^ New context field name.
+  -> Item Pandoc
+  -> (Context a, Item Pandoc)
+extractLeadingH1Context fieldName doc =
+  case extractLeadingH1 <$> doc of
+    Item _ (Nothing, _)     -> (mempty, doc)
+    Item _ (Just h, newDoc) -> (newCtx, itemSetBody newDoc doc)
+      where
+        newCtx = field fieldName $ const $ return h
 
 main :: IO ()
 main =
@@ -51,29 +81,33 @@ main =
                   -- Make page identifiers equal to file identifiers
                   (\n -> allPosts !! (n - 1))
 
+    -- Single post rendering rule
     paginateRules postStream $ \pn _ ->
       let
         thisPostId = paginateMakeId postStream pn
         loadRaw = load $ setVersion (Just "raw") thisPostId
       in do
         hasTags <- getMetadataField thisPostId "tags"
-        let postCtx' =
-              listField "alternates" postCtx (return <$> loadRaw) <>
-              paginateContext postStream pn <>
-              boolField "hasTags" (const $ isJust hasTags) <>
-              tagsField "tags" tags <>
-              postCtx
-
         route $ setExtension ""
-        compile $
-          pandocCompiler >>=
-          saveSnapshot "html" >>=
-          loadAndApplyTemplate "templates/post.html" postCtx' >>=
-          saveSnapshot "post" >>=
-          loadAndApplyTemplate "templates/single-page.html" postCtx' >>=
-          loadAndApplyTemplate "templates/page-navigation.html" postCtx' >>=
-          loadAndApplyTemplate "templates/default.html" postCtx' >>=
-          relativizeUrls
+        compile $ do
+          post <- readPandoc =<< getResourceBody
+          let (postTitleCtx, post') =
+                extractLeadingH1Context "title" post
+              postCtx' =
+                listField "alternates" postCtx (return <$> loadRaw) <>
+                paginateContext postStream pn <>
+                boolField "hasTags" (const $ isJust hasTags) <>
+                tagsField "tags" tags <>
+                postTitleCtx <>
+                postCtx
+
+          saveSnapshot "html" (writePandoc post') >>=
+            loadAndApplyTemplate "templates/post.html" postCtx' >>=
+            saveSnapshot "post" >>=
+            loadAndApplyTemplate "templates/single-page.html" postCtx' >>=
+            loadAndApplyTemplate "templates/page-navigation.html" postCtx' >>=
+            loadAndApplyTemplate "templates/default.html" postCtx' >>=
+            relativizeUrls
 
     match "posts/*" $ version "raw" $ do
       route idRoute

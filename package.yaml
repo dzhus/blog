@@ -8,4 +8,6 @@ executables:
     dependencies:
       - base
       - hakyll
+      - pandoc
+      - pandoc-types
       - skylighting
