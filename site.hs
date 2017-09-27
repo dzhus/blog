@@ -2,7 +2,7 @@
 
 import Data.Maybe
 import Data.Monoid
-import Hakyll hiding (fromList)
+import Hakyll hiding (fromList, defaultContext)
 import Text.Pandoc
 import Text.Pandoc.Builder
 import Text.Pandoc.Definition
@@ -10,12 +10,22 @@ import Text.Pandoc.Walk
 import Skylighting.Format.HTML
 import Skylighting.Styles
 
+import qualified Hakyll as H
+
+creator :: String
+creator = "Дмитрий Джус"
+
+defaultContext :: Context String
+defaultContext =
+  constField "creator" creator <>
+  H.defaultContext
+
 feedConfiguration :: FeedConfiguration
 feedConfiguration =
   FeedConfiguration
   { feedTitle = "Журнал Дмитрия Джуса"
-  , feedDescription = "Дмитрий Джус"
-  , feedAuthorName = "Дмитрий Джус"
+  , feedDescription = ""
+  , feedAuthorName = creator
   , feedAuthorEmail = "dima@dzhus.org"
   , feedRoot = "http://dzhus.org"
   }
