@@ -1,29 +1,5 @@
-This repo contains [Hakyll][]-based personal blog of Dmitry Dzhus. This
+This repo contains [Hakyll][]-based personal blog of Dmitry Dzhus. It
 replaces the old Django-based blog engine which was used in 2006-2012.
-
-## A note on Semantic Web technologies
-
-The last big changes to the old engine were made somewhere in 2009. In
-2017, the state of the Semantic Web tech adoption has changed
-(positively) compared to 2010s:
-
-- HTML5 is mainstream
-
-- Microformats, RDFa were «superseded» by [microformats2][]
-
-- Some `<link>` `rel` values were [dropped][rel-drop]
-
-## TOCs
-
-It's possible to get Pandoc to include table of contents in the HTML
-generated for a Markdown post with something like
-
-    pandocCompilerWith defaultHakyllReaderOptions defaultHakyllWriterOptions{writerTemplate=Just "$toc$ $body$", writerTOCDepth = 4, writerTableOfContents = True}
-
-Ideally we'd want to place TOC in the post manually (for example by
-placing `<!-- toc -->` comment at the desired position).
-
-Perhaps it's best to leave it to the [client][client-toc].
 
 ## Features
 
@@ -33,9 +9,8 @@ Perhaps it's best to leave it to the [client][client-toc].
 
 - [ ] Multi-language support
 
-    Each entry should have a primary language.
-    There should be feeds in both languages.
-    Metadata must depends on entry language.
+    Each entry should have a primary language. There should be feeds
+    in both languages. Template must depend on entry language.
 
 - [x] Atom feed
 
@@ -77,6 +52,29 @@ Perhaps it's best to leave it to the [client][client-toc].
        (previous/next) links between consecutive items will result in
        circular dependencies.
 
+## A note on Semantic Web technologies
+
+The last big changes to the old engine were made somewhere in 2009. In
+2017, the state of the Semantic Web tech adoption has changed
+(positively) compared to 2010s:
+
+- HTML5 is mainstream
+
+- Microformats, RDFa were «superseded» by [microformats2][]
+
+- Some `<link>` `rel` values were [dropped][rel-drop]
+
+## TOCs
+
+It's possible to get Pandoc to include table of contents in the HTML
+generated for a Markdown post with something like
+
+    pandocCompilerWith defaultHakyllReaderOptions defaultHakyllWriterOptions{writerTemplate=Just "$toc$ $body$", writerTOCDepth = 4, writerTableOfContents = True}
+
+Ideally we'd want to place TOC in the post manually (for example by
+placing `<!-- toc -->` comment at the desired position).
+
+Perhaps it's best to leave it to the [client][client-toc].
 
 [client-toc]: https://chrome.google.com/webstore/detail/smart-toc/lifgeihcfpkmmlfjbailfpfhbahhibba
 [hakyll]: https://jaspervdj.be/hakyll/index.html
