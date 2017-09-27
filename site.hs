@@ -56,6 +56,10 @@ extractLeadingH1Context fieldName doc =
       where
         newCtx = field fieldName $ const $ return h
 
+finishTemplating :: Context a -> Item a -> Compiler (Item String)
+finishTemplating ctx i =
+  loadAndApplyTemplate "templates/default.html" ctx i >>= relativizeUrls
+
 main :: IO ()
 main =
   hakyll $ do
@@ -78,8 +82,7 @@ main =
       compile $
         pandocCompiler >>=
         loadAndApplyTemplate "templates/single-page.html" defaultContext >>=
-        loadAndApplyTemplate "templates/default.html" defaultContext >>=
-        relativizeUrls
+        finishTemplating defaultContext
 
     tags <- buildTags "posts/*" (fromCapture "tag/*")
 
@@ -116,8 +119,7 @@ main =
             saveSnapshot "post" >>=
             loadAndApplyTemplate "templates/single-page.html" postCtx' >>=
             loadAndApplyTemplate "templates/page-navigation.html" postCtx' >>=
-            loadAndApplyTemplate "templates/default.html" postCtx' >>=
-            relativizeUrls
+            finishTemplating postCtx'
 
     match "posts/*" $ version "raw" $ do
       route idRoute
@@ -144,8 +146,8 @@ main =
                   defaultContext
         makeItem ""
           >>= loadAndApplyTemplate "templates/post-list.html" ctx
-          >>= loadAndApplyTemplate "templates/default.html" ctx
-          >>= relativizeUrls
+          >>= finishTemplating ctx
+
 
     tagsRules tags $ \tag pat -> do
       route idRoute
@@ -156,8 +158,7 @@ main =
                   defaultContext
         makeItem ""
           >>= loadAndApplyTemplate "templates/post-list.html" ctx
-          >>= loadAndApplyTemplate "templates/default.html" ctx
-          >>= relativizeUrls
+          >>= finishTemplating defaultContext
 
 postCtx :: Context String
 postCtx = dateField "date" "%d.%m.%Y" <> defaultContext
