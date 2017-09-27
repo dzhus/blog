@@ -148,6 +148,13 @@ main =
           >>= loadAndApplyTemplate "templates/post-list.html" ctx
           >>= finishTemplating ctx
 
+    create ["tag/index.html"] $ do
+      route idRoute
+      compile $
+        renderTagCloud 100 150 tags
+        >>= makeItem
+        >>= loadAndApplyTemplate "templates/single-page.html" defaultContext
+        >>= finishTemplating defaultContext
 
     tagsRules tags $ \tag pat -> do
       route idRoute
