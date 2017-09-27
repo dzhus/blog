@@ -123,24 +123,6 @@ main =
       route idRoute
       compile getResourceString
 
-    postPages <- buildPaginateWith (return . paginateEvery 10)
-                 "posts/*"
-                 (\n -> fromFilePath $ "page-" <> show n <> ".html")
-
-    paginateRules postPages $ \pn pagePat ->
-      let pageCtx =
-            listField "posts" postCtx
-            (recentFirst =<< loadAllSnapshots pagePat "post") <>
-            paginateContext postPages pn <>
-            defaultContext
-      in do
-        route idRoute
-        compile $
-          makeItem "" >>=
-          loadAndApplyTemplate "templates/blog-page.html" pageCtx >>=
-          loadAndApplyTemplate "templates/default.html" pageCtx >>=
-          relativizeUrls
-
     let renderedPosts =
           "posts/*" .&&.
           hasNoVersion .&&.

@@ -14,10 +14,6 @@ replaces the old Django-based blog engine which was used in 2006-2012.
 
 - [x] Atom feed
 
-- [x] article list page (w/ pagination)
-
-- [ ] tagged article list page (w/ pagination)
-
 - [x] list of tags on article page
 
 - [x] source code highlighting and scrolling
