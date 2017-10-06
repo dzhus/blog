@@ -135,7 +135,7 @@ main =
     create ["atom.xml"] $ do
       route idRoute
       compile $ do
-        let feedCtx = postCtx `mappend` bodyField "description"
+        let feedCtx = postCtx <> bodyField "description"
         posts <- fmap (take 20) . recentFirst =<<
                  loadAllSnapshots renderedPosts "html"
         renderAtom feedConfiguration feedCtx posts
