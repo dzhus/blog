@@ -107,7 +107,6 @@ main =
         route $ setExtension ""
 
         let postCtx' =
-              leadingH1Context <>
               listField "alternates" postCtx (return <$> loadRaw) <>
               paginateContext postStream pn <>
               boolField "hasTags" (const $ isJust hasTags) <>
@@ -171,4 +170,4 @@ main =
           >>= finishTemplating defaultContext
 
 postCtx :: Context String
-postCtx = dateField "date" "%d.%m.%Y" <> defaultContext
+postCtx = leadingH1Context <> dateField "date" "%d.%m.%Y" <> defaultContext
