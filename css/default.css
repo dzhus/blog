@@ -1,23 +1,22 @@
 body {
-  color: #2e3436;
-  background-color: #eeeeec;
+    color: #2e3436;
+    background-color: #eeeeec;
 
-  margin: auto;
-  width: 40pc;
+    margin: auto;
+    width: 40pc;
 }
 
 header {
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
-  text-align: center;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    text-align: center;
 }
 
 .logo {
-  margin: auto;
+    margin: auto;
 }
 
-footer
-{
+footer {
     margin-top: 0.5em;
     color: #888a85;
     text-align: center;
@@ -26,8 +25,7 @@ footer
     margin-bottom: 0.5em;
 }
 
-footer a
-{
+footer a {
     color: #888a85;
 }
 
@@ -53,32 +51,27 @@ pre {
 }
 
 /** links */
-a
-{
+a {
     background-color: inherit;
     color: #204a87;
 }
 
-a:visited
-{
+a:visited {
     color: #5c3566;
 }
 
 /** kill borders around link-images */
-a img
-{
+a img {
     border: 0px;
 }
 
 /** Diffs */
-ins
-{
+ins {
     text-decoration: none;
     color: #4e9a06;
 }
 
-del
-{
+del {
     text-decoration: line-through;
     color: #888a85;
 }
