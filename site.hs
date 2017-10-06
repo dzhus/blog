@@ -1,5 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
+import Control.Applicative
 import Data.Maybe
 import Data.Monoid
 import Hakyll hiding (fromList, defaultContext)
@@ -44,17 +45,19 @@ extractLeadingH1 d = (Nothing, d)
 -- | Try 'extractLeadingH1' and add a new context field with the
 -- extracted heading text. Otherwise, return empty context and the
 -- document unchanged.
-extractLeadingH1Context
-  :: String
-  -- ^ New context field name.
-  -> Item Pandoc
-  -> (Context a, Item Pandoc)
-extractLeadingH1Context fieldName doc =
-  case extractLeadingH1 <$> doc of
-    Item _ (Nothing, _)     -> (mempty, doc)
-    Item _ (Just h, newDoc) -> (newCtx, itemSetBody newDoc doc)
-      where
-        newCtx = field fieldName $ const $ return h
+leadingH1Context
+  :: Context String
+leadingH1Context =
+  field "title" $ \i -> do
+     pd <- readPandoc =<< load (setVersion (Just "raw") $ itemIdentifier i)
+     case fst $ extractLeadingH1 $ itemBody pd of
+       Just s -> return s
+       Nothing -> empty
+
+pandocWithoutLeadingH1 :: Item String -> Compiler (Item String)
+pandocWithoutLeadingH1 s = do
+  p <- readPandoc s
+  (return . writePandoc) $ (snd . extractLeadingH1) <$> p
 
 finishTemplating :: Context a -> Item a -> Compiler (Item String)
 finishTemplating ctx i =
@@ -102,24 +105,24 @@ main =
       in do
         hasTags <- getMetadataField thisPostId "tags"
         route $ setExtension ""
-        compile $ do
-          post <- readPandoc =<< getResourceBody
-          let (postTitleCtx, post') =
-                extractLeadingH1Context "title" post
-              postCtx' =
-                listField "alternates" postCtx (return <$> loadRaw) <>
-                paginateContext postStream pn <>
-                boolField "hasTags" (const $ isJust hasTags) <>
-                tagsField "tags" tags <>
-                postTitleCtx <>
-                postCtx
 
-          saveSnapshot "html" (writePandoc post') >>=
-            loadAndApplyTemplate "templates/post.html" postCtx' >>=
-            saveSnapshot "post" >>=
-            loadAndApplyTemplate "templates/single-page.html" postCtx' >>=
-            loadAndApplyTemplate "templates/page-navigation.html" postCtx' >>=
-            finishTemplating postCtx'
+        let postCtx' =
+              leadingH1Context <>
+              listField "alternates" postCtx (return <$> loadRaw) <>
+              paginateContext postStream pn <>
+              boolField "hasTags" (const $ isJust hasTags) <>
+              tagsField "tags" tags <>
+              postCtx
+
+        compile $
+          getResourceBody >>=
+          pandocWithoutLeadingH1 >>=
+          saveSnapshot "html" >>=
+          loadAndApplyTemplate "templates/post.html" postCtx' >>=
+          saveSnapshot "post" >>=
+          loadAndApplyTemplate "templates/single-page.html" postCtx' >>=
+          loadAndApplyTemplate "templates/page-navigation.html" postCtx' >>=
+          finishTemplating postCtx'
 
     match "posts/*" $ version "raw" $ do
       route idRoute
