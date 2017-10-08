@@ -5,6 +5,8 @@ replaces the old Django-based blog engine which was used in 2006-2012.
 
 - [x] Extract title from the first <h1> heading in the file
 
+- [x] Mobile view with responsive design
+
 - [ ] Home page
 
 - [ ] Multi-language support

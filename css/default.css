@@ -3,7 +3,12 @@ body {
     background-color: #eeeeec;
 
     margin: auto;
-    width: 40pc;
+}
+
+@media only screen and (min-width: 41pc) {
+    body {
+        width: 40pc;
+    }
 }
 
 header {
