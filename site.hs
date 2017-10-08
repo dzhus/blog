@@ -92,7 +92,7 @@ main =
     -- Paginate the whole history by pages of 1 to provide links to
     -- previous/next post
     allPosts <- sortChronological =<< getMatches "posts/*"
-    postStream <- buildPaginateWith (return . paginateEvery 1)
+    postStream <- buildPaginateWith (fmap (paginateEvery 1) . sortChronological)
                   "posts/*"
                   -- Make page identifiers equal to file identifiers
                   (\n -> allPosts !! (n - 1))
