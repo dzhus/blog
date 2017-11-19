@@ -17,6 +17,11 @@ header {
     text-align: center;
 }
 
+.page-link {
+    text-weight: bold;
+    text-size: large;
+}
+
 .logo {
     margin: auto;
 }
@@ -26,7 +31,6 @@ footer {
     color: #888a85;
     text-align: center;
     clear: both;
-    font-size: small;
     margin-bottom: 0.5em;
 }
 
