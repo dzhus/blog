@@ -28,6 +28,6 @@ title: Не забывать про минус в матрицах
   [Проблема: отрицательные числа неприятно вывешиваются]: http://farm4.static.flickr.com/3431/3256701860_6a2a6347a7.jpg
   {width="490" height="157"}
   [![Проблема: отрицательные числа неприятно вывешиваются][]]: http://www.flickr.com/photos/nothingpersonal/3256701860/
-    "Проблема: отрицательные числа неприятно вывешиваются by Sphinx
-    The Geek, on Flickr"
+    "Проблема: отрицательные числа неприятно вывешиваются by Dmitry
+    Dzhus, on Flickr"
   [gauss]: http://www.ctan.org/tex-archive/macros/latex/contrib/gauss/

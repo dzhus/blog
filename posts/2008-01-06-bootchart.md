@@ -50,5 +50,5 @@ Bootchart запускается вместо `init` при старте сис�
   [1]: http://farm3.static.flickr.com/2118/2170860519_5ee91fae62.jpg
   {width="500" height="497"}
   [![bootchart][1]]: http://www.flickr.com/photos/nothingpersonal/2170860519/
-    "bootchart by Sphinx The Geek, on Flickr"
+    "bootchart by Dmitry Dzhus, on Flickr"
   [сайте Bootchart]: http://www.bootchart.org/download.html

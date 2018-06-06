@@ -484,23 +484,23 @@ HAL). Посмотреть на файлы политики, поставляе�
   [Microsoft Ergonomic 4000]: http://farm3.static.flickr.com/2267/2133420395_c413d536b7.jpg
   {width="500" height="375"}
   [![Microsoft Ergonomic 4000][]]: http://www.flickr.com/photos/nothingpersonal/2133420395/
-    "Microsoft Ergonomic 4000 by Sphinx The Geek, on Flickr"
+    "Microsoft Ergonomic 4000 by Dmitry Dzhus, on Flickr"
   [Black &amp; White]: http://farm3.static.flickr.com/2149/2133420379_9f2587dc81.jpg
   {width="500" height="375"}
   [![Black &amp; White][]]: http://www.flickr.com/photos/nothingpersonal/2133420379/
-    "Black &amp; White by Sphinx The Geek, on Flickr"
+    "Black &amp; White by Dmitry Dzhus, on Flickr"
   [Подставка для наклона]: http://farm3.static.flickr.com/2187/2133420389_990dee0813.jpg
   {width="500" height="375"}
   [![Подставка для наклона][]]: http://www.flickr.com/photos/nothingpersonal/2133420389/
-    "Подставка для наклона by Sphinx The Geek, on Flickr"
+    "Подставка для наклона by Dmitry Dzhus, on Flickr"
   [Clit-zoom]: http://farm3.static.flickr.com/2082/2144008662_91305f44b9.jpg
   {width="500" height="375"}
   [![Clit-zoom][]]: http://www.flickr.com/photos/nothingpersonal/2144008662/
-    "Clit-zoom by Sphinx The Geek, on Flickr"
+    "Clit-zoom by Dmitry Dzhus, on Flickr"
   [Пе-ре-вод…]: http://farm3.static.flickr.com/2332/2143224521_18b6aee4f8.jpg
   {width="500" height="368"}
   [![Пе-ре-вод…][]]: http://www.flickr.com/photos/nothingpersonal/2143224521/
-    "Пе-ре-вод… by Sphinx The Geek, on Flickr"
+    "Пе-ре-вод… by Dmitry Dzhus, on Flickr"
   [HID-ветке ядра]: http://git.kernel.org/?p=linux/kernel/git/jikos/hid.git
   [поддержка MS Natural 4000]: http://git.kernel.org/?p=linux/kernel/git/jikos/hid.git;a=commit;h=1fe8736da695c2b14961438c73d5600538bd92d9
   [с основной веткой Линуса]: http://www.kernel.org/pub/scm/linux/kernel/git/torvalds/linux-2.6.git

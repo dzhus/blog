@@ -20,4 +20,4 @@ title: Рисовать в Emacs
   [artist-mode]: http://farm4.static.flickr.com/3195/2389747333_dba20736be.jpg
   {width="500" height="375"}
   [![artist-mode][]]: http://www.flickr.com/photos/nothingpersonal/2389747333/
-    "artist-mode by Sphinx The Geek, on Flickr"
+    "artist-mode by Dmitry Dzhus, on Flickr"

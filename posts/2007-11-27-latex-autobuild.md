@@ -770,7 +770,7 @@ Metapost-код:
   [screen1196171299]: http://farm3.static.flickr.com/2396/2068111487_3dbdbd9732.jpg
   {width="500" height="236"}
   [![screen1196171299][]]: http://www.flickr.com/photos/nothingpersonal/2068111487/
-    "screen1196171299 by Sphinx The Geek, on Flickr"
+    "screen1196171299 by Dmitry Dzhus, on Flickr"
   [скрипт]: http://dzhus.org/hg/term-paper-diffeq/file/bc94df402ff0b58f03d5e37450fca5fa81a22fd3/doc/initial-data.sh
   [Guile]: http://www.gnu.org/software/guile/
     "GNU Guile — реализация языка Scheme"
