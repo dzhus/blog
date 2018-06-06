@@ -81,7 +81,7 @@ main =
     match "templates/*" $ compile templateBodyCompiler
 
     match "pages/*" $ do
-      route $ gsubRoute "pages/" (const "") `composeRoutes` setExtension ""
+      route $ gsubRoute "pages/" (const "") `composeRoutes` setExtension "html"
       compile $
         pandocCompiler >>=
         loadAndApplyTemplate "templates/single-page.html" defaultContext >>=
@@ -104,7 +104,7 @@ main =
         loadRaw = load $ setVersion (Just "raw") thisPostId
       in do
         hasTags <- getMetadataField thisPostId "tags"
-        route $ setExtension ""
+        route $ setExtension "html"
 
         let postCtx' =
               listField "alternates" postCtx (return <$> loadRaw) <>
