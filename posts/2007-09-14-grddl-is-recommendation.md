@@ -81,12 +81,12 @@ GRDDL — на выходе получается корректный RDF.
 распространённых) средств извлечения данных из XML, существующие
 связанные с GRDDL преобразования построены именно на XSLT.
 
-  [GRDDL]: https://web.archive.org/web/20080521234620/http://www.w3.org/TR/grddl
+  [GRDDL]: http://www.w3.org/TR/grddl
     "Gleaning Resource Data from Dialect Languages"
-  [профилю]: https://web.archive.org/web/20080521234620/http://www.w3.org/TR/1999/REC-html401-19991224/struct/global.html#h-7.4.4.3
-  [микроформатов]: /web/20080521234620/http://sphinx.net.ru:80/blog/entry/what-are-microformats
+  [профилю]: http://www.w3.org/TR/1999/REC-html401-19991224/struct/global.html#h-7.4.4.3
+  [микроформатов]: http://sphinx.net.ru:80/blog/entry/what-are-microformats
     "Введение в микроформаты"
-  [XSLT]: /web/20080521234620/http://sphinx.net.ru:80/blog/entry/simple-microformat-xslt-extraction
-  [Operator]: https://web.archive.org/web/20080521234620/https://addons.mozilla.org/ru/firefox/addon/4106
-  [1]: https://web.archive.org/web/20080521234620/http://www.w3.org/TR/xslt
+  [XSLT]: http://sphinx.net.ru:80/blog/entry/simple-microformat-xslt-extraction
+  [Operator]: https://addons.mozilla.org/ru/firefox/addon/4106
+  [1]: http://www.w3.org/TR/xslt
     "XSL Transformations"

@@ -69,10 +69,10 @@ Jabber-сервер на Lua, настраивается за несколько
 каких-то шаманствах для того, чтобы кросскомпиляция работала в distcc,
 но у меня всё завелось и так.
 
-  [собственного оверлея]: /web/20110325071719/http://dzhus.org:80/hg/gentoo-overlay
-  [исправления]: https://web.archive.org/web/20110325071719/http://code.djangoproject.com/ticket/7005
-  [Racket]: https://web.archive.org/web/20110325071719/http://www.racket-lang.org/
-  [Restas]: https://web.archive.org/web/20110325071719/http://restas.lisper.ru/
-  [Prosody]: https://web.archive.org/web/20110325071719/http://www.prosody.im/
-  [no-ip]: https://web.archive.org/web/20110325071719/http://www.no-ip.com/
-  [роутером]: /web/20110325071719/http://dzhus.org:80/blog/entry/new-router-nbg460n
+  [собственного оверлея]: http://dzhus.org:80/hg/gentoo-overlay
+  [исправления]: http://code.djangoproject.com/ticket/7005
+  [Racket]: http://www.racket-lang.org/
+  [Restas]: http://restas.lisper.ru/
+  [Prosody]: http://www.prosody.im/
+  [no-ip]: http://www.no-ip.com/
+  [роутером]: http://dzhus.org:80/blog/entry/new-router-nbg460n

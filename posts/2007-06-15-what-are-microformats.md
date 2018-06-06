@@ -143,7 +143,7 @@ vkontakte.ru или Last.FM); карты получились бы достат�
         <span class="adr">
             <abbr class="country-name" title="Российская Федерация" />
         </span><br />
-        <span class="geo">GEO: 
+        <span class="geo">GEO:
             <span class="latitude">55.870188</span>
             <span class="longitude">37.665961</span>
         </span>
@@ -239,8 +239,8 @@ rel-tag, о котором речь пойдёт дальше.
 есть выбранная (все записи с меткой «webdev»). Ссылка на тег в коде этой
 страницы выглядит так:
 
-    <a href="/blog/tag/webdev/" 
-        rel="tag" 
+    <a href="/blog/tag/webdev/"
+        rel="tag"
         title="Посмотреть все записи с тегом «webdev»">webdev</a>
 
 Здесь `/blog/tag/webdev/` является страничкой тега, а наличие
@@ -315,63 +315,63 @@ Technorati поддерживает специального индексаци�
 технологий, связанных с RDF. Приглашаю почитать мой следующий пост на
 эту тему — [об извлечении микроформатов][].
 
-  [XFN]: https://web.archive.org/web/20090228203529/http://gmpg.org/xfn/
+  [XFN]: http://gmpg.org/xfn/
     "XHTML Friend Network — описание"
-  [gmpg.org/xfn/tools/]: https://web.archive.org/web/20090228203529/http://gmpg.org/xfn/tools/
-  [rubhub.com]: https://web.archive.org/web/20090228203529/http://rubhub.com/
-  [список связанных сайтов с указанием типов отношений]: https://web.archive.org/web/20090228203529/http://rubhub.com/main/site/?171949
-  [XFN crawler]: https://web.archive.org/web/20090228203529/http://www.mindsack.com/?page_id=39
-  [иерархический список]: https://web.archive.org/web/20090228203529/http://www.mindsack.com/xfn/crawler.html
-  [dikiy.com]: https://web.archive.org/web/20090228203529/http://dikiy.com/
-  [описание системы на русском]: https://web.archive.org/web/20090228203529/http://dikiy.com/blog/archive/2006/12/07/xfn.html
-  [XFN Graph]: https://web.archive.org/web/20090228203529/http://xfngraph.sourceforge.net/
+  [gmpg.org/xfn/tools/]: http://gmpg.org/xfn/tools/
+  [rubhub.com]: http://rubhub.com/
+  [список связанных сайтов с указанием типов отношений]: http://rubhub.com/main/site/?171949
+  [XFN crawler]: http://www.mindsack.com/?page_id=39
+  [иерархический список]: http://www.mindsack.com/xfn/crawler.html
+  [dikiy.com]: http://dikiy.com/
+  [описание системы на русском]: http://dikiy.com/blog/archive/2006/12/07/xfn.html
+  [XFN Graph]: http://xfngraph.sourceforge.net/
   [XFN Graph: depth=3]: https://web.archive.org/web/20090228203529im_/http://farm2.static.flickr.com/1025/556078393_b4b888fd28_m.jpg
   {width="240" height="159"}
-  [![XFN Graph: depth=3][]]: https://web.archive.org/web/20090228203529/http://www.flickr.com/photos/nothingpersonal/556078393/
+  [![XFN Graph: depth=3][]]: http://www.flickr.com/photos/nothingpersonal/556078393/
     "Photo Sharing"
-  [many-eyes.com]: https://web.archive.org/web/20090228203529/http://services.alphaworks.ibm.com/manyeyes/view/SNnqRHsOtha6i5-m6iGTH2-
+  [many-eyes.com]: http://services.alphaworks.ibm.com/manyeyes/view/SNnqRHsOtha6i5-m6iGTH2-
   [0699e168-ad98-11dd-a0aa-000255111976]: https://web.archive.org/web/20090228203529im_/http://manyeyes.alphaworks.ibm.com/manyeyes/files/thumbnails/0699e168-ad98-11dd-a0aa-000255111976.png?size=200x150
   [Blog\_this\_caption]: https://web.archive.org/web/20090228203529im_/http://manyeyes.alphaworks.ibm.com/manyeyes/images/blog_this_caption.jpg
-  [![0699e168-ad98-11dd-a0aa-000255111976][] ![Blog\_this\_caption][]]: https://web.archive.org/web/20090228203529/http://manyeyes.alphaworks.ibm.com/manyeyes/visualizations/xhtml-friends-network-with-twitter/comments/069ec39aad9811dda0aa000255111976
-  [hCard]: https://web.archive.org/web/20090228203529/http://www.microformats.org/wiki/hcard
+  [![0699e168-ad98-11dd-a0aa-000255111976][] ![Blog\_this\_caption][]]: http://manyeyes.alphaworks.ibm.com/manyeyes/visualizations/xhtml-friends-network-with-twitter/comments/069ec39aad9811dda0aa000255111976
+  [hCard]: http://www.microformats.org/wiki/hcard
     "hCard на Microformats.org"
-  [vCard]: https://web.archive.org/web/20090228203529/http://ru.wikipedia.org/wiki/VCard
+  [vCard]: http://ru.wikipedia.org/wiki/VCard
     "Заметка о vCard на Википедии"
-  [странице автора этого блога]: /web/20090228203529/http://sphinx.net.ru/author/
-  [μf wiki]: https://web.archive.org/web/20090228203529/http://www.microformats.org/wiki
+  [странице автора этого блога]: http://sphinx.net.ru/author/
+  [μf wiki]: http://www.microformats.org/wiki
     "Wiki по микроформатам"
-  [Operator]: https://web.archive.org/web/20090228203529/https://addons.mozilla.org/en-US/firefox/addon/4106/
+  [Operator]: https://addons.mozilla.org/en-US/firefox/addon/4106/
     "Расширение для работы с микроформатами для Firefox"
   [hCard в Operator]: https://web.archive.org/web/20090228203529im_/http://farm2.static.flickr.com/1367/556078405_e913502388_m.jpg
   {width="238" height="240"}
-  [![hCard в Operator][]]: https://web.archive.org/web/20090228203529/http://www.flickr.com/photos/nothingpersonal/556078405/
+  [![hCard в Operator][]]: http://www.flickr.com/photos/nothingpersonal/556078405/
     "Photo Sharing"
-  [hCard creator]: https://web.archive.org/web/20090228203529/http://tantek.com/microformats/hcard-creator.html
-  [соединить hCard и OpenID]: https://web.archive.org/web/20090228203529/http://softwaremaniacs.org/blog/2007/03/25/cicero-openid-hcard/
-  [на страницах профилей]: https://web.archive.org/web/20090228203529/http://www.lastfm.ru/user/SphinxTheGeek/
-  [поиск по микроформатам]: https://web.archive.org/web/20090228203529/http://kitchen.technorati.com/search
-  [Тантек Челик]: https://web.archive.org/web/20090228203529/http://tantek.com/
-  [Полный список инструментов]: https://web.archive.org/web/20090228203529/http://microformats.org/wiki/hcard-implementations
-  [тегов]: /web/20090228203529/http://sphinx.net.ru/blog/entry/using-tags/
-  [rel-tag]: https://web.archive.org/web/20090228203529/http://microformats.org/wiki/rel-tag
+  [hCard creator]: http://tantek.com/microformats/hcard-creator.html
+  [соединить hCard и OpenID]: http://softwaremaniacs.org/blog/2007/03/25/cicero-openid-hcard/
+  [на страницах профилей]: http://www.lastfm.ru/user/SphinxTheGeek/
+  [поиск по микроформатам]: http://kitchen.technorati.com/search
+  [Тантек Челик]: http://tantek.com/
+  [Полный список инструментов]: http://microformats.org/wiki/hcard-implementations
+  [тегов]: http://sphinx.net.ru/blog/entry/using-tags/
+  [rel-tag]: http://microformats.org/wiki/rel-tag
     "Всё о rel-tag на Microformats.org"
   [rel-tag в Operator]: https://web.archive.org/web/20090228203529im_/http://farm2.static.flickr.com/1230/555945834_7a72d58b0f_m.jpg
   {width="240" height="138"}
-  [![rel-tag в Operator][]]: https://web.archive.org/web/20090228203529/http://www.flickr.com/photos/nothingpersonal/555945834/
+  [![rel-tag в Operator][]]: http://www.flickr.com/photos/nothingpersonal/555945834/
     "Photo Sharing"
-  [виджет]: https://web.archive.org/web/20090228203529/http://technorati.com/widgets/blogwidgets
+  [виджет]: http://technorati.com/widgets/blogwidgets
   [025a0e48-ad98-11dd-a0aa-000255111976]: https://web.archive.org/web/20090228203529im_/http://manyeyes.alphaworks.ibm.com/manyeyes/files/thumbnails/025a0e48-ad98-11dd-a0aa-000255111976.png?size=200x150
-  [![025a0e48-ad98-11dd-a0aa-000255111976][] ![Blog\_this\_caption][]]: https://web.archive.org/web/20090228203529/http://manyeyes.alphaworks.ibm.com/manyeyes/visualizations/tags-from-a-bigger-xhtml-friend-netw/comments/025ec712ad9811dda0aa000255111976
-  [Flickr]: https://web.archive.org/web/20090228203529/http://flickr.com/
-  [Last.fm]: https://web.archive.org/web/20090228203529/http://last.fm/
-  [del.icio.us]: https://web.archive.org/web/20090228203529/http://del.icio.us/
-  [digg]: https://web.archive.org/web/20090228203529/http://digg.com/
-  [toodoo.ru]: https://web.archive.org/web/20090228203529/http://toodoo.ru/
-  [В Контакте!]: https://web.archive.org/web/20090228203529/http://vkontakte.ru/
-  [Wiki]: https://web.archive.org/web/20090228203529/http://microformats.org/wiki/Main_Page
-  [Pingerati]: https://web.archive.org/web/20090228203529/http://pingerati.net/about/
-  [Microformats.org]: https://web.archive.org/web/20090228203529/http://www.microformats.org/
+  [![025a0e48-ad98-11dd-a0aa-000255111976][] ![Blog\_this\_caption][]]: http://manyeyes.alphaworks.ibm.com/manyeyes/visualizations/tags-from-a-bigger-xhtml-friend-netw/comments/025ec712ad9811dda0aa000255111976
+  [Flickr]: http://flickr.com/
+  [Last.fm]: http://last.fm/
+  [del.icio.us]: http://del.icio.us/
+  [digg]: http://digg.com/
+  [toodoo.ru]: http://toodoo.ru/
+  [В Контакте!]: http://vkontakte.ru/
+  [Wiki]: http://microformats.org/wiki/Main_Page
+  [Pingerati]: http://pingerati.net/about/
+  [Microformats.org]: http://www.microformats.org/
     "Домашная страница микроформатов"
-  [«Микроформаты»]: https://web.archive.org/web/20090228203529/http://habrahabr.ru/blog/microformats/
-  [об извлечении микроформатов]: /web/20090228203529/http://sphinx.net.ru/blog/entry/simple-microformat-xslt-extraction/
+  [«Микроформаты»]: http://habrahabr.ru/blog/microformats/
+  [об извлечении микроформатов]: http://sphinx.net.ru/blog/entry/simple-microformat-xslt-extraction/
     "Простое извлечение микроформатов с помощью XSLT"

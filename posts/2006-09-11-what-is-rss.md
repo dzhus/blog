@@ -28,7 +28,7 @@ RSS-экспорт.
 
 На этом блоге тоже есть [RSS-канал][].
 
-  [кучу]: https://web.archive.org/web/20090314064610/http://www.google.ru/search?hl=ru&amp;q=%D0%9F%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D1%8B+%D0%B4%D0%BB%D1%8F+%D1%87%D1%82%D0%B5%D0%BD%D0%B8%D1%8F+RSS&amp;btnG=%D0%9F%D0%BE%D0%B8%D1%81%D0%BA&amp;lr=
-  [Mozilla Thunderbird]: https://web.archive.org/web/20090314064610/http://www.mozilla.ru/products/thunderbird/
-  [Kanban.ru]: https://web.archive.org/web/20090314064610/http://www.kanban.ru/
-  [RSS-канал]: /web/20090314064610/http://sphinx.net.ru:80/feeds/blog/30
+  [кучу]: http://www.google.ru/search?hl=ru&amp;q=%D0%9F%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D1%8B+%D0%B4%D0%BB%D1%8F+%D1%87%D1%82%D0%B5%D0%BD%D0%B8%D1%8F+RSS&amp;btnG=%D0%9F%D0%BE%D0%B8%D1%81%D0%BA&amp;lr=
+  [Mozilla Thunderbird]: http://www.mozilla.ru/products/thunderbird/
+  [Kanban.ru]: http://www.kanban.ru/
+  [RSS-канал]: http://sphinx.net.ru:80/feeds/blog/30

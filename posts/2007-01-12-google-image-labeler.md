@@ -13,4 +13,4 @@ title:  Google Image Labeler
 
 (остаток записи утерян в 2012-2018 годах)
 
-  [Google Image Labeler]: https://web.archive.org/web/20081004033956/http://images.google.com/imagelabeler/
+  [Google Image Labeler]: http://images.google.com/imagelabeler/

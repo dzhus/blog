@@ -630,120 +630,120 @@ XML; в таком случае `xsltproc(1)` решает.
 Больше, чем кто бы то ни было мог подумать: [Asymptote][], [ePiX][],
 [pstricks][] и ещё куча всего.
 
-  [SVG]: https://web.archive.org/web/20080612084643/http://www.w3.org/Graphics/SVG/
+  [SVG]: http://www.w3.org/Graphics/SVG/
     "Scalable Vector Graphics"
-  [XML]: https://web.archive.org/web/20080612084643/http://www.w3.org/XML/
+  [XML]: http://www.w3.org/XML/
   [foo]: https://web.archive.org/web/20080612084643im_/http://farm4.static.flickr.com/3045/2551065977_70ece078df_o.png
   {width="177" height="177"}
-  [![foo][]]: https://web.archive.org/web/20080612084643/http://www.flickr.com/photos/nothingpersonal/2551065977/
+  [![foo][]]: http://www.flickr.com/photos/nothingpersonal/2551065977/
     "foo by Sphinx The Geek, on Flickr"
-  [W3C]: https://web.archive.org/web/20080612084643/http://www.w3.org/
+  [W3C]: http://www.w3.org/
     "World Wide Web Consortium"
-  [анимация]: https://web.archive.org/web/20080612084643/http://srufaculty.sru.edu/david.dailey/svg/SVGAnimations.htm
+  [анимация]: http://srufaculty.sru.edu/david.dailey/svg/SVGAnimations.htm
     "SVG animation with JavaScript"
-  [фильтры]: https://web.archive.org/web/20080612084643/http://www.w3.org/TR/SVGFilterPrimer12/
+  [фильтры]: http://www.w3.org/TR/SVGFilterPrimer12/
     "SVG Filters 1.2, Part 1: Primer"
-  [DOT]: https://web.archive.org/web/20080612084643/http://graphviz.org/doc/info/lang.html
+  [DOT]: http://graphviz.org/doc/info/lang.html
     "The DOT language"
-  [Graphviz]: https://web.archive.org/web/20080612084643/http://www.graphviz.org/
+  [Graphviz]: http://www.graphviz.org/
   [grok-lisp.dot]: https://web.archive.org/web/20080612084643im_/http://farm3.static.flickr.com/2218/1843237727_66f890e05e.jpg
   {width="450" height="500"}
-  [![grok-lisp.dot][]]: https://web.archive.org/web/20080612084643/http://www.flickr.com/photos/nothingpersonal/1843237727/
+  [![grok-lisp.dot][]]: http://www.flickr.com/photos/nothingpersonal/1843237727/
     "grok-lisp.dot by Sphinx The Geek, on Flickr"
-  [используется]: https://web.archive.org/web/20080612084643/http://graphviz.org/Gallery.php
-  [groff]: https://web.archive.org/web/20080612084643/http://www.gnu.org/software/groff/
-  [сахара]: https://web.archive.org/web/20080612084643/http://ru.wikipedia.org/w/index.php?title=Синтаксический_сахар
+  [используется]: http://graphviz.org/Gallery.php
+  [groff]: http://www.gnu.org/software/groff/
+  [сахара]: http://ru.wikipedia.org/w/index.php?title=Синтаксический_сахар
   [Profit with GNU Emacs (pic)]: https://web.archive.org/web/20080612084643im_/http://farm4.static.flickr.com/3023/2441772594_0ab0589bfe.jpg
   {width="282" height="500"}
-  [![Profit with GNU Emacs (pic)][]]: https://web.archive.org/web/20080612084643/http://www.flickr.com/photos/nothingpersonal/2441772594/
+  [![Profit with GNU Emacs (pic)][]]: http://www.flickr.com/photos/nothingpersonal/2441772594/
     "Profit with GNU Emacs (pic) by Sphinx The Geek, on Flickr"
-  [Making pictures with GNU PIC]: https://web.archive.org/web/20080612084643/http://floppsie.comp.glam.ac.uk/Glamorgan/gaius/web/pic.html
+  [Making pictures with GNU PIC]: http://floppsie.comp.glam.ac.uk/Glamorgan/gaius/web/pic.html
     "Making pictures with GNU PIC"
-  [METAPOST]: https://web.archive.org/web/20080612084643/http://ru.wikipedia.org/wiki/Metapost
-  [модель Клейна в круге]: https://web.archive.org/web/20080612084643/http://ru.wikipedia.org/w/index.php?title=Модель_Клейна
+  [METAPOST]: http://ru.wikipedia.org/wiki/Metapost
+  [модель Клейна в круге]: http://ru.wikipedia.org/w/index.php?title=Модель_Клейна
   [Klein disk model (METAPOST)]: https://web.archive.org/web/20080612084643im_/http://farm4.static.flickr.com/3165/2548960414_1bdb7962a0.jpg
   {width="489" height="500"}
-  [![Klein disk model (METAPOST)][]]: https://web.archive.org/web/20080612084643/http://www.flickr.com/photos/nothingpersonal/2548960414/
+  [![Klein disk model (METAPOST)][]]: http://www.flickr.com/photos/nothingpersonal/2548960414/
     "Klein disk model (METAPOST) by Sphinx The Geek, on Flickr"
-  [диаграмм Фейнмана]: https://web.archive.org/web/20080612084643/http://ru.wikipedia.org/w/index.php?title=Диаграммы_Фейнмана
-  [feynmf]: https://web.archive.org/web/20080612084643/http://xml.web.cern.ch/XML/textproc/feynmf.html
+  [диаграмм Фейнмана]: http://ru.wikipedia.org/w/index.php?title=Диаграммы_Фейнмана
+  [feynmf]: http://xml.web.cern.ch/XML/textproc/feynmf.html
     "Drawing Feynman Diagrams with LaTeX and METAFONT (or METAPOST)"
-  [mpcirc]: https://web.archive.org/web/20080612084643/http://ci.louisville.edu/tom/software/LaTeX/mpcirc/
-  [FEATPOST]: https://web.archive.org/web/20080612084643/http://matagalatlante.org/nobre/featpost/doc/featexamples.html
-  [многого другого]: https://web.archive.org/web/20080612084643/http://melusine.eu.org/syracuse/metapost/galeries/
+  [mpcirc]: http://ci.louisville.edu/tom/software/LaTeX/mpcirc/
+  [FEATPOST]: http://matagalatlante.org/nobre/featpost/doc/featexamples.html
+  [многого другого]: http://melusine.eu.org/syracuse/metapost/galeries/
     "Galeries MetaPost"
-  [хороший обзор]: https://web.archive.org/web/20080612084643/http://www.inp.nsk.su/~baldin/mpost/index.html
+  [хороший обзор]: http://www.inp.nsk.su/~baldin/mpost/index.html
     "Создание иллюстраций в METAPOST"
-  [Learning METAPOST by doing]: https://web.archive.org/web/20080612084643/http://remote.science.uva.nl/~heck/Courses/mptut.pdf
+  [Learning METAPOST by doing]: http://remote.science.uva.nl/~heck/Courses/mptut.pdf
     "Learning METAPOST by doing (PDF, 776K)"
-  [PGF]: https://web.archive.org/web/20080612084643/http://sourceforge.net/projects/pgf/
-  [пример]: https://web.archive.org/web/20080612084643/http://www.fauskes.net/pgftikzexamples/manet/
+  [PGF]: http://sourceforge.net/projects/pgf/
+  [пример]: http://www.fauskes.net/pgftikzexamples/manet/
     "Example: Mobile ad-hoc network"
-  [fauskes.net]: https://web.archive.org/web/20080612084643/http://www.fauskes.net/
+  [fauskes.net]: http://www.fauskes.net/
     "Сайт с информацией и галереями по графическим возможностям TeX"
   [Klein disk model (TikZ)]: https://web.archive.org/web/20080612084643im_/http://farm4.static.flickr.com/3035/2548134839_896e64f62d.jpg
   {width="465" height="500"}
-  [![Klein disk model (TikZ)][]]: https://web.archive.org/web/20080612084643/http://www.flickr.com/photos/nothingpersonal/2548134839/
+  [![Klein disk model (TikZ)][]]: http://www.flickr.com/photos/nothingpersonal/2548134839/
     "Klein disk model (TikZ) by Sphinx The Geek, on Flickr"
-  [В коде]: https://web.archive.org/web/20080612084643/http://sphinx.net.ru/hg/term-paper-hypergeom/file/tip/doc/klein-model.tkz.tex
+  [В коде]: http://sphinx.net.ru/hg/term-paper-hypergeom/file/tip/doc/klein-model.tkz.tex
     "Исходник klein-model.tkz.tex"
-  [gnuplot]: https://web.archive.org/web/20080612084643/http://gnuplot.info/
-  [описанная]: https://web.archive.org/web/20080612084643/http://sphinx.net.ru/hg/term-paper-hypergeom/file/tip/doc/klein-to-poincare.tkz.tex
+  [gnuplot]: http://gnuplot.info/
+  [описанная]: http://sphinx.net.ru/hg/term-paper-hypergeom/file/tip/doc/klein-to-poincare.tkz.tex
     "Исходник klein-to-poincare.tkz.tex"
   [Klein &amp; Poincaré models (TikZ)]: https://web.archive.org/web/20080612084643im_/http://farm4.static.flickr.com/3157/2548960134_054a3a8d25.jpg
   {width="500" height="396"}
-  [![Klein &amp; Poincaré models (TikZ)][]]: https://web.archive.org/web/20080612084643/http://www.flickr.com/photos/nothingpersonal/2548960134/
+  [![Klein &amp; Poincaré models (TikZ)][]]: http://www.flickr.com/photos/nothingpersonal/2548960134/
     "Klein &amp; Poincaré models (TikZ) by Sphinx The Geek, on
     Flickr"
-  [Sketch]: https://web.archive.org/web/20080612084643/http://www.frontiernet.net/~eugene.ressler/
+  [Sketch]: http://www.frontiernet.net/~eugene.ressler/
     "Sketch — A 3D Scene Description Translator"
-  [pstricks]: https://web.archive.org/web/20080612084643/http://tug.org/PSTricks/main.cgi/
+  [pstricks]: http://tug.org/PSTricks/main.cgi/
   [Sketch-generated]: https://web.archive.org/web/20080612084643im_/http://farm4.static.flickr.com/3161/2549980033_928406f29a.jpg
   {width="480" height="500"}
-  [![Sketch-generated][]]: https://web.archive.org/web/20080612084643/http://www.flickr.com/photos/nothingpersonal/2549980033/
+  [![Sketch-generated][]]: http://www.flickr.com/photos/nothingpersonal/2549980033/
     "Sketch-generated by Sphinx The Geek, on Flickr"
-  [туториал]: https://web.archive.org/web/20080612084643/http://www.fauskes.net/nb/introduction-to-sketch/
+  [туториал]: http://www.fauskes.net/nb/introduction-to-sketch/
     "An introduction to Sketch 3D for PGF and TikZ users"
-  [Context Free Art]: https://web.archive.org/web/20080612084643/http://contextfreeart.org/
+  [Context Free Art]: http://contextfreeart.org/
     "Context Free Art"
-  [контекстно-свободной грамматике]: https://web.archive.org/web/20080612084643/http://ru.wikipedia.org/wiki/Контекстно-свободная_грамматика
+  [контекстно-свободной грамматике]: http://ru.wikipedia.org/wiki/Контекстно-свободная_грамматика
     "Контекстно-свободная грамматика"
-  [подстановок]: https://web.archive.org/web/20080612084643/http://sphinx.net.ru/blog/entry/292/
+  [подстановок]: http://sphinx.net.ru/blog/entry/292/
     "Алгорифмы Маркова"
-  [фракталы]: https://web.archive.org/web/20080612084643/http://sphinx.net.ru/blog/entry/246/
-  [Мышатки]: https://web.archive.org/web/20080612084643/http://ru.wikipedia.org/wiki/Мыши
+  [фракталы]: http://sphinx.net.ru/blog/entry/246/
+  [Мышатки]: http://ru.wikipedia.org/wiki/Мыши
     "Мыши"
-  [ситуация]: https://web.archive.org/web/20080612084643/http://www.mathpages.com/home/kmath492/kmath492.htm
+  [ситуация]: http://www.mathpages.com/home/kmath492/kmath492.htm
     "Zeno's Mice and the Logarithmic Spiral"
   [«4 (rasta)mice» (CFDG)]: https://web.archive.org/web/20080612084643im_/http://farm4.static.flickr.com/3051/2551058407_38aab0f61d.jpg
   {width="500" height="500"}
-  [![«4 (rasta)mice» (CFDG)][]]: https://web.archive.org/web/20080612084643/http://www.flickr.com/photos/nothingpersonal/2551058407/
+  [![«4 (rasta)mice» (CFDG)][]]: http://www.flickr.com/photos/nothingpersonal/2551058407/
     "«4 (rasta)mice» (CFDG) by Sphinx The Geek, on Flickr"
-  [SIDE-EFFECT]: https://web.archive.org/web/20080612084643/http://sphinx.net.ru/hg/sicp/file/tip/painting/2.49.scm
-  [Cairo]: https://web.archive.org/web/20080612084643/http://www.cairographics.org/
-  [HSV]: https://web.archive.org/web/20080612084643/http://ru.wikipedia.org/wiki/HSV
-  [нереальных изображений]: https://web.archive.org/web/20080612084643/http://www.contextfreeart.org/gallery/
-  [вики]: https://web.archive.org/web/20080612084643/http://contextfreeart.org/mediawiki/index.php/CFDG_HOWTO
+  [SIDE-EFFECT]: http://sphinx.net.ru/hg/sicp/file/tip/painting/2.49.scm
+  [Cairo]: http://www.cairographics.org/
+  [HSV]: http://ru.wikipedia.org/wiki/HSV
+  [нереальных изображений]: http://www.contextfreeart.org/gallery/
+  [вики]: http://contextfreeart.org/mediawiki/index.php/CFDG_HOWTO
   [Swastika (CFDG)]: https://web.archive.org/web/20080612084643im_/http://farm4.static.flickr.com/3163/2550790855_4e0eef1f17.jpg
   {width="500" height="500"}
-  [![Swastika (CFDG)][]]: https://web.archive.org/web/20080612084643/http://www.flickr.com/photos/nothingpersonal/2550790855/
+  [![Swastika (CFDG)][]]: http://www.flickr.com/photos/nothingpersonal/2550790855/
     "Swastika (CFDG) by Sphinx The Geek, on Flickr"
-  [статистический вес]: https://web.archive.org/web/20080612084643/http://ru.wikipedia.org/wiki/Термодинамическая_энтропия
+  [статистический вес]: http://ru.wikipedia.org/wiki/Термодинамическая_энтропия
     "Стат. вес — кратность состояния"
-  [броуновское движение]: https://web.archive.org/web/20080612084643/http://ru.wikipedia.org/wiki/Броуновское_движение
+  [броуновское движение]: http://ru.wikipedia.org/wiki/Броуновское_движение
   [Путешествия точки в цвете]: https://web.archive.org/web/20080612084643im_/http://farm3.static.flickr.com/2165/2086289203_a5277595ea.jpg
   {width="500" height="500"}
-  [![Путешествия точки в цвете][]]: https://web.archive.org/web/20080612084643/http://www.flickr.com/photos/nothingpersonal/2086289203/
+  [![Путешествия точки в цвете][]]: http://www.flickr.com/photos/nothingpersonal/2086289203/
     "Путешествия точки в цвете by Sphinx The Geek, on Flickr"
-  [программ на Scheme]: https://web.archive.org/web/20080612084643/http://sphinx.net.ru/blog/entry/semantic-wizardry/
+  [программ на Scheme]: http://sphinx.net.ru/blog/entry/semantic-wizardry/
     "Использование API Semantic в Emacs для обработки исходных текстов"
-  [Emacs]: https://web.archive.org/web/20080612084643/http://sphinx.net.ru/blog/entry/emacs-intro/
+  [Emacs]: http://sphinx.net.ru/blog/entry/emacs-intro/
     "Начало пути к Emacs"
-  [XFN]: https://web.archive.org/web/20080612084643/http://sphinx.net.ru/blog/entry/what-are-microformats/
+  [XFN]: http://sphinx.net.ru/blog/entry/what-are-microformats/
     "Введение в микроформаты"
-  [нехитрого XSLT]: https://web.archive.org/web/20080612084643/http://sphinx.net.ru/blog/entry/simple-microformat-xslt-extraction/
+  [нехитрого XSLT]: http://sphinx.net.ru/blog/entry/simple-microformat-xslt-extraction/
     "Простое извлечение микроформатов с помощью XSLT"
-  [описывал опыт]: https://web.archive.org/web/20080612084643/http://sphinx.net.ru/blog/entry/396/
+  [описывал опыт]: http://sphinx.net.ru/blog/entry/396/
     "Автоматизация сборки LaTeX-документов"
-  [Asymptote]: https://web.archive.org/web/20080612084643/http://sourceforge.net/projects/asymptote
-  [ePiX]: https://web.archive.org/web/20080612084643/http://mathcs.holycross.edu/~ahwang/current/ePiX.html
+  [Asymptote]: http://sourceforge.net/projects/asymptote
+  [ePiX]: http://mathcs.holycross.edu/~ahwang/current/ePiX.html

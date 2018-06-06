@@ -190,18 +190,18 @@ Bongo планируется включить в Emacs 23 по просьбе л
 и управлять громкостью звука общесистемным микшером (`alsamixer`,
 `volume.el` в Emacs), всё будет ок.
 
-  [Emacs]: /web/20080421234343/http://sphinx.net.ru:80/blog/entry/emacs-intro
-  [EMMS]: https://web.archive.org/web/20080421234343/http://www.gnu.org/software/emms/
-  [Bongo]: https://web.archive.org/web/20080421234343/http://www.emacswiki.org/cgi-bin/wiki/Bongo
-  [vlc]: https://web.archive.org/web/20080421234343/http://www.videolan.org/vlc/
+  [Emacs]: http://sphinx.net.ru:80/blog/entry/emacs-intro
+  [EMMS]: http://www.gnu.org/software/emms/
+  [Bongo]: http://www.emacswiki.org/cgi-bin/wiki/Bongo
+  [vlc]: http://www.videolan.org/vlc/
     "VLC media player"
-  [TiMidity]: https://web.archive.org/web/20080421234343/http://timidity.sourceforge.net/
+  [TiMidity]: http://timidity.sourceforge.net/
     "Программный проигрыватель MIDI"
-  [сайта Bongo]: https://web.archive.org/web/20080421234343/http://www.brockman.se/software/bongo/
-  [darcs]: https://web.archive.org/web/20080421234343/http://sphinx.net.ru/blog/entry/darcs
-  [скробблинг на Last.fm]: https://web.archive.org/web/20080421234343/http://sphinx.net.ru/blog/entry/what-is-lastfm
-  [volume.el]: https://web.archive.org/web/20080421234343/http://www.brockman.se/software/volume-el/
+  [сайта Bongo]: http://www.brockman.se/software/bongo/
+  [darcs]: http://sphinx.net.ru/blog/entry/darcs
+  [скробблинг на Last.fm]: http://sphinx.net.ru/blog/entry/what-is-lastfm
+  [volume.el]: http://www.brockman.se/software/volume-el/
     "Регулятор уровня громкости каналов для Emacs"
-  [EasyTAG'ом]: https://web.archive.org/web/20080421234343/http://easytag.sourceforge.net/
-  [lastfmsubmitd]: https://web.archive.org/web/20080421234343/http://www.red-bean.com/~decklin/software/lastfmsubmitd/
+  [EasyTAG'ом]: http://easytag.sourceforge.net/
+  [lastfmsubmitd]: http://www.red-bean.com/~decklin/software/lastfmsubmitd/
     "Системный Python-демон для отправки информации на Audioscrobbler"

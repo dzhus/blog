@@ -155,9 +155,9 @@ Mercurial-репозитории в текущей папке (`/home/scm/hg`). 
     `hgwebdir.fcgi`. Кроме того, веб-интерфейс использует CSS-файлы,
     запрашиваемые по адресам `/hg/static/`:
 
-        url.rewrite += ( 
+        url.rewrite += (
             "^(/hg/static.*)$" => "$1",
-            "^/hg(/?.*)$" => "/hg.fcgi$1" 
+            "^/hg(/?.*)$" => "/hg.fcgi$1"
         )
 
     (Я добавил странное перенаправление запросов по `/hg/static` на
@@ -497,15 +497,15 @@ happens) при стопудово правильном пароле, стоит
 
 К слову, шаблоны веб-интерфейса по умолчанию — антикошерные.
 
-  [Mercurial]: https://web.archive.org/web/20091222073514/http://www.selenic.com/mercurial/wiki
-  [веб-интерфейс]: /web/20091222073514/http://sphinx.net.ru:80/hg/
-  [lighttpd]: https://web.archive.org/web/20091222073514/http://lighttpd.net/
-  [Shared SSH]: https://web.archive.org/web/20091222073514/http://www.selenic.com/mercurial/wiki/index.cgi/SharedSSH
-  [руководство FreeBSD по написанию rc-скриптов]: https://web.archive.org/web/20091222073514/http://www.freebsd.org/doc/en_US.ISO8859-1/articles/rc-scripting/
-  [HTTP-аутентификации]: https://web.archive.org/web/20091222073514/http://www.faqs.org/rfcs/rfc2617.html
-  [есть подробности]: https://web.archive.org/web/20091222073514/http://trac.lighttpd.net/trac/wiki/Docs%3ASSL
-  [добавлена]: https://web.archive.org/web/20091222073514/http://blog.lighttpd.net/articles/2007/02/03/pre-release-lighttpd-1-5-0-r1593-tar-gz
-  [механизм авторизации]: https://web.archive.org/web/20091222073514/http://trac.lighttpd.net/trac/wiki/Docs%3AModAuth
-  [тип хранения]: https://web.archive.org/web/20091222073514/http://trac.lighttpd.net/trac/wiki/Docs%3AModAuth#backends
-  [возможность]: https://web.archive.org/web/20091222073514/http://trac.lighttpd.net/trac/wiki/Docs%3AModAuth#htdigest
-  [Mercurial wiki]: https://web.archive.org/web/20091222073514/http://www.selenic.com/mercurial/wiki/
+  [Mercurial]: http://www.selenic.com/mercurial/wiki
+  [веб-интерфейс]: http://sphinx.net.ru:80/hg/
+  [lighttpd]: http://lighttpd.net/
+  [Shared SSH]: http://www.selenic.com/mercurial/wiki/index.cgi/SharedSSH
+  [руководство FreeBSD по написанию rc-скриптов]: http://www.freebsd.org/doc/en_US.ISO8859-1/articles/rc-scripting/
+  [HTTP-аутентификации]: http://www.faqs.org/rfcs/rfc2617.html
+  [есть подробности]: http://trac.lighttpd.net/trac/wiki/Docs%3ASSL
+  [добавлена]: http://blog.lighttpd.net/articles/2007/02/03/pre-release-lighttpd-1-5-0-r1593-tar-gz
+  [механизм авторизации]: http://trac.lighttpd.net/trac/wiki/Docs%3AModAuth
+  [тип хранения]: http://trac.lighttpd.net/trac/wiki/Docs%3AModAuth#backends
+  [возможность]: http://trac.lighttpd.net/trac/wiki/Docs%3AModAuth#htdigest
+  [Mercurial wiki]: http://www.selenic.com/mercurial/wiki/

@@ -26,5 +26,5 @@ title: ' Del.icio.us'
 
 (остаток записи утерян в 2012-2018 годах)
 
-  [Del.icio.us]: https://web.archive.org/web/20080521234620/http://del.icio.us/
-  [можно делиться со всеми своими закладками]: https://web.archive.org/web/20080521234620/http://del.icio.us/SphinxTheGeek/
+  [Del.icio.us]: http://del.icio.us/
+  [можно делиться со всеми своими закладками]: http://del.icio.us/SphinxTheGeek/

@@ -29,4 +29,4 @@ Django во FreeBSD у себя на сервере, чтобы почище б�
 
 [Practical rc.d scripting in BSD][]
 
-  [Practical rc.d scripting in BSD]: https://web.archive.org/web/20081210231716/http://www.freebsd.org/doc/en_US.ISO8859-1/articles/rc-scripting/
+  [Practical rc.d scripting in BSD]: http://www.freebsd.org/doc/en_US.ISO8859-1/articles/rc-scripting/

@@ -73,14 +73,14 @@ Shell.fm прямо из Emacs. Тексты и описание лежат по
 Horn допилит полноценный Last.fm-клиент для EMMS, я вновь попробую
 перейти на него.
 
-  [Last.fm]: https://web.archive.org/web/20080302085028/http://sphinx.net.ru/blog/entry/what-is-lastfm/
-  [Официальный плеер]: https://web.archive.org/web/20080302085028/http://www.lastfm.ru/download/
-  [last-exit]: https://web.archive.org/web/20080302085028/http://www.lastexit-player.org/index.php/Main_Page
-  [D-Bus]: https://web.archive.org/web/20080302085028/http://www.freedesktop.org/wiki/Software/dbus
-  [EMMS]: https://web.archive.org/web/20080302085028/http://www.gnu.org/software/emms
-  [Shell.FM]: https://web.archive.org/web/20080302085028/http://nex.scrapping.cc/shell-fm/
-  [sphinx.net.ru/hg/emacs-shellfm/]: https://web.archive.org/web/20080302085028/http://sphinx.net.ru/hg/emacs-shellfm/file/tip/
+  [Last.fm]: http://sphinx.net.ru/blog/entry/what-is-lastfm/
+  [Официальный плеер]: http://www.lastfm.ru/download/
+  [last-exit]: http://www.lastexit-player.org/index.php/Main_Page
+  [D-Bus]: http://www.freedesktop.org/wiki/Software/dbus
+  [EMMS]: http://www.gnu.org/software/emms
+  [Shell.FM]: http://nex.scrapping.cc/shell-fm/
+  [sphinx.net.ru/hg/emacs-shellfm/]: http://sphinx.net.ru/hg/emacs-shellfm/file/tip/
   [emacs-shellfm]: https://web.archive.org/web/20080302085028im_/http://farm4.static.flickr.com/3171/2296244385_d4104e9846.jpg
   {width="423" height="317"}
-  [![emacs-shellfm][]]: https://web.archive.org/web/20080302085028/http://www.flickr.com/photos/nothingpersonal/2296244385/
+  [![emacs-shellfm][]]: http://www.flickr.com/photos/nothingpersonal/2296244385/
     "emacs-shellfm by Sphinx The Geek, on Flickr"

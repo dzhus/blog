@@ -479,39 +479,39 @@ HAL). Посмотреть на файлы политики, поставляе�
 
 Об этом — [в следующей записи][].
 
-  [Emacs]: /web/20090221130518/http://sphinx.net.ru:80/blog/entry/emacs-intro/
-  [MS Natural 7000]: https://web.archive.org/web/20090221130518/http://www.microsoft.com/hardware/mouseandkeyboard/productdetails.aspx?pid=095
+  [Emacs]: http://sphinx.net.ru:80/blog/entry/emacs-intro/
+  [MS Natural 7000]: http://www.microsoft.com/hardware/mouseandkeyboard/productdetails.aspx?pid=095
   [Microsoft Ergonomic 4000]: https://web.archive.org/web/20090221130518im_/http://farm3.static.flickr.com/2267/2133420395_c413d536b7.jpg
   {width="500" height="375"}
-  [![Microsoft Ergonomic 4000][]]: https://web.archive.org/web/20090221130518/http://www.flickr.com/photos/nothingpersonal/2133420395/
+  [![Microsoft Ergonomic 4000][]]: http://www.flickr.com/photos/nothingpersonal/2133420395/
     "Microsoft Ergonomic 4000 by Sphinx The Geek, on Flickr"
   [Black &amp; White]: https://web.archive.org/web/20090221130518im_/http://farm3.static.flickr.com/2149/2133420379_9f2587dc81.jpg
   {width="500" height="375"}
-  [![Black &amp; White][]]: https://web.archive.org/web/20090221130518/http://www.flickr.com/photos/nothingpersonal/2133420379/
+  [![Black &amp; White][]]: http://www.flickr.com/photos/nothingpersonal/2133420379/
     "Black &amp; White by Sphinx The Geek, on Flickr"
   [Подставка для наклона]: https://web.archive.org/web/20090221130518im_/http://farm3.static.flickr.com/2187/2133420389_990dee0813.jpg
   {width="500" height="375"}
-  [![Подставка для наклона][]]: https://web.archive.org/web/20090221130518/http://www.flickr.com/photos/nothingpersonal/2133420389/
+  [![Подставка для наклона][]]: http://www.flickr.com/photos/nothingpersonal/2133420389/
     "Подставка для наклона by Sphinx The Geek, on Flickr"
   [Clit-zoom]: https://web.archive.org/web/20090221130518im_/http://farm3.static.flickr.com/2082/2144008662_91305f44b9.jpg
   {width="500" height="375"}
-  [![Clit-zoom][]]: https://web.archive.org/web/20090221130518/http://www.flickr.com/photos/nothingpersonal/2144008662/
+  [![Clit-zoom][]]: http://www.flickr.com/photos/nothingpersonal/2144008662/
     "Clit-zoom by Sphinx The Geek, on Flickr"
   [Пе-ре-вод…]: https://web.archive.org/web/20090221130518im_/http://farm3.static.flickr.com/2332/2143224521_18b6aee4f8.jpg
   {width="500" height="368"}
-  [![Пе-ре-вод…][]]: https://web.archive.org/web/20090221130518/http://www.flickr.com/photos/nothingpersonal/2143224521/
+  [![Пе-ре-вод…][]]: http://www.flickr.com/photos/nothingpersonal/2143224521/
     "Пе-ре-вод… by Sphinx The Geek, on Flickr"
-  [HID-ветке ядра]: https://web.archive.org/web/20090221130518/http://git.kernel.org/?p=linux/kernel/git/jikos/hid.git
-  [поддержка MS Natural 4000]: https://web.archive.org/web/20090221130518/http://git.kernel.org/?p=linux/kernel/git/jikos/hid.git;a=commit;h=1fe8736da695c2b14961438c73d5600538bd92d9
-  [с основной веткой Линуса]: https://web.archive.org/web/20090221130518/http://www.kernel.org/pub/scm/linux/kernel/git/torvalds/linux-2.6.git
-  [USB-HID]: https://web.archive.org/web/20090221130518/http://en.wikipedia.org/wiki/USB_human_interface_device_class
-  [HID Usage Tables]: https://web.archive.org/web/20090221130518/http://www.usb.org/developers/devclass_docs/Hut1_12.pdf
-  [drivers/hid/hid-input.c]: https://web.archive.org/web/20090221130518/http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=blob;f=drivers/hid/hid-input.c;h=0b27da7d749700b4d0e2481b7c121ce9fa033aaa;hb=HEAD
-  [include/linux/input.h]: https://web.archive.org/web/20090221130518/http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=blob;f=include/linux/input.h;h=2075d6da2a313d9791ea1e714cb5beb18c91f7e6;hb=HEAD
-  [в самом стандарте X11]: https://web.archive.org/web/20090221130518/https://bugs.freedesktop.org/show_bug.cgi?id=11227
-  [X11R7.3]: https://web.archive.org/web/20090221130518/http://xorg.freedesktop.org/archive/X11R7.3/doc/RELNOTES.txt
-  [HAL]: https://web.archive.org/web/20090221130518/http://www.freedesktop.org/wiki/Software/hal
-  [спецификации по HAL]: https://web.archive.org/web/20090221130518/http://people.freedesktop.org/~david/hal-spec/hal-spec.html
-  [fontconfig]: https://web.archive.org/web/20090221130518/http://fontconfig.org/wiki/
-  [config/x11-input.fdi]: https://web.archive.org/web/20090221130518/http://cgit.freedesktop.org/xorg/xserver/tree/config/x11-input.fdi?id=35b14519b4a3158592a089170ec039bbc219603e
-  [в следующей записи]: /web/20090221130518/http://sphinx.net.ru:80/blog/entry/using-extra-keys/
+  [HID-ветке ядра]: http://git.kernel.org/?p=linux/kernel/git/jikos/hid.git
+  [поддержка MS Natural 4000]: http://git.kernel.org/?p=linux/kernel/git/jikos/hid.git;a=commit;h=1fe8736da695c2b14961438c73d5600538bd92d9
+  [с основной веткой Линуса]: http://www.kernel.org/pub/scm/linux/kernel/git/torvalds/linux-2.6.git
+  [USB-HID]: http://en.wikipedia.org/wiki/USB_human_interface_device_class
+  [HID Usage Tables]: http://www.usb.org/developers/devclass_docs/Hut1_12.pdf
+  [drivers/hid/hid-input.c]: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=blob;f=drivers/hid/hid-input.c;h=0b27da7d749700b4d0e2481b7c121ce9fa033aaa;hb=HEAD
+  [include/linux/input.h]: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=blob;f=include/linux/input.h;h=2075d6da2a313d9791ea1e714cb5beb18c91f7e6;hb=HEAD
+  [в самом стандарте X11]: https://bugs.freedesktop.org/show_bug.cgi?id=11227
+  [X11R7.3]: http://xorg.freedesktop.org/archive/X11R7.3/doc/RELNOTES.txt
+  [HAL]: http://www.freedesktop.org/wiki/Software/hal
+  [спецификации по HAL]: http://people.freedesktop.org/~david/hal-spec/hal-spec.html
+  [fontconfig]: http://fontconfig.org/wiki/
+  [config/x11-input.fdi]: http://cgit.freedesktop.org/xorg/xserver/tree/config/x11-input.fdi?id=35b14519b4a3158592a089170ec039bbc219603e
+  [в следующей записи]: http://sphinx.net.ru:80/blog/entry/using-extra-keys/

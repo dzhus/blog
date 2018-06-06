@@ -131,8 +131,8 @@ title: Мнение об IPTV от Корбины
 В то же время, я надеюсь, что общее качество услуги повысится, особенно
 в области собственно содержания каналов.
 
-  [100 разных каналов]: https://web.archive.org/web/20100302143845/http://home.corbina.ru/tariffs/tv/telechannels/
-  [обещает]: https://web.archive.org/web/20100302143845/http://homenet.corbina.net/index.php?showtopic=216860
-  [форум Корбины]: https://web.archive.org/web/20100302143845/http://homenet.corbina.net/index.php?showforum=784
-  [приставки]: https://web.archive.org/web/20100302143845/http://shop.corbina.ru/catalog/ip-tv/199/1456/
-  [прикрыли]: https://web.archive.org/web/20100302143845/http://homenet.corbina.net/index.php?showtopic=215941
+  [100 разных каналов]: http://home.corbina.ru/tariffs/tv/telechannels/
+  [обещает]: http://homenet.corbina.net/index.php?showtopic=216860
+  [форум Корбины]: http://homenet.corbina.net/index.php?showforum=784
+  [приставки]: http://shop.corbina.ru/catalog/ip-tv/199/1456/
+  [прикрыли]: http://homenet.corbina.net/index.php?showtopic=215941

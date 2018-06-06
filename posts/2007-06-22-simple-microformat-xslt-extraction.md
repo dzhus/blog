@@ -427,52 +427,52 @@ XFN-ссылок, возможно, было бы проще сделать с �
 выражений из EXSLT; текущий вариант создан под воздействием
 [grokXFN.xsl][] — стиля для преобразования XFN в FOAF).
 
-  [Микроформаты]: /web/20070928104408/http://sphinx.net.ru/blog/entry/what-are-microformats/
-  [XPath]: https://web.archive.org/web/20070928104408/http://www.w3.org/TR/xpath
-  [libxml]: https://web.archive.org/web/20070928104408/http://xmlsoft.org/
+  [Микроформаты]: http://sphinx.net.ru/blog/entry/what-are-microformats/
+  [XPath]: http://www.w3.org/TR/xpath
+  [libxml]: http://xmlsoft.org/
     "Свободные библиотеки для работы с XML"
-  [XSLT]: https://web.archive.org/web/20070928104408/http://www.w3.org/TR/xslt
+  [XSLT]: http://www.w3.org/TR/xslt
     "Технология преобразования XML-документов"
-  [GRDDL]: https://web.archive.org/web/20070928104408/http://www.w3.org/TR/grddl/
-  [RDF]: https://web.archive.org/web/20070928104408/http://www.w3.org/RDF
+  [GRDDL]: http://www.w3.org/TR/grddl/
+  [RDF]: http://www.w3.org/RDF
     "Resource Description Framework"
-  [обзор возможных случаев использования GRDDL]: https://web.archive.org/web/20070928104408/http://www.w3.org/TR/2007/NOTE-grddl-scenarios-20070406/
-  [XFN]: https://web.archive.org/web/20070928104408/http://www.gmpg.org/xfn
-  [rel-tag]: https://web.archive.org/web/20070928104408/http://www.microformats.org/wiki/rel-tag
-  [Tidy]: https://web.archive.org/web/20070928104408/http://tidy.sourceforge.net/
+  [обзор возможных случаев использования GRDDL]: http://www.w3.org/TR/2007/NOTE-grddl-scenarios-20070406/
+  [XFN]: http://www.gmpg.org/xfn
+  [rel-tag]: http://www.microformats.org/wiki/rel-tag
+  [Tidy]: http://tidy.sourceforge.net/
     "HTML Tidy"
-  [http://sphinx.net.ru/hg/xfn-spider]: https://web.archive.org/web/20070928104408/http://sphinx.net.ru/hg/xfn-spider
-  [самую последнюю ревизию]: https://web.archive.org/web/20070928104408/http://sphinx.net.ru/hg/xfn-spider/rev/tip
-  [mf-extract.xsl]: https://web.archive.org/web/20070928104408/http://sphinx.net.ru/hg/xfn-spider/raw-file/tip/mf-extract.xsl
-  [mf-extract-bottom.xsl]: https://web.archive.org/web/20070928104408/http://sphinx.net.ru/hg/xfn-spider/raw-file/tip/mf-extract-bottom.xsl
-  [get-urls.xsl]: https://web.archive.org/web/20070928104408/http://sphinx.net.ru/hg/xfn-spider/raw-file/tip/get-urls.xsl
-  [postprocess.xsl]: https://web.archive.org/web/20070928104408/http://sphinx.net.ru/hg/xfn-spider/raw-file/tip/postprocess.xsl
-  [xfn-spider.py]: https://web.archive.org/web/20070928104408/http://sphinx.net.ru/hg/xfn-spider/raw-file/tip/xfn-spider.py
-  [Many eyes]: https://web.archive.org/web/20070928104408/http://www.many-eyes.com/
-  [make-manyeyes-network.xsl]: /web/20070928104408/http://sphinx.net.ru/hg/xfn-spider/raw-file/tip/make-manyeyes-network.xsl
-  [интерактивненькую карту XFN]: https://web.archive.org/web/20070928104408/http://services.alphaworks.ibm.com/manyeyes/view/SNnqRHsOtha6i5-m6iGTH2-
+  [http://sphinx.net.ru/hg/xfn-spider]: http://sphinx.net.ru/hg/xfn-spider
+  [самую последнюю ревизию]: http://sphinx.net.ru/hg/xfn-spider/rev/tip
+  [mf-extract.xsl]: http://sphinx.net.ru/hg/xfn-spider/raw-file/tip/mf-extract.xsl
+  [mf-extract-bottom.xsl]: http://sphinx.net.ru/hg/xfn-spider/raw-file/tip/mf-extract-bottom.xsl
+  [get-urls.xsl]: http://sphinx.net.ru/hg/xfn-spider/raw-file/tip/get-urls.xsl
+  [postprocess.xsl]: http://sphinx.net.ru/hg/xfn-spider/raw-file/tip/postprocess.xsl
+  [xfn-spider.py]: http://sphinx.net.ru/hg/xfn-spider/raw-file/tip/xfn-spider.py
+  [Many eyes]: http://www.many-eyes.com/
+  [make-manyeyes-network.xsl]: http://sphinx.net.ru/hg/xfn-spider/raw-file/tip/make-manyeyes-network.xsl
+  [интерактивненькую карту XFN]: http://services.alphaworks.ibm.com/manyeyes/view/SNnqRHsOtha6i5-m6iGTH2-
   [Визуализация на Many Eyes]: https://web.archive.org/web/20070928104408im_/http://services.alphaworks.ibm.com/manyeyes/static-resources/snapshot/89ade5ae13776cd901137d2b88c801ee.jpeg
   {#blogThisImgSmall}
   [misc image]: https://web.archive.org/web/20070928104408im_/http://services.alphaworks.ibm.com/manyeyes/images2/blog_this_caption.jpg
   {#Any_14}
-  [«Tag Cloud»]: https://web.archive.org/web/20070928104408/http://services.alphaworks.ibm.com/manyeyes/page/Tag_Cloud.html
-  [make-manyeyes-tags.xsl]: /web/20070928104408/http://sphinx.net.ru/hg/xfn-spider/raw-file/tip/make-manyeyes-tags.xsl
+  [«Tag Cloud»]: http://services.alphaworks.ibm.com/manyeyes/page/Tag_Cloud.html
+  [make-manyeyes-tags.xsl]: http://sphinx.net.ru/hg/xfn-spider/raw-file/tip/make-manyeyes-tags.xsl
   [1]: https://web.archive.org/web/20070928104408im_/http://services.alphaworks.ibm.com/manyeyes/static-resources/snapshot/89ade5ae13776cd90113876955be0356.jpeg
   {#blogThisImgSmall}
   [misc]: https://web.archive.org/web/20070928104408im_/http://services.alphaworks.ibm.com/manyeyes/images2/blog_this_caption.jpg
   {#Any_13}
-  [![][1] ![misc][]]: https://web.archive.org/web/20070928104408/http://services.alphaworks.ibm.com/manyeyes/view/SNnqRHsOtha6KBUjJZqVH2-
-  [Graphviz]: https://web.archive.org/web/20070928104408/http://www.graphviz.org/
+  [![][1] ![misc][]]: http://services.alphaworks.ibm.com/manyeyes/view/SNnqRHsOtha6KBUjJZqVH2-
+  [Graphviz]: http://www.graphviz.org/
     "Пакет для визуализации графов"
-  [RSS]: /web/20070928104408/http://sphinx.net.ru/blog/entry/what-is-rsss
-  [OPML]: https://web.archive.org/web/20070928104408/http://opml.org/
-  [Google Reader]: https://web.archive.org/web/20070928104408/http://google.com/reader/
-  [make-opml.xsl]: /web/20070928104408/http://sphinx.net.ru/hg/xfn-spider/raw-file/tip/make-opml.xsl
-  [twitter.com]: https://web.archive.org/web/20070928104408/http://twitter.com/
-  [2]: https://web.archive.org/web/20070928104408/http://www.vecosys.com/2007/05/08/twitter-now-supports-hatom-and-hcard-microformats/
-  [http://tantek.com]: https://web.archive.org/web/20070928104408/http://tantek.com/
+  [RSS]: http://sphinx.net.ru/blog/entry/what-is-rsss
+  [OPML]: http://opml.org/
+  [Google Reader]: http://google.com/reader/
+  [make-opml.xsl]: http://sphinx.net.ru/hg/xfn-spider/raw-file/tip/make-opml.xsl
+  [twitter.com]: http://twitter.com/
+  [2]: http://www.vecosys.com/2007/05/08/twitter-now-supports-hatom-and-hcard-microformats/
+  [http://tantek.com]: http://tantek.com/
   [Many Eyes visualization]: https://web.archive.org/web/20070928104408im_/http://services.alphaworks.ibm.com/manyeyes/static-resources/snapshot/89ade5ae138e004a01139228cfe50154.jpeg
   {#blogThisImgSmall}
-  [![Many Eyes visualization][] ![misc][misc image]]: https://web.archive.org/web/20070928104408/http://services.alphaworks.ibm.com/manyeyes/view/S8_UXHsOtha6I3EtDXWYH2-
-  [XFN crawler]: https://web.archive.org/web/20070928104408/http://www.mindsack.com/?page_id=39
-  [grokXFN.xsl]: https://web.archive.org/web/20070928104408/http://www.w3.org/2003/12/rdf-in-xhtml-xslts/grokXFN.xsl
+  [![Many Eyes visualization][] ![misc][misc image]]: http://services.alphaworks.ibm.com/manyeyes/view/S8_UXHsOtha6I3EtDXWYH2-
+  [XFN crawler]: http://www.mindsack.com/?page_id=39
+  [grokXFN.xsl]: http://www.w3.org/2003/12/rdf-in-xhtml-xslts/grokXFN.xsl

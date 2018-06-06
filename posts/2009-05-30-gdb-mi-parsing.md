@@ -8,7 +8,7 @@ title: 'Немного мыслей о GDB/MI'
 информация от фреймах, возвращаемая командой `-stack-list-frames`,
 выглядит так:
 
-    (gdb) 
+    (gdb)
     -stack-list-frames
     ^done,stack=[frame={level="0",addr="0x0804868f",func="hello",file="hello.c",fullname="/home/sphinx/projects/gsoc/hello.c",line="6"},frame={level="1",addr="0xb7faa900",func="start_thread",from="/lib/libpthread.so.0"}]
 
@@ -214,12 +214,12 @@ JSON-парсером.
 > session, but of somewhat long evolution, so some early decisions are
 > prominent.
 
-  [GDB/MI]: https://web.archive.org/web/20090602054252/http://sourceware.org/gdb/current/onlinedocs/gdb_26.html#SEC263
+  [GDB/MI]: http://sourceware.org/gdb/current/onlinedocs/gdb_26.html#SEC263
     "The GDB/MI Interface"
-  [gdb-mi.el]: https://web.archive.org/web/20090602054252/http://www.emacswiki.org/emacs/GDB-MI
-  [синтаксис ответов GDB/MI]: https://web.archive.org/web/20090602054252/http://sourceware.org/gdb/current/onlinedocs/gdb_26.html#SEC272
+  [gdb-mi.el]: http://www.emacswiki.org/emacs/GDB-MI
+  [синтаксис ответов GDB/MI]: http://sourceware.org/gdb/current/onlinedocs/gdb_26.html#SEC272
     "GDB/MI Output Syntax"
-  [посоветовался]: https://web.archive.org/web/20090602054252/http://thread.gmane.org/gmane.comp.gdb.devel/25753
-  [JSON]: https://web.archive.org/web/20090602054252/http://www.json.org/
-  [случай]: https://web.archive.org/web/20090602054252/http://article.gmane.org/gmane.comp.gdb.devel/25769
-  [сообщения]: https://web.archive.org/web/20090602054252/http://article.gmane.org/gmane.comp.gdb.devel/25771
+  [посоветовался]: http://thread.gmane.org/gmane.comp.gdb.devel/25753
+  [JSON]: http://www.json.org/
+  [случай]: http://article.gmane.org/gmane.comp.gdb.devel/25769
+  [сообщения]: http://article.gmane.org/gmane.comp.gdb.devel/25771

@@ -45,5 +45,5 @@ title:  О пользе SVG
 Из редакторов советую [Inkscape][], он под win, lin и mac. Представление
 о возможностях SVG даёт [спецификация SVG 1.1][] от W3C.
 
-  [Inkscape]: https://web.archive.org/web/20081211011348/http://www.inkscape.org/
-  [спецификация SVG 1.1]: https://web.archive.org/web/20081211011348/http://www.w3.org/TR/SVG/
+  [Inkscape]: http://www.inkscape.org/
+  [спецификация SVG 1.1]: http://www.w3.org/TR/SVG/

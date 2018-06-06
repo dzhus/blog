@@ -55,4 +55,4 @@ title: wmii
 
 Я уже не представляю, как раньше жил без wmii :)
 
-  [wmii]: https://web.archive.org/web/20090529132556/http://suckless.org/wmii
+  [wmii]: http://suckless.org/wmii

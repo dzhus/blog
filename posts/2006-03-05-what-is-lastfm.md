@@ -24,6 +24,6 @@ Last.fm — это сайт, уже построенный на основе э�
 
 Имя моего аккаунта на Last.fm — [SphinxTheGeek][].
 
-  [Last.FM]: https://web.archive.org/web/20100124121037/http://last.fm/
-  [Audioscrobbler]: https://web.archive.org/web/20100124121037/http://www.audioscrobbler.net/
-  [SphinxTheGeek]: https://web.archive.org/web/20100124121037/http://www.last.fm/user/SphinxTheGeek
+  [Last.FM]: http://last.fm/
+  [Audioscrobbler]: http://www.audioscrobbler.net/
+  [SphinxTheGeek]: http://www.last.fm/user/SphinxTheGeek

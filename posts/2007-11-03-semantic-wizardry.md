@@ -378,14 +378,14 @@ Scheme я пишу `(load "shared.scm")` и использую функции о
 можно узнать очень многое; хотя бы уже один взгляд на граф программы
 даёт возможность оценить её структуру, связность и другое).
 
-  [Semantic]: https://web.archive.org/web/20080616141809/http://cedet.sourceforge.net/semantic.shtml
-  [CEDET]: https://web.archive.org/web/20080616141809/http://cedet.sourceforge.net/
-  [лежат у меня в репо]: /web/20080616141809/http://sphinx.net.ru:80/hg/coursework-diff/annotate/25e7fcde0f79/doc/grok-lisp.el
-  [dot]: https://web.archive.org/web/20080616141809/http://www.graphviz.org/doc/info/lang.html
-  [eieio]: https://web.archive.org/web/20080616141809/http://cedet.sourceforge.net/eieio.shtml
-  [CLOS]: https://web.archive.org/web/20080616141809/http://en.wikipedia.org/wiki/Common_Lisp_Object_System
-  [Graphviz]: https://web.archive.org/web/20080616141809/http://www.graphviz.org/
+  [Semantic]: http://cedet.sourceforge.net/semantic.shtml
+  [CEDET]: http://cedet.sourceforge.net/
+  [лежат у меня в репо]: http://sphinx.net.ru:80/hg/coursework-diff/annotate/25e7fcde0f79/doc/grok-lisp.el
+  [dot]: http://www.graphviz.org/doc/info/lang.html
+  [eieio]: http://cedet.sourceforge.net/eieio.shtml
+  [CLOS]: http://en.wikipedia.org/wiki/Common_Lisp_Object_System
+  [Graphviz]: http://www.graphviz.org/
   [grok-lisp.dot]: https://web.archive.org/web/20080616141809im_/http://farm3.static.flickr.com/2218/1843237727_66f890e05e.jpg
   {width="450" height="500"}
-  [![grok-lisp.dot][]]: https://web.archive.org/web/20080616141809/http://www.flickr.com/photos/nothingpersonal/1843237727/
+  [![grok-lisp.dot][]]: http://www.flickr.com/photos/nothingpersonal/1843237727/
     "Photo Sharing"

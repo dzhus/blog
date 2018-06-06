@@ -42,14 +42,14 @@ TeX Live — огромный дистрибутив [TeX][], который в�
 
 TeX Live доступен в том числе и на [Live DVD][].
 
-  [TeX Live]: https://web.archive.org/web/20071022153712/http://www.tug.org/texlive/
-  [Ебилд]: https://web.archive.org/web/20071022153712/http://bugs.gentoo.org/show_bug.cgi?id=168177
-  [оверлея Aballier]: https://web.archive.org/web/20071022153712/http://overlays.gentoo.org/dev/aballier/browser/texlive-overlay/app-text/texlive-core/files/texmf-update
-  [TeX]: https://web.archive.org/web/20071022153712/http://ru.wikipedia.org/wiki/TeX
-  [METAFONT]: https://web.archive.org/web/20071022153712/http://ru.wikipedia.org/wiki/METAFONT
-  [MetaPost]: https://web.archive.org/web/20071022153712/http://ru.wikipedia.org/wiki/MetaPost
-  [BibTeX]: https://web.archive.org/web/20071022153712/http://ru.wikipedia.org/wiki/BibTeX
-  [LaTeX2ε]: https://web.archive.org/web/20071022153712/http://ru.wikipedia.org/wiki/LaTeX
-  [cm-super]: https://web.archive.org/web/20071022153712/http://tug.ctan.org/cgi-bin/ctanPackageInformation.py?id=cm-super
-  [Конкретной математики]: https://web.archive.org/web/20071022153712/http://ru.wikipedia.org/wiki/Конкретная_математика
-  [Live DVD]: https://web.archive.org/web/20071022153712/http://www.tug.org/texlive/acquire.html
+  [TeX Live]: http://www.tug.org/texlive/
+  [Ебилд]: http://bugs.gentoo.org/show_bug.cgi?id=168177
+  [оверлея Aballier]: http://overlays.gentoo.org/dev/aballier/browser/texlive-overlay/app-text/texlive-core/files/texmf-update
+  [TeX]: http://ru.wikipedia.org/wiki/TeX
+  [METAFONT]: http://ru.wikipedia.org/wiki/METAFONT
+  [MetaPost]: http://ru.wikipedia.org/wiki/MetaPost
+  [BibTeX]: http://ru.wikipedia.org/wiki/BibTeX
+  [LaTeX2ε]: http://ru.wikipedia.org/wiki/LaTeX
+  [cm-super]: http://tug.ctan.org/cgi-bin/ctanPackageInformation.py?id=cm-super
+  [Конкретной математики]: http://ru.wikipedia.org/wiki/Конкретная_математика
+  [Live DVD]: http://www.tug.org/texlive/acquire.html

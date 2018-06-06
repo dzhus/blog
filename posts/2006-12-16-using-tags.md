@@ -235,24 +235,24 @@ jbrout, либо писать свой легковесный велосипед
 организации и классификации информационных ресурсов человечества очень
 ёмкая и интересная. А то сейчас с этим, к сожалению, на самом деле жопа.
 
-  [с точки зрения когнитивной психологии]: https://web.archive.org/web/20081211011327/http://www.rashmisinha.com/archives/05_09/tagging-cognitive.html
-  [Del.icio.us]: https://web.archive.org/web/20081211011327/http://del.icio.us/
-  [Flickr]: https://web.archive.org/web/20081211011327/http://flickr.com/
-  [Last.fm]: https://web.archive.org/web/20081211011327/http://www.last.fm/
-  [Dzone.com]: https://web.archive.org/web/20081211011327/http://www.dzone.com/
-  [1]: https://web.archive.org/web/20081211011327/http://flickr.com/photos/nothingpersonal
-  [EXIF]: https://web.archive.org/web/20081211011327/http://exif.org/
-  [IPTC]: https://web.archive.org/web/20081211011327/http://www.iptc.org/pages/index.php
-  [XMP]: https://web.archive.org/web/20081211011327/http://www.adobe.com/products/xmp/index.html
-  [digiKam]: https://web.archive.org/web/20081211011327/http://www.digikam.org/
-  [jbrout]: https://web.archive.org/web/20081211011327/http://jbrout.python-hosting.com/
-  [F-spot]: https://web.archive.org/web/20081211011327/http://f-spot.org/
-  [mapivi]: https://web.archive.org/web/20081211011327/http://mapivi.sourceforge.net/mapivi.shtml
-  [Picasa]: https://web.archive.org/web/20081211011327/http://picasa.google.com/
-  [Exiv2]: https://web.archive.org/web/20081211011327/http://www.exiv2.org/
-  [подборка]: https://web.archive.org/web/20081211011327/http://www.itagsoftware.awswa.com/compat.php
-  [большое количество]: https://web.archive.org/web/20081211011327/http://en.wikipedia.org/wiki/Comparison_of_container_formats
-  [заметки]: https://web.archive.org/web/20081211011327/http://microformats.org/wiki/video-metadata-model
-  [возможные решения]: https://web.archive.org/web/20081211011327/http://microformats.org/wiki/media-metadata-examples#Video
-  [OGG]: https://web.archive.org/web/20081211011327/http://xiph.org/ogg/
-  [Dublin Core]: https://web.archive.org/web/20081211011327/http://dublincore.org/
+  [с точки зрения когнитивной психологии]: http://www.rashmisinha.com/archives/05_09/tagging-cognitive.html
+  [Del.icio.us]: http://del.icio.us/
+  [Flickr]: http://flickr.com/
+  [Last.fm]: http://www.last.fm/
+  [Dzone.com]: http://www.dzone.com/
+  [1]: http://flickr.com/photos/nothingpersonal
+  [EXIF]: http://exif.org/
+  [IPTC]: http://www.iptc.org/pages/index.php
+  [XMP]: http://www.adobe.com/products/xmp/index.html
+  [digiKam]: http://www.digikam.org/
+  [jbrout]: http://jbrout.python-hosting.com/
+  [F-spot]: http://f-spot.org/
+  [mapivi]: http://mapivi.sourceforge.net/mapivi.shtml
+  [Picasa]: http://picasa.google.com/
+  [Exiv2]: http://www.exiv2.org/
+  [подборка]: http://www.itagsoftware.awswa.com/compat.php
+  [большое количество]: http://en.wikipedia.org/wiki/Comparison_of_container_formats
+  [заметки]: http://microformats.org/wiki/video-metadata-model
+  [возможные решения]: http://microformats.org/wiki/media-metadata-examples#Video
+  [OGG]: http://xiph.org/ogg/
+  [Dublin Core]: http://dublincore.org/

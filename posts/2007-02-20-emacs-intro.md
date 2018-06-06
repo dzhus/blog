@@ -116,13 +116,13 @@ Emacs, нужно знать, что в нём есть :) Частым вопр
 
 Да поможет вам [EmacsWiki][].
 
-  [GNU Emacs]: https://web.archive.org/web/20090324074119/http://www.gnu.org/software/emacs/
-  [TAOUP]: https://web.archive.org/web/20090324074119/http://www.catb.org/~esr/writings/taoup/
-  [AUCTeX]: https://web.archive.org/web/20090324074119/http://www.gnu.org/software/auctex/
-  [GNU Arch]: https://web.archive.org/web/20090324074119/http://www.gnuarch.org/gnuarchwiki/
-  [DVC]: https://web.archive.org/web/20090324074119/http://download.gna.org/dvc/
-  [darcs]: /web/20090324074119/http://sphinx.net.ru:80/blog/entry/darcs/
-  [org-mode]: https://web.archive.org/web/20090324074119/http://staff.science.uva.nl/~dominik/Tools/org/
-  [Progect]: https://web.archive.org/web/20090324074119/http://sourceforge.net/projects/progect/
-  [Gnus]: https://web.archive.org/web/20090324074119/http://www.emacswiki.org/cgi-bin/wiki/CategoryGnus
-  [EmacsWiki]: https://web.archive.org/web/20090324074119/http://emacswiki.org/
+  [GNU Emacs]: http://www.gnu.org/software/emacs/
+  [TAOUP]: http://www.catb.org/~esr/writings/taoup/
+  [AUCTeX]: http://www.gnu.org/software/auctex/
+  [GNU Arch]: http://www.gnuarch.org/gnuarchwiki/
+  [DVC]: http://download.gna.org/dvc/
+  [darcs]: http://sphinx.net.ru:80/blog/entry/darcs/
+  [org-mode]: http://staff.science.uva.nl/~dominik/Tools/org/
+  [Progect]: http://sourceforge.net/projects/progect/
+  [Gnus]: http://www.emacswiki.org/cgi-bin/wiki/CategoryGnus
+  [EmacsWiki]: http://emacswiki.org/

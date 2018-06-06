@@ -14,4 +14,4 @@ title: Flickr
 
 (остаток записи утерян в 2012-2018 годах)
 
-  [Flickr]: https://web.archive.org/web/20091220021107/http://www.flickr.com/
+  [Flickr]: http://www.flickr.com/

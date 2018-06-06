@@ -216,29 +216,29 @@ Gtk-приложениях: Gtk+ по умолчанию использует с
 
 Я надеюсь, у вас установлены Юникодные шрифты.
 
-  [§ 120]: https://web.archive.org/web/20101209150911/http://www.artlebedev.ru/kovodstvo/120/
-  [Unicode]: https://web.archive.org/web/20101209150911/http://ru.wikipedia.org/wiki/Юникод/
-  [символов Unicode]: https://web.archive.org/web/20101209150911/http://www.unicode.org/charts/symbols.html
-  [TeX]: https://web.archive.org/web/20101209150911/http://ru.wikipedia.org/wiki/TeX
-  [XeTeX]: https://web.archive.org/web/20101209150911/http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&amp;item_id=xetex
-  [XML-сущности]: https://web.archive.org/web/20101209150911/http://www.cookwood.com/html/extras/entities.html
-  [Emacs]: /web/20101209150911/http://sphinx.net.ru:80/blog/entry/emacs-intro/
-  [nxml-mode]: https://web.archive.org/web/20101209150911/http://www.thaiopensource.com/nxml-mode/
+  [§ 120]: http://www.artlebedev.ru/kovodstvo/120/
+  [Unicode]: http://ru.wikipedia.org/wiki/Юникод/
+  [символов Unicode]: http://www.unicode.org/charts/symbols.html
+  [TeX]: http://ru.wikipedia.org/wiki/TeX
+  [XeTeX]: http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&amp;item_id=xetex
+  [XML-сущности]: http://www.cookwood.com/html/extras/entities.html
+  [Emacs]: http://sphinx.net.ru:80/blog/entry/emacs-intro/
+  [nxml-mode]: http://www.thaiopensource.com/nxml-mode/
   [1]: https://web.archive.org/web/20101209150911im_/http://farm2.static.flickr.com/1121/533360720_dff5e36d55_o.png
   {width="484" height="99"}
-  [![nxml-mode][1]]: https://web.archive.org/web/20101209150911/http://www.flickr.com/photos/nothingpersonal/533360720/
+  [![nxml-mode][1]]: http://www.flickr.com/photos/nothingpersonal/533360720/
     "Photo Sharing"
-  [домашней странице Xah Lee]: https://web.archive.org/web/20101209150911/http://xahlee.org/emacs/emacs_n_unicode.html
-  [интерфейс]: https://web.archive.org/web/20101209150911/http://www.emacswiki.org/cgi-bin/wiki/emacs-w3m
-  [«Типограф»]: https://web.archive.org/web/20101209150911/http://www.artlebedev.ru/tools/typograf/
-  [Jevix]: https://web.archive.org/web/20101209150911/http://jevix.ru/
-  [Devanagari]: https://web.archive.org/web/20101209150911/http://www.erlang.com.ru/devanagari/
-  [Markdown]: /web/20101209150911/http://sphinx.net.ru:80/blog/entry/markdown-and-lightweight-markup
-  [abcTajpu]: https://web.archive.org/web/20101209150911/https://addons.mozilla.org/en-US/firefox/addon/459
-  [Firefox]: https://web.archive.org/web/20101209150911/http://www.mozilla.ru/products/firefox/
-  [домашней странице]: https://web.archive.org/web/20101209150911/http://lingvo.org/abctajpu/
-  [диакритических знаков]: https://web.archive.org/web/20101209150911/http://ru.wikipedia.org/wiki/Диакритический%20знак
-  [«Compose»]: https://web.archive.org/web/20101209150911/http://en.wikipedia.org/wiki/Compose_key
-  [Полный список Compose-сокращений]: https://web.archive.org/web/20101209150911/http://webcvs.freedesktop.org/xorg/xc/nls/Compose/en_US.UTF-8?view=co
-  [статье]: /web/20101209150911/http://sphinx.net.ru:80/blog/entry/msnek-linux
-  [может не хватить]: https://web.archive.org/web/20101209150911/http://zulu.in.ua/index.php/2007/01/11/x-composite-key
+  [домашней странице Xah Lee]: http://xahlee.org/emacs/emacs_n_unicode.html
+  [интерфейс]: http://www.emacswiki.org/cgi-bin/wiki/emacs-w3m
+  [«Типограф»]: http://www.artlebedev.ru/tools/typograf/
+  [Jevix]: http://jevix.ru/
+  [Devanagari]: http://www.erlang.com.ru/devanagari/
+  [Markdown]: http://sphinx.net.ru:80/blog/entry/markdown-and-lightweight-markup
+  [abcTajpu]: https://addons.mozilla.org/en-US/firefox/addon/459
+  [Firefox]: http://www.mozilla.ru/products/firefox/
+  [домашней странице]: http://lingvo.org/abctajpu/
+  [диакритических знаков]: http://ru.wikipedia.org/wiki/Диакритический%20знак
+  [«Compose»]: http://en.wikipedia.org/wiki/Compose_key
+  [Полный список Compose-сокращений]: http://webcvs.freedesktop.org/xorg/xc/nls/Compose/en_US.UTF-8?view=co
+  [статье]: http://sphinx.net.ru:80/blog/entry/msnek-linux
+  [может не хватить]: http://zulu.in.ua/index.php/2007/01/11/x-composite-key

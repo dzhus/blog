@@ -117,21 +117,21 @@ DownThemAll - реализация достаточно функциональн
 Это лишь малая толика всех тех сотен интересных расширений, которые есть
 для Firefox.
 
-  [расширений]: https://web.archive.org/web/20090418175536/http://addons.mozilla.org/firefox
-  [Adblock Plus]: https://web.archive.org/web/20090418175536/https://addons.mozilla.org/firefox/1865/
-  [Flashblock]: https://web.archive.org/web/20090418175536/https://addons.mozilla.org/firefox/433/
-  [Del.icio us bookmarks]: https://web.archive.org/web/20090418175536/https://addons.mozilla.org/firefox/3615/
-  [Del.icio.us]: https://web.archive.org/web/20090418175536/http://del.icio.us/
-  [Flickrfox]: https://web.archive.org/web/20090418175536/https://addons.mozilla.org/firefox/1135/
-  [нескольких группах на Flickr]: https://web.archive.org/web/20090418175536/http://www.flickr.com/people/nothingpersonal/
-  [FaviconizeTab]: https://web.archive.org/web/20090418175536/https://addons.mozilla.org/firefox/3780/
-  [Web Developer]: https://web.archive.org/web/20090418175536/https://addons.mozilla.org/firefox/60/
-  [DownThemAll!]: https://web.archive.org/web/20090418175536/https://addons.mozilla.org/firefox/201/
-  [Mouseless browsing]: https://web.archive.org/web/20090418175536/https://addons.mozilla.org/firefox/879/
-  [Mouse Gestures]: https://web.archive.org/web/20090418175536/https://addons.mozilla.org/firefox/39/
-  [Russian hot keys bugfix]: https://web.archive.org/web/20090418175536/https://addons.mozilla.org/firefox/3529/
-  [Usage Counter]: https://web.archive.org/web/20090418175536/https://addons.mozilla.org/firefox/3482/
-  [FoxyMeter]: https://web.archive.org/web/20090418175536/https://addons.mozilla.org/firefox/3411/
-  [UnHide fields]: https://web.archive.org/web/20090418175536/https://addons.mozilla.org/firefox/2685/
-  [Regex Tester]: https://web.archive.org/web/20090418175536/https://addons.mozilla.org/firefox/2077/
-  [FireFTP]: https://web.archive.org/web/20090418175536/https://addons.mozilla.org/firefox/684/
+  [расширений]: http://addons.mozilla.org/firefox
+  [Adblock Plus]: https://addons.mozilla.org/firefox/1865/
+  [Flashblock]: https://addons.mozilla.org/firefox/433/
+  [Del.icio us bookmarks]: https://addons.mozilla.org/firefox/3615/
+  [Del.icio.us]: http://del.icio.us/
+  [Flickrfox]: https://addons.mozilla.org/firefox/1135/
+  [нескольких группах на Flickr]: http://www.flickr.com/people/nothingpersonal/
+  [FaviconizeTab]: https://addons.mozilla.org/firefox/3780/
+  [Web Developer]: https://addons.mozilla.org/firefox/60/
+  [DownThemAll!]: https://addons.mozilla.org/firefox/201/
+  [Mouseless browsing]: https://addons.mozilla.org/firefox/879/
+  [Mouse Gestures]: https://addons.mozilla.org/firefox/39/
+  [Russian hot keys bugfix]: https://addons.mozilla.org/firefox/3529/
+  [Usage Counter]: https://addons.mozilla.org/firefox/3482/
+  [FoxyMeter]: https://addons.mozilla.org/firefox/3411/
+  [UnHide fields]: https://addons.mozilla.org/firefox/2685/
+  [Regex Tester]: https://addons.mozilla.org/firefox/2077/
+  [FireFTP]: https://addons.mozilla.org/firefox/684/

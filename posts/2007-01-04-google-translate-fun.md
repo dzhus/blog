@@ -48,4 +48,4 @@ title: Переводчик Google
 Заметил, что иногда вариант перевода одного и того же слова меняется
 буквально на глазах.
 
-  [переводчиком Google]: https://web.archive.org/web/20101111070714/http://translate.google.com/
+  [переводчиком Google]: http://translate.google.com/
