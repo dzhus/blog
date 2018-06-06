@@ -767,7 +767,7 @@ Metapost-код:
   [pic]: http://www.gnu.org/software/groff/
     "Классическое средство для текстового описания картинок"
   [примерно так]: http://dzhus.org/hg/term-paper-diffeq/file/bc94df402ff0b58f03d5e37450fca5fa81a22fd3/source/statement.scm
-  [screen1196171299]: https://web.archive.org/web/20081228214955im_/http://farm3.static.flickr.com/2396/2068111487_3dbdbd9732.jpg
+  [screen1196171299]: http://farm3.static.flickr.com/2396/2068111487_3dbdbd9732.jpg
   {width="500" height="236"}
   [![screen1196171299][]]: http://www.flickr.com/photos/nothingpersonal/2068111487/
     "screen1196171299 by Sphinx The Geek, on Flickr"

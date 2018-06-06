@@ -17,7 +17,7 @@ title: Рисовать в Emacs
 Не только прикольно, но и помогает нарисовать несложную схемку в
 комментарии к коду.
 
-  [artist-mode]: https://web.archive.org/web/20090212200307im_/http://farm4.static.flickr.com/3195/2389747333_dba20736be.jpg
+  [artist-mode]: http://farm4.static.flickr.com/3195/2389747333_dba20736be.jpg
   {width="500" height="375"}
   [![artist-mode][]]: http://www.flickr.com/photos/nothingpersonal/2389747333/
     "artist-mode by Sphinx The Geek, on Flickr"

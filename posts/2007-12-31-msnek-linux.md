@@ -481,23 +481,23 @@ HAL). Посмотреть на файлы политики, поставляе�
 
   [Emacs]: http://dzhus.org/blog/entry/emacs-intro/
   [MS Natural 7000]: http://www.microsoft.com/hardware/mouseandkeyboard/productdetails.aspx?pid=095
-  [Microsoft Ergonomic 4000]: https://web.archive.org/web/20090221130518im_/http://farm3.static.flickr.com/2267/2133420395_c413d536b7.jpg
+  [Microsoft Ergonomic 4000]: http://farm3.static.flickr.com/2267/2133420395_c413d536b7.jpg
   {width="500" height="375"}
   [![Microsoft Ergonomic 4000][]]: http://www.flickr.com/photos/nothingpersonal/2133420395/
     "Microsoft Ergonomic 4000 by Sphinx The Geek, on Flickr"
-  [Black &amp; White]: https://web.archive.org/web/20090221130518im_/http://farm3.static.flickr.com/2149/2133420379_9f2587dc81.jpg
+  [Black &amp; White]: http://farm3.static.flickr.com/2149/2133420379_9f2587dc81.jpg
   {width="500" height="375"}
   [![Black &amp; White][]]: http://www.flickr.com/photos/nothingpersonal/2133420379/
     "Black &amp; White by Sphinx The Geek, on Flickr"
-  [Подставка для наклона]: https://web.archive.org/web/20090221130518im_/http://farm3.static.flickr.com/2187/2133420389_990dee0813.jpg
+  [Подставка для наклона]: http://farm3.static.flickr.com/2187/2133420389_990dee0813.jpg
   {width="500" height="375"}
   [![Подставка для наклона][]]: http://www.flickr.com/photos/nothingpersonal/2133420389/
     "Подставка для наклона by Sphinx The Geek, on Flickr"
-  [Clit-zoom]: https://web.archive.org/web/20090221130518im_/http://farm3.static.flickr.com/2082/2144008662_91305f44b9.jpg
+  [Clit-zoom]: http://farm3.static.flickr.com/2082/2144008662_91305f44b9.jpg
   {width="500" height="375"}
   [![Clit-zoom][]]: http://www.flickr.com/photos/nothingpersonal/2144008662/
     "Clit-zoom by Sphinx The Geek, on Flickr"
-  [Пе-ре-вод…]: https://web.archive.org/web/20090221130518im_/http://farm3.static.flickr.com/2332/2143224521_18b6aee4f8.jpg
+  [Пе-ре-вод…]: http://farm3.static.flickr.com/2332/2143224521_18b6aee4f8.jpg
   {width="500" height="368"}
   [![Пе-ре-вод…][]]: http://www.flickr.com/photos/nothingpersonal/2143224521/
     "Пе-ре-вод… by Sphinx The Geek, on Flickr"

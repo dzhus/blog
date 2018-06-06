@@ -25,7 +25,7 @@ title: Не забывать про минус в матрицах
 (остаток записи утерян в 2012-2018 годах)
 
   [amsmath]: http://www.ctan.org/tex-archive/macros/latex/required/amslatex/
-  [Проблема: отрицательные числа неприятно вывешиваются]: https://web.archive.org/web/20090324074158im_/http://farm4.static.flickr.com/3431/3256701860_6a2a6347a7.jpg
+  [Проблема: отрицательные числа неприятно вывешиваются]: http://farm4.static.flickr.com/3431/3256701860_6a2a6347a7.jpg
   {width="490" height="157"}
   [![Проблема: отрицательные числа неприятно вывешиваются][]]: http://www.flickr.com/photos/nothingpersonal/3256701860/
     "Проблема: отрицательные числа неприятно вывешиваются by Sphinx

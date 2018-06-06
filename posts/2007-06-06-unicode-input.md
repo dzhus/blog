@@ -224,7 +224,7 @@ Gtk-приложениях: Gtk+ по умолчанию использует с
   [XML-сущности]: http://www.cookwood.com/html/extras/entities.html
   [Emacs]: http://dzhus.org/blog/entry/emacs-intro/
   [nxml-mode]: http://www.thaiopensource.com/nxml-mode/
-  [1]: https://web.archive.org/web/20101209150911im_/http://farm2.static.flickr.com/1121/533360720_dff5e36d55_o.png
+  [1]: http://farm2.static.flickr.com/1121/533360720_dff5e36d55_o.png
   {width="484" height="99"}
   [![nxml-mode][1]]: http://www.flickr.com/photos/nothingpersonal/533360720/
     "Photo Sharing"

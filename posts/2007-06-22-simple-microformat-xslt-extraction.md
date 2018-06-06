@@ -451,15 +451,15 @@ XFN-ссылок, возможно, было бы проще сделать с �
   [Many eyes]: http://www.many-eyes.com/
   [make-manyeyes-network.xsl]: http://dzhus.org/hg/xfn-spider/raw-file/tip/make-manyeyes-network.xsl
   [интерактивненькую карту XFN]: http://services.alphaworks.ibm.com/manyeyes/view/SNnqRHsOtha6i5-m6iGTH2-
-  [Визуализация на Many Eyes]: https://web.archive.org/web/20070928104408im_/http://services.alphaworks.ibm.com/manyeyes/static-resources/snapshot/89ade5ae13776cd901137d2b88c801ee.jpeg
+  [Визуализация на Many Eyes]: http://services.alphaworks.ibm.com/manyeyes/static-resources/snapshot/89ade5ae13776cd901137d2b88c801ee.jpeg
   {#blogThisImgSmall}
-  [misc image]: https://web.archive.org/web/20070928104408im_/http://services.alphaworks.ibm.com/manyeyes/images2/blog_this_caption.jpg
+  [misc image]: http://services.alphaworks.ibm.com/manyeyes/images2/blog_this_caption.jpg
   {#Any_14}
   [«Tag Cloud»]: http://services.alphaworks.ibm.com/manyeyes/page/Tag_Cloud.html
   [make-manyeyes-tags.xsl]: http://dzhus.org/hg/xfn-spider/raw-file/tip/make-manyeyes-tags.xsl
-  [1]: https://web.archive.org/web/20070928104408im_/http://services.alphaworks.ibm.com/manyeyes/static-resources/snapshot/89ade5ae13776cd90113876955be0356.jpeg
+  [1]: http://services.alphaworks.ibm.com/manyeyes/static-resources/snapshot/89ade5ae13776cd90113876955be0356.jpeg
   {#blogThisImgSmall}
-  [misc]: https://web.archive.org/web/20070928104408im_/http://services.alphaworks.ibm.com/manyeyes/images2/blog_this_caption.jpg
+  [misc]: http://services.alphaworks.ibm.com/manyeyes/images2/blog_this_caption.jpg
   {#Any_13}
   [![][1] ![misc][]]: http://services.alphaworks.ibm.com/manyeyes/view/SNnqRHsOtha6KBUjJZqVH2-
   [Graphviz]: http://www.graphviz.org/
@@ -471,7 +471,7 @@ XFN-ссылок, возможно, было бы проще сделать с �
   [twitter.com]: http://twitter.com/
   [2]: http://www.vecosys.com/2007/05/08/twitter-now-supports-hatom-and-hcard-microformats/
   [http://tantek.com]: http://tantek.com/
-  [Many Eyes visualization]: https://web.archive.org/web/20070928104408im_/http://services.alphaworks.ibm.com/manyeyes/static-resources/snapshot/89ade5ae138e004a01139228cfe50154.jpeg
+  [Many Eyes visualization]: http://services.alphaworks.ibm.com/manyeyes/static-resources/snapshot/89ade5ae138e004a01139228cfe50154.jpeg
   {#blogThisImgSmall}
   [![Many Eyes visualization][] ![misc][misc image]]: http://services.alphaworks.ibm.com/manyeyes/view/S8_UXHsOtha6I3EtDXWYH2-
   [XFN crawler]: http://www.mindsack.com/?page_id=39

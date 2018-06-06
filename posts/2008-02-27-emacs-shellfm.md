@@ -80,7 +80,7 @@ Horn допилит полноценный Last.fm-клиент для EMMS, я 
   [EMMS]: http://www.gnu.org/software/emms
   [Shell.FM]: http://nex.scrapping.cc/shell-fm/
   [dzhus.org/hg/emacs-shellfm/]: http://dzhus.org/hg/emacs-shellfm/file/tip/
-  [emacs-shellfm]: https://web.archive.org/web/20080302085028im_/http://farm4.static.flickr.com/3171/2296244385_d4104e9846.jpg
+  [emacs-shellfm]: http://farm4.static.flickr.com/3171/2296244385_d4104e9846.jpg
   {width="423" height="317"}
   [![emacs-shellfm][]]: http://www.flickr.com/photos/nothingpersonal/2296244385/
     "emacs-shellfm by Sphinx The Geek, on Flickr"

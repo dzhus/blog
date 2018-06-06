@@ -325,13 +325,13 @@ Technorati поддерживает специального индексаци�
   [dikiy.com]: http://dikiy.com/
   [описание системы на русском]: http://dikiy.com/blog/archive/2006/12/07/xfn.html
   [XFN Graph]: http://xfngraph.sourceforge.net/
-  [XFN Graph: depth=3]: https://web.archive.org/web/20090228203529im_/http://farm2.static.flickr.com/1025/556078393_b4b888fd28_m.jpg
+  [XFN Graph: depth=3]: http://farm2.static.flickr.com/1025/556078393_b4b888fd28_m.jpg
   {width="240" height="159"}
   [![XFN Graph: depth=3][]]: http://www.flickr.com/photos/nothingpersonal/556078393/
     "Photo Sharing"
   [many-eyes.com]: http://services.alphaworks.ibm.com/manyeyes/view/SNnqRHsOtha6i5-m6iGTH2-
-  [0699e168-ad98-11dd-a0aa-000255111976]: https://web.archive.org/web/20090228203529im_/http://manyeyes.alphaworks.ibm.com/manyeyes/files/thumbnails/0699e168-ad98-11dd-a0aa-000255111976.png?size=200x150
-  [Blog\_this\_caption]: https://web.archive.org/web/20090228203529im_/http://manyeyes.alphaworks.ibm.com/manyeyes/images/blog_this_caption.jpg
+  [0699e168-ad98-11dd-a0aa-000255111976]: http://manyeyes.alphaworks.ibm.com/manyeyes/files/thumbnails/0699e168-ad98-11dd-a0aa-000255111976.png?size=200x150
+  [Blog\_this\_caption]: http://manyeyes.alphaworks.ibm.com/manyeyes/images/blog_this_caption.jpg
   [![0699e168-ad98-11dd-a0aa-000255111976][] ![Blog\_this\_caption][]]: http://manyeyes.alphaworks.ibm.com/manyeyes/visualizations/xhtml-friends-network-with-twitter/comments/069ec39aad9811dda0aa000255111976
   [hCard]: http://www.microformats.org/wiki/hcard
     "hCard на Microformats.org"
@@ -342,7 +342,7 @@ Technorati поддерживает специального индексаци�
     "Wiki по микроформатам"
   [Operator]: https://addons.mozilla.org/en-US/firefox/addon/4106/
     "Расширение для работы с микроформатами для Firefox"
-  [hCard в Operator]: https://web.archive.org/web/20090228203529im_/http://farm2.static.flickr.com/1367/556078405_e913502388_m.jpg
+  [hCard в Operator]: http://farm2.static.flickr.com/1367/556078405_e913502388_m.jpg
   {width="238" height="240"}
   [![hCard в Operator][]]: http://www.flickr.com/photos/nothingpersonal/556078405/
     "Photo Sharing"
@@ -355,12 +355,12 @@ Technorati поддерживает специального индексаци�
   [тегов]: http://dzhus.org/blog/entry/using-tags/
   [rel-tag]: http://microformats.org/wiki/rel-tag
     "Всё о rel-tag на Microformats.org"
-  [rel-tag в Operator]: https://web.archive.org/web/20090228203529im_/http://farm2.static.flickr.com/1230/555945834_7a72d58b0f_m.jpg
+  [rel-tag в Operator]: http://farm2.static.flickr.com/1230/555945834_7a72d58b0f_m.jpg
   {width="240" height="138"}
   [![rel-tag в Operator][]]: http://www.flickr.com/photos/nothingpersonal/555945834/
     "Photo Sharing"
   [виджет]: http://technorati.com/widgets/blogwidgets
-  [025a0e48-ad98-11dd-a0aa-000255111976]: https://web.archive.org/web/20090228203529im_/http://manyeyes.alphaworks.ibm.com/manyeyes/files/thumbnails/025a0e48-ad98-11dd-a0aa-000255111976.png?size=200x150
+  [025a0e48-ad98-11dd-a0aa-000255111976]: http://manyeyes.alphaworks.ibm.com/manyeyes/files/thumbnails/025a0e48-ad98-11dd-a0aa-000255111976.png?size=200x150
   [![025a0e48-ad98-11dd-a0aa-000255111976][] ![Blog\_this\_caption][]]: http://manyeyes.alphaworks.ibm.com/manyeyes/visualizations/tags-from-a-bigger-xhtml-friend-netw/comments/025ec712ad9811dda0aa000255111976
   [Flickr]: http://flickr.com/
   [Last.fm]: http://last.fm/

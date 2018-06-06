@@ -47,7 +47,7 @@ Bootchart запускается вместо `init` при старте сис�
 командой `bootchart /var/log/bootchart.tgz`.
 
   [Bootchart]: http://www.bootchart.org/
-  [1]: https://web.archive.org/web/20091216123504im_/http://farm3.static.flickr.com/2118/2170860519_5ee91fae62.jpg
+  [1]: http://farm3.static.flickr.com/2118/2170860519_5ee91fae62.jpg
   {width="500" height="497"}
   [![bootchart][1]]: http://www.flickr.com/photos/nothingpersonal/2170860519/
     "bootchart by Sphinx The Geek, on Flickr"
