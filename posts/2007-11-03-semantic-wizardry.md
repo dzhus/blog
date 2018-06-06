@@ -105,7 +105,7 @@ Manual» (есть в дистрибутиве [CEDET][]).
 
     ;; Return a Semantic tag table for file
     (defun get-file-tags (file-name)
-      (with-current-buffer 
+      (with-current-buffer
           (find-file-noselect file-name)
         (semantic-fetch-tags)))
 
@@ -115,15 +115,15 @@ Manual» (есть в дистрибутиве [CEDET][]).
             (to (semantic-tag-end tag))
             (buffer (semantic-tag-buffer tag)))
         (with-current-buffer buffer
-          (buffer-substring from to))))  
+          (buffer-substring from to))))
 
     ;; Print body of tag with specified name from specified file
     (defun print-tag-from-file (tag-name file-name)
       (let ((tag-table (get-file-tags file-name)))
-        (princ (format "%s" 
-                       (get-tag-body 
-                        (semantic-find-first-tag-by-name 
-                         tag-name 
+        (princ (format "%s"
+                       (get-tag-body
+                        (semantic-find-first-tag-by-name
+                         tag-name
                          tag-table))))))
 
 Структура решения понятна: `get-file-tags` запрашивает список тегов
@@ -225,8 +225,8 @@ Scheme я пишу `(load "shared.scm")` и использую функции о
             (to (semantic-tag-end tag))
             (buffer (semantic-tag-buffer tag))
             ;; Build associative list with tag names as keys
-            (deps (mapcar 
-                   (lambda (tag) 
+            (deps (mapcar
+                   (lambda (tag)
                      (cons (semantic-tag-name tag)
                            tag))
                    tag-table)))
@@ -236,7 +236,7 @@ Scheme я пишу `(load "shared.scm")` и использую функции о
             ;; inclusion to dependency list
             (dolist (lexem (cddddr (semantic-lex from to 1.0e+INF)) result)
               (if (eq 'symbol (car lexem))
-                  (let* ((lexem-string (buffer-substring 
+                  (let* ((lexem-string (buffer-substring
                                         (cadr lexem)
                                         (cddr lexem)))
                          (found-tag (assoc lexem-string
@@ -300,7 +300,7 @@ Scheme я пишу `(load "shared.scm")` и использую функции о
       (dolist (file file-names)
         (let ((depgraph (get-file-depgraph file)))
           (dolist (dep-list-for-tag depgraph)
-            (let ((function-name (semantic-tag-name 
+            (let ((function-name (semantic-tag-name
                                   (car dep-list-for-tag))))
               (princ (format "\"%s\";\n" function-name))
               (dolist (dependency (cdr dep-list-for-tag))
