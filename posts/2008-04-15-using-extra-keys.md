@@ -15,8 +15,7 @@ title: Использование мультимедийных клавиш
 Использование мультимедийной клавиатуры для облегчения жизни в Emacs,
 wmii. Рассмотрены `xmodmap(1)`, `xbindkeys(1)`.
 
-[Читать далее][]
+(остаток записи утерян в 2012-2018 годах)
 
   [заметки про MSNEK4K]: /web/20090212200307/http://sphinx.net.ru:80/blog/entry/msnek-linux/
   [«клавиатурная» заметка]: /web/20090212200307/http://sphinx.net.ru:80/blog/entry/unicode-input/
-  [Читать далее]: /web/20090212200307/http://sphinx.net.ru:80/blog/entry/using-extra-keys/

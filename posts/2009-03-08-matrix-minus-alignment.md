@@ -22,7 +22,7 @@ title: Не забывать про минус в матрицах
 (Обозначения сбоку для элементарных операций, выполняемых над матрицей,
 делаются с помощью пакета [gauss][]).
 
-[Читать далее][]
+(остаток записи утерян в 2012-2018 годах)
 
   [amsmath]: https://web.archive.org/web/20090324074158/http://www.ctan.org/tex-archive/macros/latex/required/amslatex/
   [Проблема: отрицательные числа неприятно вывешиваются]: https://web.archive.org/web/20090324074158im_/http://farm4.static.flickr.com/3431/3256701860_6a2a6347a7.jpg
@@ -31,4 +31,3 @@ title: Не забывать про минус в матрицах
     "Проблема: отрицательные числа неприятно вывешиваются by Sphinx
     The Geek, on Flickr"
   [gauss]: https://web.archive.org/web/20090324074158/http://www.ctan.org/tex-archive/macros/latex/contrib/gauss/
-  [Читать далее]: /web/20090324074158/http://sphinx.net.ru:80/blog/entry/matrix-minus-alignment/

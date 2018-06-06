@@ -24,8 +24,7 @@ title: ' Del.icio.us'
 работы с ними и, что самое главное, [можно делиться со всеми своими
 закладками][].
 
-[Читать далее][]
+(остаток записи утерян в 2012-2018 годах)
 
   [Del.icio.us]: https://web.archive.org/web/20080521234620/http://del.icio.us/
   [можно делиться со всеми своими закладками]: https://web.archive.org/web/20080521234620/http://del.icio.us/SphinxTheGeek/
-  [Читать далее]: /web/20080521234620/http://sphinx.net.ru:80/blog/entry/what-is-delicious/
