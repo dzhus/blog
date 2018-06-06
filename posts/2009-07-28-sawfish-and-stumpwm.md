@@ -97,9 +97,9 @@ StumpWM хорошо поддерживает несколько монитор�
 В общем, очень нравится, и на душе как-то тепло от использования такого
 менеджера.
 
-  [wmii]: http://sphinx.net.ru/blog/entry/wmii-intro/
-  [GNU Emacs]: http://sphinx.net.ru/blog/entry/emacs-intro/
+  [wmii]: http://dzhus.org/blog/entry/wmii-intro/
+  [GNU Emacs]: http://dzhus.org/blog/entry/emacs-intro/
   [Sawfish]: http://sawfish.wikia.com/
-  [не захотел]: http://news.gmane.org/find-root.php?message_id=%3c873a951vt2.fsf%40sphinx.net.ru%3e
+  [не захотел]: http://news.gmane.org/find-root.php?message_id=%3c873a951vt2.fsf%40dzhus.org%3e
   [StumpWM]: http://www.nongnu.org/stumpwm/
   [CLX]: http://www.cliki.net/CLX

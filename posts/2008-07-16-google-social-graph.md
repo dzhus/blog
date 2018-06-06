@@ -33,9 +33,9 @@ OpenID-провайдер и агрегатор контента со всех �
 красивую паутинку связей (как это можно сделать, к примеру, с
 [Twitter][] или Facebook) нельзя.
 
-  [микроформатно]: http://sphinx.net.ru/blog/entry/what-are-microformats
+  [микроформатно]: http://dzhus.org/blog/entry/what-are-microformats
   [Google Social Graph]: http://code.google.com/intl/ru_ALL/apis/socialgraph/
-  [вручную странички парсить]: http://sphinx.net.ru/blog/entry/simple-microformat-xslt-extraction/
+  [вручную странички парсить]: http://dzhus.org/blog/entry/simple-microformat-xslt-extraction/
   [bestpersons.ru]: http://dzhus.bestpersons.ru/
   [ЛОР]: http://linux.org.ru/
   [Twitter]: http://www.twitter.com/dzhus

@@ -190,7 +190,7 @@ Bongo планируется включить в Emacs 23 по просьбе л
 и управлять громкостью звука общесистемным микшером (`alsamixer`,
 `volume.el` в Emacs), всё будет ок.
 
-  [Emacs]: http://sphinx.net.ru/blog/entry/emacs-intro
+  [Emacs]: http://dzhus.org/blog/entry/emacs-intro
   [EMMS]: http://www.gnu.org/software/emms/
   [Bongo]: http://www.emacswiki.org/cgi-bin/wiki/Bongo
   [vlc]: http://www.videolan.org/vlc/
@@ -198,8 +198,8 @@ Bongo планируется включить в Emacs 23 по просьбе л
   [TiMidity]: http://timidity.sourceforge.net/
     "Программный проигрыватель MIDI"
   [сайта Bongo]: http://www.brockman.se/software/bongo/
-  [darcs]: http://sphinx.net.ru/blog/entry/darcs
-  [скробблинг на Last.fm]: http://sphinx.net.ru/blog/entry/what-is-lastfm
+  [darcs]: http://dzhus.org/blog/entry/darcs
+  [скробблинг на Last.fm]: http://dzhus.org/blog/entry/what-is-lastfm
   [volume.el]: http://www.brockman.se/software/volume-el/
     "Регулятор уровня громкости каналов для Emacs"
   [EasyTAG'ом]: http://easytag.sourceforge.net/

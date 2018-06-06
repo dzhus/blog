@@ -49,7 +49,7 @@ last-exit поддерживает [D-Bus][], поэтому можно рули
 Не очень удобно использовать Shell.FM постоянно из командной строки. В
 итоге я написал небольшой компактненький интерфейс для управления
 Shell.fm прямо из Emacs. Тексты и описание лежат по адресу
-[sphinx.net.ru/hg/emacs-shellfm/][].
+[dzhus.org/hg/emacs-shellfm/][].
 
 [![emacs-shellfm][]][]
 
@@ -73,13 +73,13 @@ Shell.fm прямо из Emacs. Тексты и описание лежат по
 Horn допилит полноценный Last.fm-клиент для EMMS, я вновь попробую
 перейти на него.
 
-  [Last.fm]: http://sphinx.net.ru/blog/entry/what-is-lastfm/
+  [Last.fm]: http://dzhus.org/blog/entry/what-is-lastfm/
   [Официальный плеер]: http://www.lastfm.ru/download/
   [last-exit]: http://www.lastexit-player.org/index.php/Main_Page
   [D-Bus]: http://www.freedesktop.org/wiki/Software/dbus
   [EMMS]: http://www.gnu.org/software/emms
   [Shell.FM]: http://nex.scrapping.cc/shell-fm/
-  [sphinx.net.ru/hg/emacs-shellfm/]: http://sphinx.net.ru/hg/emacs-shellfm/file/tip/
+  [dzhus.org/hg/emacs-shellfm/]: http://dzhus.org/hg/emacs-shellfm/file/tip/
   [emacs-shellfm]: https://web.archive.org/web/20080302085028im_/http://farm4.static.flickr.com/3171/2296244385_d4104e9846.jpg
   {width="423" height="317"}
   [![emacs-shellfm][]]: http://www.flickr.com/photos/nothingpersonal/2296244385/

@@ -84,9 +84,9 @@ GRDDL — на выходе получается корректный RDF.
   [GRDDL]: http://www.w3.org/TR/grddl
     "Gleaning Resource Data from Dialect Languages"
   [профилю]: http://www.w3.org/TR/1999/REC-html401-19991224/struct/global.html#h-7.4.4.3
-  [микроформатов]: http://sphinx.net.ru/blog/entry/what-are-microformats
+  [микроформатов]: http://dzhus.org/blog/entry/what-are-microformats
     "Введение в микроформаты"
-  [XSLT]: http://sphinx.net.ru/blog/entry/simple-microformat-xslt-extraction
+  [XSLT]: http://dzhus.org/blog/entry/simple-microformat-xslt-extraction
   [Operator]: https://addons.mozilla.org/ru/firefox/addon/4106
   [1]: http://www.w3.org/TR/xslt
     "XSL Transformations"

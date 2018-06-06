@@ -111,8 +111,8 @@ XHTML-элементы `div`, `span` с определёнными значен�
     ![Blog\_this\_caption][]][]
 
 В таких средствах неизменно всплывает гадкая проблема: сослаться на сайт
-друга можно, например, ссылкой на `http://sphinx.net.ru/`, а можно и
-ссылкой на `http://sphinx.net.ru/blog/`, и надёжного способа отловить
+друга можно, например, ссылкой на `http://dzhus.org/`, а можно и
+ссылкой на `http://dzhus.org/blog/`, и надёжного способа отловить
 это не существует. Кроме того, бывает, что в ссылке одни пишут `www.`,
 другие — нет.
 
@@ -135,9 +135,9 @@ vkontakte.ru или Last.FM); карты получились бы достат�
     <div id="owner-vcard" class="vcard">
         <span class="fn"><b>Дмитрий Джус</b></span><br />
         aka <span class="nickname">Sphinx</span><br />
-        WWW: <a class="url" rel="me" href="http://sphinx.net.ru">sphinx.net.ru</a>
+        WWW: <a class="url" rel="me" href="http://dzhus.org">dzhus.org</a>
         <br />
-        E-mail: <a class="email" href="mailto:mail@sphinx.net.ru">mail@sphinx.net.ru</a>
+        E-mail: <a class="email" href="mailto:mail@dzhus.org">mail@dzhus.org</a>
         <br />
         Jabber: <a class="url" href="xmpp:sphinx@jabber.corbina.ru">sphinx@jabber.corbina.ru</a>
         <span class="adr">
@@ -337,7 +337,7 @@ Technorati поддерживает специального индексаци�
     "hCard на Microformats.org"
   [vCard]: http://ru.wikipedia.org/wiki/VCard
     "Заметка о vCard на Википедии"
-  [странице автора этого блога]: http://sphinx.net.ru/author/
+  [странице автора этого блога]: http://dzhus.org/author/
   [μf wiki]: http://www.microformats.org/wiki
     "Wiki по микроформатам"
   [Operator]: https://addons.mozilla.org/en-US/firefox/addon/4106/
@@ -352,7 +352,7 @@ Technorati поддерживает специального индексаци�
   [поиск по микроформатам]: http://kitchen.technorati.com/search
   [Тантек Челик]: http://tantek.com/
   [Полный список инструментов]: http://microformats.org/wiki/hcard-implementations
-  [тегов]: http://sphinx.net.ru/blog/entry/using-tags/
+  [тегов]: http://dzhus.org/blog/entry/using-tags/
   [rel-tag]: http://microformats.org/wiki/rel-tag
     "Всё о rel-tag на Microformats.org"
   [rel-tag в Operator]: https://web.archive.org/web/20090228203529im_/http://farm2.static.flickr.com/1230/555945834_7a72d58b0f_m.jpg
@@ -373,5 +373,5 @@ Technorati поддерживает специального индексаци�
   [Microformats.org]: http://www.microformats.org/
     "Домашная страница микроформатов"
   [«Микроформаты»]: http://habrahabr.ru/blog/microformats/
-  [об извлечении микроформатов]: http://sphinx.net.ru/blog/entry/simple-microformat-xslt-extraction/
+  [об извлечении микроформатов]: http://dzhus.org/blog/entry/simple-microformat-xslt-extraction/
     "Простое извлечение микроформатов с помощью XSLT"

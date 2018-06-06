@@ -685,10 +685,10 @@ XML; в таком случае `xsltproc(1)` решает.
   {width="465" height="500"}
   [![Klein disk model (TikZ)][]]: http://www.flickr.com/photos/nothingpersonal/2548134839/
     "Klein disk model (TikZ) by Sphinx The Geek, on Flickr"
-  [В коде]: http://sphinx.net.ru/hg/term-paper-hypergeom/file/tip/doc/klein-model.tkz.tex
+  [В коде]: http://dzhus.org/hg/term-paper-hypergeom/file/tip/doc/klein-model.tkz.tex
     "Исходник klein-model.tkz.tex"
   [gnuplot]: http://gnuplot.info/
-  [описанная]: http://sphinx.net.ru/hg/term-paper-hypergeom/file/tip/doc/klein-to-poincare.tkz.tex
+  [описанная]: http://dzhus.org/hg/term-paper-hypergeom/file/tip/doc/klein-to-poincare.tkz.tex
     "Исходник klein-to-poincare.tkz.tex"
   [Klein &amp; Poincaré models (TikZ)]: https://web.archive.org/web/20080612084643im_/http://farm4.static.flickr.com/3157/2548960134_054a3a8d25.jpg
   {width="500" height="396"}
@@ -708,9 +708,9 @@ XML; в таком случае `xsltproc(1)` решает.
     "Context Free Art"
   [контекстно-свободной грамматике]: http://ru.wikipedia.org/wiki/Контекстно-свободная_грамматика
     "Контекстно-свободная грамматика"
-  [подстановок]: http://sphinx.net.ru/blog/entry/292/
+  [подстановок]: http://dzhus.org/blog/entry/292/
     "Алгорифмы Маркова"
-  [фракталы]: http://sphinx.net.ru/blog/entry/246/
+  [фракталы]: http://dzhus.org/blog/entry/246/
   [Мышатки]: http://ru.wikipedia.org/wiki/Мыши
     "Мыши"
   [ситуация]: http://www.mathpages.com/home/kmath492/kmath492.htm
@@ -719,7 +719,7 @@ XML; в таком случае `xsltproc(1)` решает.
   {width="500" height="500"}
   [![«4 (rasta)mice» (CFDG)][]]: http://www.flickr.com/photos/nothingpersonal/2551058407/
     "«4 (rasta)mice» (CFDG) by Sphinx The Geek, on Flickr"
-  [SIDE-EFFECT]: http://sphinx.net.ru/hg/sicp/file/tip/painting/2.49.scm
+  [SIDE-EFFECT]: http://dzhus.org/hg/sicp/file/tip/painting/2.49.scm
   [Cairo]: http://www.cairographics.org/
   [HSV]: http://ru.wikipedia.org/wiki/HSV
   [нереальных изображений]: http://www.contextfreeart.org/gallery/
@@ -735,15 +735,15 @@ XML; в таком случае `xsltproc(1)` решает.
   {width="500" height="500"}
   [![Путешествия точки в цвете][]]: http://www.flickr.com/photos/nothingpersonal/2086289203/
     "Путешествия точки в цвете by Sphinx The Geek, on Flickr"
-  [программ на Scheme]: http://sphinx.net.ru/blog/entry/semantic-wizardry/
+  [программ на Scheme]: http://dzhus.org/blog/entry/semantic-wizardry/
     "Использование API Semantic в Emacs для обработки исходных текстов"
-  [Emacs]: http://sphinx.net.ru/blog/entry/emacs-intro/
+  [Emacs]: http://dzhus.org/blog/entry/emacs-intro/
     "Начало пути к Emacs"
-  [XFN]: http://sphinx.net.ru/blog/entry/what-are-microformats/
+  [XFN]: http://dzhus.org/blog/entry/what-are-microformats/
     "Введение в микроформаты"
-  [нехитрого XSLT]: http://sphinx.net.ru/blog/entry/simple-microformat-xslt-extraction/
+  [нехитрого XSLT]: http://dzhus.org/blog/entry/simple-microformat-xslt-extraction/
     "Простое извлечение микроформатов с помощью XSLT"
-  [описывал опыт]: http://sphinx.net.ru/blog/entry/396/
+  [описывал опыт]: http://dzhus.org/blog/entry/396/
     "Автоматизация сборки LaTeX-документов"
   [Asymptote]: http://sourceforge.net/projects/asymptote
   [ePiX]: http://mathcs.holycross.edu/~ahwang/current/ePiX.html

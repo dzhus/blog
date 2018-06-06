@@ -244,8 +244,8 @@ Eсть возможность указания типа выравнивани�
     "1337 site"
   [2]: http://www.foo.bar/
     "Ссылка на клёвый сайт"
-  [Alt text]: /web/20080421143229im_/http://sphinx.net.ru/media/stb/css.png
-  [3]: /web/20080421143229im_/http://sphinx.net.ru/media/stb/css.png
+  [Alt text]: http://dzhus.org/media/stb/css.png
+  [3]: http://dzhus.org/media/stb/css.png
     "CSS"
   [softwaremaniacs.org]: http://www.softwaremaniacs.org/soft
   [проблемы с экспортом информации]: http://forum.sysman.ru/index.php?showtopic=7578

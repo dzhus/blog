@@ -32,7 +32,7 @@ title:  Простое извлечение микроформатов с пом
 
 Запрашиваем страницу:
 
-    $ wget sphinx.net.ru/author
+    $ wget dzhus.org/author
 
 Открываем XML-консоль:
 
@@ -72,7 +72,7 @@ XFN-аттрибут `rel="me"`:
             content=me
         ATTRIBUTE href
           TEXT
-            content=http://sphinx.net.ru
+            content=http://dzhus.org
         ATTRIBUTE title
           TEXT
             content=#D0#9B#D0#B8#D1#87#D0#BD#D1#8B#D0#B9 #D1#81#D0#B0#D0#B9#D1#82
@@ -214,7 +214,7 @@ XSL-преобразование, применяемое к каждой стр�
 ### Рабочий пример
 
 Пример исходников доступен по адресу
-[http://sphinx.net.ru/hg/xfn-spider][] (лучше брать [самую последнюю
+[http://dzhus.org/hg/xfn-spider][] (лучше брать [самую последнюю
 ревизию][]):
 
 -   [mf-extract.xsl][] и [mf-extract-bottom.xsl][] — пара простых стилей
@@ -427,7 +427,7 @@ XFN-ссылок, возможно, было бы проще сделать с �
 выражений из EXSLT; текущий вариант создан под воздействием
 [grokXFN.xsl][] — стиля для преобразования XFN в FOAF).
 
-  [Микроформаты]: http://sphinx.net.ru/blog/entry/what-are-microformats/
+  [Микроформаты]: http://dzhus.org/blog/entry/what-are-microformats/
   [XPath]: http://www.w3.org/TR/xpath
   [libxml]: http://xmlsoft.org/
     "Свободные библиотеки для работы с XML"
@@ -441,22 +441,22 @@ XFN-ссылок, возможно, было бы проще сделать с �
   [rel-tag]: http://www.microformats.org/wiki/rel-tag
   [Tidy]: http://tidy.sourceforge.net/
     "HTML Tidy"
-  [http://sphinx.net.ru/hg/xfn-spider]: http://sphinx.net.ru/hg/xfn-spider
-  [самую последнюю ревизию]: http://sphinx.net.ru/hg/xfn-spider/rev/tip
-  [mf-extract.xsl]: http://sphinx.net.ru/hg/xfn-spider/raw-file/tip/mf-extract.xsl
-  [mf-extract-bottom.xsl]: http://sphinx.net.ru/hg/xfn-spider/raw-file/tip/mf-extract-bottom.xsl
-  [get-urls.xsl]: http://sphinx.net.ru/hg/xfn-spider/raw-file/tip/get-urls.xsl
-  [postprocess.xsl]: http://sphinx.net.ru/hg/xfn-spider/raw-file/tip/postprocess.xsl
-  [xfn-spider.py]: http://sphinx.net.ru/hg/xfn-spider/raw-file/tip/xfn-spider.py
+  [http://dzhus.org/hg/xfn-spider]: http://dzhus.org/hg/xfn-spider
+  [самую последнюю ревизию]: http://dzhus.org/hg/xfn-spider/rev/tip
+  [mf-extract.xsl]: http://dzhus.org/hg/xfn-spider/raw-file/tip/mf-extract.xsl
+  [mf-extract-bottom.xsl]: http://dzhus.org/hg/xfn-spider/raw-file/tip/mf-extract-bottom.xsl
+  [get-urls.xsl]: http://dzhus.org/hg/xfn-spider/raw-file/tip/get-urls.xsl
+  [postprocess.xsl]: http://dzhus.org/hg/xfn-spider/raw-file/tip/postprocess.xsl
+  [xfn-spider.py]: http://dzhus.org/hg/xfn-spider/raw-file/tip/xfn-spider.py
   [Many eyes]: http://www.many-eyes.com/
-  [make-manyeyes-network.xsl]: http://sphinx.net.ru/hg/xfn-spider/raw-file/tip/make-manyeyes-network.xsl
+  [make-manyeyes-network.xsl]: http://dzhus.org/hg/xfn-spider/raw-file/tip/make-manyeyes-network.xsl
   [интерактивненькую карту XFN]: http://services.alphaworks.ibm.com/manyeyes/view/SNnqRHsOtha6i5-m6iGTH2-
   [Визуализация на Many Eyes]: https://web.archive.org/web/20070928104408im_/http://services.alphaworks.ibm.com/manyeyes/static-resources/snapshot/89ade5ae13776cd901137d2b88c801ee.jpeg
   {#blogThisImgSmall}
   [misc image]: https://web.archive.org/web/20070928104408im_/http://services.alphaworks.ibm.com/manyeyes/images2/blog_this_caption.jpg
   {#Any_14}
   [«Tag Cloud»]: http://services.alphaworks.ibm.com/manyeyes/page/Tag_Cloud.html
-  [make-manyeyes-tags.xsl]: http://sphinx.net.ru/hg/xfn-spider/raw-file/tip/make-manyeyes-tags.xsl
+  [make-manyeyes-tags.xsl]: http://dzhus.org/hg/xfn-spider/raw-file/tip/make-manyeyes-tags.xsl
   [1]: https://web.archive.org/web/20070928104408im_/http://services.alphaworks.ibm.com/manyeyes/static-resources/snapshot/89ade5ae13776cd90113876955be0356.jpeg
   {#blogThisImgSmall}
   [misc]: https://web.archive.org/web/20070928104408im_/http://services.alphaworks.ibm.com/manyeyes/images2/blog_this_caption.jpg
@@ -464,10 +464,10 @@ XFN-ссылок, возможно, было бы проще сделать с �
   [![][1] ![misc][]]: http://services.alphaworks.ibm.com/manyeyes/view/SNnqRHsOtha6KBUjJZqVH2-
   [Graphviz]: http://www.graphviz.org/
     "Пакет для визуализации графов"
-  [RSS]: http://sphinx.net.ru/blog/entry/what-is-rsss
+  [RSS]: http://dzhus.org/blog/entry/what-is-rsss
   [OPML]: http://opml.org/
   [Google Reader]: http://google.com/reader/
-  [make-opml.xsl]: http://sphinx.net.ru/hg/xfn-spider/raw-file/tip/make-opml.xsl
+  [make-opml.xsl]: http://dzhus.org/hg/xfn-spider/raw-file/tip/make-opml.xsl
   [twitter.com]: http://twitter.com/
   [2]: http://www.vecosys.com/2007/05/08/twitter-now-supports-hatom-and-hcard-microformats/
   [http://tantek.com]: http://tantek.com/
