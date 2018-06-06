@@ -57,7 +57,7 @@ leadingH1Context =
 pandocWithoutLeadingH1 :: Item String -> Compiler (Item String)
 pandocWithoutLeadingH1 s = do
   p <- readPandoc s
-  (return . writePandoc) $ (snd . extractLeadingH1) <$> p
+  (return . writePandoc) $ snd . extractLeadingH1 <$> p
 
 finishTemplating :: Context a -> Item a -> Compiler (Item String)
 finishTemplating ctx i =
