@@ -190,7 +190,7 @@ Bongo планируется включить в Emacs 23 по просьбе л
 и управлять громкостью звука общесистемным микшером (`alsamixer`,
 `volume.el` в Emacs), всё будет ок.
 
-  [Emacs]: http://sphinx.net.ru:80/blog/entry/emacs-intro
+  [Emacs]: http://sphinx.net.ru/blog/entry/emacs-intro
   [EMMS]: http://www.gnu.org/software/emms/
   [Bongo]: http://www.emacswiki.org/cgi-bin/wiki/Bongo
   [vlc]: http://www.videolan.org/vlc/

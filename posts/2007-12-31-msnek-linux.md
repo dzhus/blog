@@ -479,7 +479,7 @@ HAL). Посмотреть на файлы политики, поставляе�
 
 Об этом — [в следующей записи][].
 
-  [Emacs]: http://sphinx.net.ru:80/blog/entry/emacs-intro/
+  [Emacs]: http://sphinx.net.ru/blog/entry/emacs-intro/
   [MS Natural 7000]: http://www.microsoft.com/hardware/mouseandkeyboard/productdetails.aspx?pid=095
   [Microsoft Ergonomic 4000]: https://web.archive.org/web/20090221130518im_/http://farm3.static.flickr.com/2267/2133420395_c413d536b7.jpg
   {width="500" height="375"}
@@ -514,4 +514,4 @@ HAL). Посмотреть на файлы политики, поставляе�
   [спецификации по HAL]: http://people.freedesktop.org/~david/hal-spec/hal-spec.html
   [fontconfig]: http://fontconfig.org/wiki/
   [config/x11-input.fdi]: http://cgit.freedesktop.org/xorg/xserver/tree/config/x11-input.fdi?id=35b14519b4a3158592a089170ec039bbc219603e
-  [в следующей записи]: http://sphinx.net.ru:80/blog/entry/using-extra-keys/
+  [в следующей записи]: http://sphinx.net.ru/blog/entry/using-extra-keys/

@@ -744,43 +744,43 @@ Metapost-код:
   [LaTeX]: http://ru.wikipedia.org/wiki/LaTeX
   [GNU make]: http://www.gnu.org/software/make/
     "GNU Make — сборочная система"
-  [Файлы проекта]: http://sphinx.net.ru:80/hg/term-paper-diffeq/file/bc94df402ff0b58f03d5e37450fca5fa81a22fd3/source
-  [Mercurial-репозитории]: http://sphinx.net.ru:80/blog/entry/howto-mercurial-repo-with-web-fastcgi-and-ssl/
+  [Файлы проекта]: http://sphinx.net.ru/hg/term-paper-diffeq/file/bc94df402ff0b58f03d5e37450fca5fa81a22fd3/source
+  [Mercurial-репозитории]: http://sphinx.net.ru/blog/entry/howto-mercurial-repo-with-web-fastcgi-and-ssl/
     "Настройка веб-сервера для работы с Mercurial"
-  [PDF]: http://sphinx.net.ru:80/media/uploads/report.pdf
+  [PDF]: http://sphinx.net.ru/media/uploads/report.pdf
   [Texdepend]: http://www.ctan.org/tex-archive/support/texdepend/
   [makedepend]: http://en.wikipedia.org/wiki/Makedepend
-  [Makefile]: http://sphinx.net.ru:80/hg/term-paper-diffeq/file/bc94df402ff0b58f03d5e37450fca5fa81a22fd3/doc/Makefile
+  [Makefile]: http://sphinx.net.ru/hg/term-paper-diffeq/file/bc94df402ff0b58f03d5e37450fca5fa81a22fd3/doc/Makefile
   [m4]: http://www.gnu.org/software/m4/
     "GNU m4 — макропроцессор"
   [listings]: http://www.ctan.org/tex-archive/macros/latex/contrib/listings/
   [Pattern rule]: http://www.gnu.org/software/automake/manual/make/Pattern-Rules.html
-  [Содержимое]: http://sphinx.net.ru:80/hg/term-paper-diffeq/file/bc94df402ff0b58f03d5e37450fca5fa81a22fd3/doc/source-full-listing.tpl.tex
-  [документа]: http://sphinx.net.ru:80/hg/term-paper-diffeq/file/bc94df402ff0b58f03d5e37450fca5fa81a22fd3/doc/report.tex
+  [Содержимое]: http://sphinx.net.ru/hg/term-paper-diffeq/file/bc94df402ff0b58f03d5e37450fca5fa81a22fd3/doc/source-full-listing.tpl.tex
+  [документа]: http://sphinx.net.ru/hg/term-paper-diffeq/file/bc94df402ff0b58f03d5e37450fca5fa81a22fd3/doc/report.tex
   [Scheme Elucidator]: http://www.cs.aau.dk/~normark/elucidative-programming/
   [LAML]: http://www.cs.aau.dk/~normark/laml/
   [Semantic]: http://cedet.sourceforge.net/semantic.shtml
-  [написал]: http://sphinx.net.ru:80/blog/entry/semantic-wizardry/
+  [написал]: http://sphinx.net.ru/blog/entry/semantic-wizardry/
     "Использование API Semantic в Emacs для работы с исходным кодом"
-  [tag-listing.sh]: http://sphinx.net.ru:80/hg/term-paper-diffeq/file/bc94df402ff0b58f03d5e37450fca5fa81a22fd3/doc/tag-listing.sh
+  [tag-listing.sh]: http://sphinx.net.ru/hg/term-paper-diffeq/file/bc94df402ff0b58f03d5e37450fca5fa81a22fd3/doc/tag-listing.sh
   [Lisp2TeX]: http://pagesperso-systeme.lip6.fr/Christian.Queinnec/WWW/l2t.html
   [pic]: http://www.gnu.org/software/groff/
     "Классическое средство для текстового описания картинок"
-  [примерно так]: http://sphinx.net.ru:80/hg/term-paper-diffeq/file/bc94df402ff0b58f03d5e37450fca5fa81a22fd3/source/statement.scm
+  [примерно так]: http://sphinx.net.ru/hg/term-paper-diffeq/file/bc94df402ff0b58f03d5e37450fca5fa81a22fd3/source/statement.scm
   [screen1196171299]: https://web.archive.org/web/20081228214955im_/http://farm3.static.flickr.com/2396/2068111487_3dbdbd9732.jpg
   {width="500" height="236"}
   [![screen1196171299][]]: http://www.flickr.com/photos/nothingpersonal/2068111487/
     "screen1196171299 by Sphinx The Geek, on Flickr"
-  [скрипт]: http://sphinx.net.ru:80/hg/term-paper-diffeq/file/bc94df402ff0b58f03d5e37450fca5fa81a22fd3/doc/initial-data.sh
+  [скрипт]: http://sphinx.net.ru/hg/term-paper-diffeq/file/bc94df402ff0b58f03d5e37450fca5fa81a22fd3/doc/initial-data.sh
   [Guile]: http://www.gnu.org/software/guile/
     "GNU Guile — реализация языка Scheme"
   [классическим]: http://www.catb.org/~esr/writings/taoup/html/ch05s02.html#id2906931
     "The Art Of Unix Programming: Record-Jar"
-  [шаблон]: http://sphinx.net.ru:80/hg/term-paper-diffeq/file/bc94df402ff0b58f03d5e37450fca5fa81a22fd3/doc/results.tpl.tex
-  [texify-results.sh]: http://sphinx.net.ru:80/hg/term-paper-diffeq/file/bc94df402ff0b58f03d5e37450fca5fa81a22fd3/doc/texify-results.sh
+  [шаблон]: http://sphinx.net.ru/hg/term-paper-diffeq/file/bc94df402ff0b58f03d5e37450fca5fa81a22fd3/doc/results.tpl.tex
+  [texify-results.sh]: http://sphinx.net.ru/hg/term-paper-diffeq/file/bc94df402ff0b58f03d5e37450fca5fa81a22fd3/doc/texify-results.sh
   [Metapost]: http://ru.wikipedia.org/wiki/MetaPost
-  [сценарий]: http://sphinx.net.ru:80/hg/term-paper-diffeq/file/bc94df402ff0b58f03d5e37450fca5fa81a22fd3/doc/plot-results.sh
-  [Metapost-шаблоне]: http://sphinx.net.ru:80/hg/term-paper-diffeq/file/bc94df402ff0b58f03d5e37450fca5fa81a22fd3/doc/plot.tpl.mp
+  [сценарий]: http://sphinx.net.ru/hg/term-paper-diffeq/file/bc94df402ff0b58f03d5e37450fca5fa81a22fd3/doc/plot-results.sh
+  [Metapost-шаблоне]: http://sphinx.net.ru/hg/term-paper-diffeq/file/bc94df402ff0b58f03d5e37450fca5fa81a22fd3/doc/plot.tpl.mp
   [Octave]: http://www.gnu.org/software/octave/
   [gnuplot]: http://www.gnuplot.info/
   [ePiX]: http://mathcs.holycross.edu/~ahwang/current/ePiX.html

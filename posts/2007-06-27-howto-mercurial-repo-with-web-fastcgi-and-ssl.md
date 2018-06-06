@@ -498,7 +498,7 @@ happens) при стопудово правильном пароле, стоит
 К слову, шаблоны веб-интерфейса по умолчанию — антикошерные.
 
   [Mercurial]: http://www.selenic.com/mercurial/wiki
-  [веб-интерфейс]: http://sphinx.net.ru:80/hg/
+  [веб-интерфейс]: http://sphinx.net.ru/hg/
   [lighttpd]: http://lighttpd.net/
   [Shared SSH]: http://www.selenic.com/mercurial/wiki/index.cgi/SharedSSH
   [руководство FreeBSD по написанию rc-скриптов]: http://www.freebsd.org/doc/en_US.ISO8859-1/articles/rc-scripting/
