@@ -3,9 +3,7 @@ tags:
 - Python
 - Semantic Web
 - webdev
-- XHTML
 - XML
-- XSLT
 - избранное
 - микроформаты
 - программирование
