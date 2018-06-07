@@ -127,6 +127,7 @@ main = do
           loadAndApplyTemplate "templates/page-navigation.html" postCtx' >>=
           finishTemplating postCtx'
 
+    -- .md post sources
     match "posts/*" $ version "raw" $ do
       route idRoute
       compile getResourceString
@@ -173,7 +174,7 @@ main = do
         >>= finishTemplating defaultContext
 
     tagsRules tags $ \tag pat -> do
-      route idRoute
+      route $ setExtension "html"
       compile $ do
         posts <- recentFirst =<< loadAll pat
         let ctx = constField "title" tag <>
