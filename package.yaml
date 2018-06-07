@@ -1,5 +1,10 @@
-name: dzhus-hakyll-blog
-version: 0.1.0.0
+name:       dzhus-hakyll-blog
+version:    0.1.0.0
+license:    GPL-3
+author:     Dmitry Dzhus
+maintainer: dima@dzhus.org
+copyright:  2017-2018 Dmitry Dzhus
+github:     dzhus/blog
 
 default-extensions:
   - DeriveGeneric
