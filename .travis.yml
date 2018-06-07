@@ -39,4 +39,6 @@ deploy:
 cache:
   directories:
   - .stack-work
+  - _cache
+  - _site
   - $HOME/.stack
