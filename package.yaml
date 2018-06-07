@@ -1,12 +1,21 @@
 name: dzhus-hakyll-blog
 version: 0.1.0.0
 
+default-extensions:
+  - DeriveGeneric
+  - FlexibleContexts
+  - NoImplicitPrelude
+  - OverloadedStrings
+  - RecordWildCards
+  - TypeFamilies
+
 executables:
   site:
     main: site.hs
     ghc-options: -threaded
     dependencies:
       - base
+      - classy-prelude
       - hakyll
       - pandoc
       - pandoc-types

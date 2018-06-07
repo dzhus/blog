@@ -1,13 +1,8 @@
-{-# LANGUAGE OverloadedStrings #-}
-
-import Control.Applicative
-import Data.Maybe
-import Data.Monoid
-import Hakyll hiding (fromList, defaultContext)
+import ClassyPrelude
+import Hakyll hiding (defaultContext)
 import Text.Pandoc
-import Text.Pandoc.Builder
+import Text.Pandoc.Builder (doc)
 import Text.Pandoc.Definition
-import Text.Pandoc.Walk
 import Skylighting.Format.HTML
 import Skylighting.Styles
 
@@ -37,9 +32,11 @@ feedConfiguration =
 -- unchanged.
 extractLeadingH1
   :: Pandoc
-  -> (Maybe String, Pandoc)
+  -> (Maybe Text, Pandoc)
 extractLeadingH1 (Pandoc m (Header 1 _ text:rest)) =
-  (Just $ writePlain def $ doc $ fromList [Plain text], Pandoc m rest)
+  ( headMay $ rights [runPure $ writePlain def $ Pandoc nullMeta [Plain text]]
+  , Pandoc m rest
+  )
 extractLeadingH1 d = (Nothing, d)
 
 -- | Try 'extractLeadingH1' and add a new context field with the
@@ -51,7 +48,7 @@ leadingH1Context =
   field "title" $ \i -> do
      pd <- readPandoc =<< load (setVersion (Just "raw") $ itemIdentifier i)
      case fst $ extractLeadingH1 $ itemBody pd of
-       Just s -> return s
+       Just s -> return $ unpack s
        Nothing -> empty
 
 pandocWithoutLeadingH1 :: Item String -> Compiler (Item String)
@@ -95,7 +92,7 @@ main =
     postStream <- buildPaginateWith (fmap (paginateEvery 1) . sortChronological)
                   "posts/*"
                   -- Make page identifiers equal to file identifiers
-                  (\n -> allPosts !! (n - 1))
+                  (\n -> fromMaybe "?" $ index allPosts (n - 1))
 
     -- Single post rendering rule
     paginateRules postStream $ \pn _ ->
