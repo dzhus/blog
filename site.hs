@@ -9,10 +9,13 @@ import qualified Hakyll as H
 creator :: String
 creator = "Дмитрий Джус"
 
+siteTitle :: String
+siteTitle = "Журнал Дмитрия Джуса"
+
 feedConfiguration :: FeedConfiguration
 feedConfiguration =
   FeedConfiguration
-  { feedTitle = "Журнал Дмитрия Джуса"
+  { feedTitle = siteTitle
   , feedDescription = ""
   , feedAuthorName = creator
   , feedAuthorEmail = "dima@dzhus.org"
@@ -54,6 +57,7 @@ mkDefaultContext = do
   now <- ClassyPrelude.getCurrentTime
   return $
     constField "creator" creator <>
+    constField "sitetitle" siteTitle <>
     constField "now" (formatTime defaultTimeLocale "%Y" now) <>
     H.defaultContext
 
