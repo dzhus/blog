@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/dzhus/blog.svg?branch=master)](https://travis-ci.org/dzhus/blog)
+
 This repo contains [Hakyll][]-based personal blog of Dmitry Dzhus. It
 replaces the old Django-based blog engine which was used in 2006-2012.
 
