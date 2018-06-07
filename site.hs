@@ -136,6 +136,16 @@ main = do
           hasNoVersion .&&.
           complement "posts/index.html"
 
+    create ["index.html"] $ do
+      route idRoute
+      compile $ do
+        posts <- fmap (take 5) . recentFirst =<< loadAll renderedPosts
+        let ctx = listField "posts" postCtx (return posts) <>
+                  defaultContext
+        makeItem ""
+          >>= loadAndApplyTemplate "templates/index.html" ctx
+          >>= finishTemplating ctx
+
     create ["atom.xml"] $ do
       route idRoute
       compile $ do

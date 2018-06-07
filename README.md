@@ -9,7 +9,7 @@ replaces the old Django-based blog engine which was used in 2006-2012.
 
 - [x] Mobile view with responsive design
 
-- [ ] Home page
+- [x] Home page
 
 - [ ] Multi-language support
 
