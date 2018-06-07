@@ -5,7 +5,7 @@ replaces the old Django-based blog engine which was used in 2006-2012.
 
 ## Features
 
-- [x] Extract title from the first <h1> heading in the file
+- [x] Extract title from the first `<h1>` heading in the file
 
 - [x] Mobile view with responsive design
 
@@ -15,6 +15,8 @@ replaces the old Django-based blog engine which was used in 2006-2012.
 
     Each entry should have a primary language. There should be feeds
     in both languages. Template must depend on entry language.
+    Next/previous page links must lead to entries in the same
+    language.
 
 - [x] Atom feed
 
