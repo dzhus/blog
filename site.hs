@@ -1,8 +1,6 @@
 import ClassyPrelude
 import Hakyll hiding (defaultContext)
 import Text.Pandoc
-import Text.Pandoc.Builder (doc)
-import Text.Pandoc.Definition
 import Skylighting.Format.HTML
 import Skylighting.Styles
 
