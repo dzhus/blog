@@ -19,6 +19,16 @@ script:
 - stack $ARGS --install-ghc --no-terminal build $FLAGS --pedantic --haddock --no-haddock-deps --test --bench
 - stack exec site build
 
+deploy:
+  provider: s3
+  access_key_id: "$AWS_ACCESS_KEY_ID"
+  secret_access_key: "$AWS_SECRET_ACCESS_KEY"
+  bucket: "dzhus-org"
+  skip_cleanup: true
+  upload-dir: _site
+  on:
+    branch: master
+
 cache:
   directories:
   - .stack-work
