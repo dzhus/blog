@@ -2,7 +2,7 @@
 tags:
 - Emacs
 - Free Software
-- 'GNU/Linux'
+- 'GNU+Linux'
 - Mozilla
 - TeX
 - дизайн

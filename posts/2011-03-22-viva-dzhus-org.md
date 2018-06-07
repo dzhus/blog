@@ -3,7 +3,7 @@ tags:
 - Django
 - Free Software
 - FreeBSD
-- 'GNU/Linux'
+- 'GNU+Linux'
 - Gentoo
 - HOWTO
 - администрирование

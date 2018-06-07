@@ -1,7 +1,7 @@
 ---
 tags:
 - Free Software
-- 'GNU/Linux'
+- 'GNU+Linux'
 title: Bootchart
 ---
 

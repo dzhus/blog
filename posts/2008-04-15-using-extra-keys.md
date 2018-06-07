@@ -2,7 +2,7 @@
 tags:
 - Emacs
 - Free Software
-- 'GNU/Linux'
+- 'GNU+Linux'
 - HOWTO
 - железки
 title: Использование мультимедийных клавиш
