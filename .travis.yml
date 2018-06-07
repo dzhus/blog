@@ -25,7 +25,7 @@ deploy:
   secret_access_key: "$AWS_SECRET_ACCESS_KEY"
   bucket: "dzhus-org"
   skip_cleanup: true
-  upload-dir: _site
+  local_dir: _site
   on:
     branch: master
 
