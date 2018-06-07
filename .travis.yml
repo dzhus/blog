@@ -26,6 +26,7 @@ deploy:
   bucket: "dzhus-org"
   skip_cleanup: true
   local_dir: _site
+  acl: public_read
   on:
     branch: master
 
