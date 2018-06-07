@@ -9,11 +9,6 @@ import qualified Hakyll as H
 creator :: String
 creator = "Дмитрий Джус"
 
-defaultContext :: Context String
-defaultContext =
-  constField "creator" creator <>
-  H.defaultContext
-
 feedConfiguration :: FeedConfiguration
 feedConfiguration =
   FeedConfiguration
@@ -54,12 +49,26 @@ pandocWithoutLeadingH1 s = do
   p <- readPandoc s
   (return . writePandoc) $ snd . extractLeadingH1 <$> p
 
+mkDefaultContext :: IO (Context String)
+mkDefaultContext = do
+  now <- ClassyPrelude.getCurrentTime
+  return $
+    constField "creator" creator <>
+    constField "now" (formatTime defaultTimeLocale "%Y" now) <>
+    H.defaultContext
+
 finishTemplating :: Context a -> Item a -> Compiler (Item String)
 finishTemplating ctx i =
   loadAndApplyTemplate "templates/default.html" ctx i >>= relativizeUrls
 
 main :: IO ()
-main =
+main = do
+  defaultContext <- mkDefaultContext
+  let
+    postCtx :: Context String
+    postCtx =
+        leadingH1Context <> dateField "date" "%d.%m.%Y" <> defaultContext
+
   hakyll $ do
     match "images/*" $ do
       route idRoute
@@ -163,6 +172,3 @@ main =
         makeItem ""
           >>= loadAndApplyTemplate "templates/post-list.html" ctx
           >>= finishTemplating defaultContext
-
-postCtx :: Context String
-postCtx = leadingH1Context <> dateField "date" "%d.%m.%Y" <> defaultContext
