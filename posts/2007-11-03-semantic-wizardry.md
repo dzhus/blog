@@ -380,7 +380,7 @@ Scheme я пишу `(load "shared.scm")` и использую функции о
 
   [Semantic]: http://cedet.sourceforge.net/semantic.shtml
   [CEDET]: http://cedet.sourceforge.net/
-  [лежат у меня в репо]: http://dzhus.org/hg/coursework-diff/annotate/25e7fcde0f79/doc/grok-lisp.el
+  [лежат у меня в репо]: https://github.com/dzhus/elisp/blob/02022095b248e37a573736cac9daade352f4a2c9/grok-lisp.el
   [dot]: http://www.graphviz.org/doc/info/lang.html
   [eieio]: http://cedet.sourceforge.net/eieio.shtml
   [CLOS]: http://en.wikipedia.org/wiki/Common_Lisp_Object_System

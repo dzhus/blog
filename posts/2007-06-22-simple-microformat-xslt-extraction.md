@@ -212,7 +212,7 @@ XSL-преобразование, применяемое к каждой стр�
 ### Рабочий пример
 
 Пример исходников доступен по адресу
-[http://dzhus.org/hg/xfn-spider][] (лучше брать [самую последнюю
+[http://github.com/dzhus/xfn-spider][] (лучше брать [самую последнюю
 ревизию][]):
 
 -   [mf-extract.xsl][] и [mf-extract-bottom.xsl][] — пара простых стилей
@@ -439,22 +439,22 @@ XFN-ссылок, возможно, было бы проще сделать с �
   [rel-tag]: http://www.microformats.org/wiki/rel-tag
   [Tidy]: http://tidy.sourceforge.net/
     "HTML Tidy"
-  [http://dzhus.org/hg/xfn-spider]: http://dzhus.org/hg/xfn-spider
-  [самую последнюю ревизию]: http://dzhus.org/hg/xfn-spider/rev/tip
-  [mf-extract.xsl]: http://dzhus.org/hg/xfn-spider/raw-file/tip/mf-extract.xsl
-  [mf-extract-bottom.xsl]: http://dzhus.org/hg/xfn-spider/raw-file/tip/mf-extract-bottom.xsl
-  [get-urls.xsl]: http://dzhus.org/hg/xfn-spider/raw-file/tip/get-urls.xsl
-  [postprocess.xsl]: http://dzhus.org/hg/xfn-spider/raw-file/tip/postprocess.xsl
-  [xfn-spider.py]: http://dzhus.org/hg/xfn-spider/raw-file/tip/xfn-spider.py
+  [http://github.com/dzhus/xfn-spider]: http://github.com/dzhus/xfn-spider
+  [самую последнюю ревизию]: http://github.com/dzhus/xfn-spider/tree/master
+  [mf-extract.xsl]: http://github.com/dzhus/xfn-spider/blob/master/mf-extract.xsl
+  [mf-extract-bottom.xsl]: http://github.com/dzhus/xfn-spider/blob/master/mf-extract-bottom.xsl
+  [get-urls.xsl]: http://github.com/dzhus/xfn-spider/blob/master/get-urls.xsl
+  [postprocess.xsl]: http://github.com/dzhus/xfn-spider/blob/master/postprocess.xsl
+  [xfn-spider.py]: http://github.com/dzhus/xfn-spider/blob/master/xfn-spider.py
   [Many eyes]: http://www.many-eyes.com/
-  [make-manyeyes-network.xsl]: http://dzhus.org/hg/xfn-spider/raw-file/tip/make-manyeyes-network.xsl
+  [make-manyeyes-network.xsl]: http://github.com/dzhus/xfn-spider/blob/master/make-manyeyes-network.xsl
   [интерактивненькую карту XFN]: http://services.alphaworks.ibm.com/manyeyes/view/SNnqRHsOtha6i5-m6iGTH2-
   [Визуализация на Many Eyes]: http://services.alphaworks.ibm.com/manyeyes/static-resources/snapshot/89ade5ae13776cd901137d2b88c801ee.jpeg
   {#blogThisImgSmall}
   [misc image]: http://services.alphaworks.ibm.com/manyeyes/images2/blog_this_caption.jpg
   {#Any_14}
   [«Tag Cloud»]: http://services.alphaworks.ibm.com/manyeyes/page/Tag_Cloud.html
-  [make-manyeyes-tags.xsl]: http://dzhus.org/hg/xfn-spider/raw-file/tip/make-manyeyes-tags.xsl
+  [make-manyeyes-tags.xsl]: http://github.com/dzhus/xfn-spider/blob/master/make-manyeyes-tags.xsl
   [1]: http://services.alphaworks.ibm.com/manyeyes/static-resources/snapshot/89ade5ae13776cd90113876955be0356.jpeg
   {#blogThisImgSmall}
   [misc]: http://services.alphaworks.ibm.com/manyeyes/images2/blog_this_caption.jpg
@@ -465,7 +465,7 @@ XFN-ссылок, возможно, было бы проще сделать с �
   [RSS]: http://dzhus.org/blog/entry/what-is-rsss
   [OPML]: http://opml.org/
   [Google Reader]: http://google.com/reader/
-  [make-opml.xsl]: http://dzhus.org/hg/xfn-spider/raw-file/tip/make-opml.xsl
+  [make-opml.xsl]: http://github.com/dzhus/xfn-spider/blob/master/make-opml.xsl
   [twitter.com]: http://twitter.com/
   [2]: http://www.vecosys.com/2007/05/08/twitter-now-supports-hatom-and-hcard-microformats/
   [http://tantek.com]: http://tantek.com/

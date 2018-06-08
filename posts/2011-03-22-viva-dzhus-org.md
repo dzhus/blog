@@ -69,7 +69,7 @@ Jabber-сервер на Lua, настраивается за несколько
 каких-то шаманствах для того, чтобы кросскомпиляция работала в distcc,
 но у меня всё завелось и так.
 
-  [собственного оверлея]: http://dzhus.org:80/hg/gentoo-overlay
+  [собственного оверлея]: http://github.com/dzhus/gentoo-overlay
   [исправления]: http://code.djangoproject.com/ticket/7005
   [Racket]: http://www.racket-lang.org/
   [Restas]: http://restas.lisper.ru/

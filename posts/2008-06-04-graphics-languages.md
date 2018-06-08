@@ -685,10 +685,10 @@ XML; в таком случае `xsltproc(1)` решает.
   {width="465" height="500"}
   [![Klein disk model (TikZ)][]]: http://www.flickr.com/photos/nothingpersonal/2548134839/
     "Klein disk model (TikZ) by Dmitry Dzhus, on Flickr"
-  [В коде]: http://dzhus.org/hg/term-paper-hypergeom/file/tip/doc/klein-model.tkz.tex
+  [В коде]: http://github.com/dzhus/term-paper-hypergeom/blob/master/doc/klein-model.tkz.tex
     "Исходник klein-model.tkz.tex"
   [gnuplot]: http://gnuplot.info/
-  [описанная]: http://dzhus.org/hg/term-paper-hypergeom/file/tip/doc/klein-to-poincare.tkz.tex
+  [описанная]: http://github.com/dzhus/term-paper-hypergeom/blob/master/doc/klein-to-poincare.tkz.tex
     "Исходник klein-to-poincare.tkz.tex"
   [Klein &amp; Poincaré models (TikZ)]: http://farm4.static.flickr.com/3157/2548960134_054a3a8d25.jpg
   {width="500" height="396"}
@@ -719,7 +719,7 @@ XML; в таком случае `xsltproc(1)` решает.
   {width="500" height="500"}
   [![«4 (rasta)mice» (CFDG)][]]: http://www.flickr.com/photos/nothingpersonal/2551058407/
     "«4 (rasta)mice» (CFDG) by Dmitry Dzhus, on Flickr"
-  [SIDE-EFFECT]: http://dzhus.org/hg/sicp/file/tip/painting/2.49.scm
+  [SIDE-EFFECT]: http://github.com/dzhus/sicp/blob/master/painting/2.49.scm
   [Cairo]: http://www.cairographics.org/
   [HSV]: http://ru.wikipedia.org/wiki/HSV
   [нереальных изображений]: http://www.contextfreeart.org/gallery/

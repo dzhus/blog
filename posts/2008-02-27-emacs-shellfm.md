@@ -49,7 +49,7 @@ last-exit поддерживает [D-Bus][], поэтому можно рули
 Не очень удобно использовать Shell.FM постоянно из командной строки. В
 итоге я написал небольшой компактненький интерфейс для управления
 Shell.fm прямо из Emacs. Тексты и описание лежат по адресу
-[dzhus.org/hg/emacs-shellfm/][].
+[github.com/dzhus/emacs-shellfm/][].
 
 [![emacs-shellfm][]][]
 
@@ -79,7 +79,7 @@ Horn допилит полноценный Last.fm-клиент для EMMS, я 
   [D-Bus]: http://www.freedesktop.org/wiki/Software/dbus
   [EMMS]: http://www.gnu.org/software/emms
   [Shell.FM]: http://nex.scrapping.cc/shell-fm/
-  [dzhus.org/hg/emacs-shellfm/]: http://dzhus.org/hg/emacs-shellfm/file/tip/
+  [github.com/dzhus/emacs-shellfm/]: http://github.com/dzhus/emacs-shellfm/
   [emacs-shellfm]: http://farm4.static.flickr.com/3171/2296244385_d4104e9846.jpg
   {width="423" height="317"}
   [![emacs-shellfm][]]: http://www.flickr.com/photos/nothingpersonal/2296244385/
