@@ -53,7 +53,7 @@ Jabber-сервер на Lua, настраивается за несколько
      mybox.bounceme.net:7222,lzo,cpp
 
 Доменное имя моему компьютеру делается через [no-ip][] и регулярно
-обновляется [роутером][]. Дома в `/etc/conf.d/distccd` прописал демону
+обновляется роутером. Дома в `/etc/conf.d/distccd` прописал демону
 опцию `--allow` с IP-адресом VDS-ки, чтобы разрешить компилить только
 пакеты с неё.
 
@@ -75,4 +75,3 @@ Jabber-сервер на Lua, настраивается за несколько
   [Restas]: http://restas.lisper.ru/
   [Prosody]: http://www.prosody.im/
   [no-ip]: http://www.no-ip.com/
-  [роутером]: http://dzhus.org:80/blog/entry/new-router-nbg460n
