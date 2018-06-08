@@ -1,7 +1,6 @@
 ---
 tags:
 - Google
-- игры
 title:  Google Image Labeler
 ---
 
