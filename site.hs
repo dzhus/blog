@@ -93,7 +93,7 @@ main = do
       compile $
         pandocCompiler >>=
         loadAndApplyTemplate "templates/single-page.html" defaultContext >>=
-        finishTemplating defaultContext
+        loadAndApplyTemplate "templates/default.html" defaultContext
 
     tags <- buildTags "posts/*" (fromCapture "tag/*")
 
