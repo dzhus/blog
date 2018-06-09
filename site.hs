@@ -58,7 +58,7 @@ mkDefaultContext = do
   return $
     constField "creator" creator <>
     constField "sitetitle" siteTitle <>
-    constField "now" (formatTime defaultTimeLocale "%Y" now) <>
+    constField "thisYear" (formatTime defaultTimeLocale "%Y" now) <>
     H.defaultContext
 
 finishTemplating :: Context a -> Item a -> Compiler (Item String)
