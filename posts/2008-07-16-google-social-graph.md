@@ -33,9 +33,9 @@ title:  Google Social Graph
 красивую паутинку связей (как это можно сделать, к примеру, с
 [Twitter][] или Facebook) нельзя.
 
-  [микроформатно]: http://dzhus.org/blog/entry/what-are-microformats
+  [микроформатно]: http://dzhus.org/posts/2007-06-15-what-are-microformats.html
   [Google Social Graph]: http://code.google.com/intl/ru_ALL/apis/socialgraph/
-  [вручную странички парсить]: http://dzhus.org/blog/entry/simple-microformat-xslt-extraction/
+  [вручную странички парсить]: http://dzhus.org/posts/2007-06-22-simple-microformat-xslt-extraction.html
   [bestpersons.ru]: http://dzhus.bestpersons.ru/
   [ЛОР]: http://linux.org.ru/
   [Twitter]: http://www.twitter.com/dzhus

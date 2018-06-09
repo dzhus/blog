@@ -73,7 +73,7 @@ Shell.fm прямо из Emacs. Тексты и описание лежат по
 Horn допилит полноценный Last.fm-клиент для EMMS, я вновь попробую
 перейти на него.
 
-  [Last.fm]: http://dzhus.org/blog/entry/what-is-lastfm/
+  [Last.fm]: http://dzhus.org/posts/2006-03-05-what-is-lastfm.html
   [Официальный плеер]: http://www.lastfm.ru/download/
   [last-exit]: http://www.lastexit-player.org/index.php/Main_Page
   [D-Bus]: http://www.freedesktop.org/wiki/Software/dbus

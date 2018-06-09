@@ -17,5 +17,5 @@ wmii. Рассмотрены `xmodmap(1)`, `xbindkeys(1)`.
 
 (остаток записи утерян в 2012-2018 годах)
 
-  [заметки про MSNEK4K]: http://dzhus.org/blog/entry/msnek-linux/
-  [«клавиатурная» заметка]: http://dzhus.org/blog/entry/unicode-input/
+  [заметки про MSNEK4K]: http://dzhus.org/posts/2007-12-31-msnek-linux.html
+  [«клавиатурная» заметка]: http://dzhus.org/posts/2007-06-06-unicode-input.html

@@ -337,7 +337,7 @@ Technorati поддерживает специального индексаци�
     "hCard на Microformats.org"
   [vCard]: http://ru.wikipedia.org/wiki/VCard
     "Заметка о vCard на Википедии"
-  [странице автора этого блога]: http://dzhus.org/author/
+  [странице автора этого блога]: http://dzhus.org/about.html
   [μf wiki]: http://www.microformats.org/wiki
     "Wiki по микроформатам"
   [Operator]: https://addons.mozilla.org/en-US/firefox/addon/4106/
@@ -352,7 +352,7 @@ Technorati поддерживает специального индексаци�
   [поиск по микроформатам]: http://kitchen.technorati.com/search
   [Тантек Челик]: http://tantek.com/
   [Полный список инструментов]: http://microformats.org/wiki/hcard-implementations
-  [тегов]: http://dzhus.org/blog/entry/using-tags/
+  [тегов]: http://dzhus.org/posts/2006-12-16-using-tags.html
   [rel-tag]: http://microformats.org/wiki/rel-tag
     "Всё о rel-tag на Microformats.org"
   [rel-tag в Operator]: http://farm2.static.flickr.com/1230/555945834_7a72d58b0f_m.jpg
@@ -373,5 +373,5 @@ Technorati поддерживает специального индексаци�
   [Microformats.org]: http://www.microformats.org/
     "Домашная страница микроформатов"
   [«Микроформаты»]: http://habrahabr.ru/blog/microformats/
-  [об извлечении микроформатов]: http://dzhus.org/blog/entry/simple-microformat-xslt-extraction/
+  [об извлечении микроформатов]: http://dzhus.org/posts/2007-06-22-simple-microformat-xslt-extraction.html
     "Простое извлечение микроформатов с помощью XSLT"

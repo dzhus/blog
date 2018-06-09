@@ -222,7 +222,7 @@ Gtk-приложениях: Gtk+ по умолчанию использует с
   [TeX]: http://ru.wikipedia.org/wiki/TeX
   [XeTeX]: http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&amp;item_id=xetex
   [XML-сущности]: http://www.cookwood.com/html/extras/entities.html
-  [Emacs]: http://dzhus.org/blog/entry/emacs-intro/
+  [Emacs]: http://dzhus.org/posts/2007-02-20-emacs-intro.html
   [nxml-mode]: http://www.thaiopensource.com/nxml-mode/
   [1]: http://farm2.static.flickr.com/1121/533360720_dff5e36d55_o.png
   {width="484" height="99"}
@@ -233,12 +233,12 @@ Gtk-приложениях: Gtk+ по умолчанию использует с
   [«Типограф»]: http://www.artlebedev.ru/tools/typograf/
   [Jevix]: http://jevix.ru/
   [Devanagari]: http://www.erlang.com.ru/devanagari/
-  [Markdown]: http://dzhus.org/blog/entry/markdown-and-lightweight-markup
+  [Markdown]: http://dzhus.org/posts/2007-03-16-markdown-and-lightweight-markup.html
   [abcTajpu]: https://addons.mozilla.org/en-US/firefox/addon/459
   [Firefox]: http://www.mozilla.ru/products/firefox/
   [домашней странице]: http://lingvo.org/abctajpu/
   [диакритических знаков]: http://ru.wikipedia.org/wiki/Диакритический%20знак
   [«Compose»]: http://en.wikipedia.org/wiki/Compose_key
   [Полный список Compose-сокращений]: http://webcvs.freedesktop.org/xorg/xc/nls/Compose/en_US.UTF-8?view=co
-  [статье]: http://dzhus.org/blog/entry/msnek-linux
+  [статье]: http://dzhus.org/posts/2007-12-31-msnek-linux.html
   [может не хватить]: http://zulu.in.ua/index.php/2007/01/11/x-composite-key

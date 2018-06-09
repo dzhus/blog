@@ -121,7 +121,7 @@ Emacs, нужно знать, что в нём есть :) Частым вопр
   [AUCTeX]: http://www.gnu.org/software/auctex/
   [GNU Arch]: http://www.gnuarch.org/gnuarchwiki/
   [DVC]: http://download.gna.org/dvc/
-  [darcs]: http://dzhus.org/blog/entry/darcs/
+  [darcs]: http://dzhus.org/posts/2006-12-31-darcs.html
   [org-mode]: http://staff.science.uva.nl/~dominik/Tools/org/
   [Progect]: http://sourceforge.net/projects/progect/
   [Gnus]: http://www.emacswiki.org/cgi-bin/wiki/CategoryGnus

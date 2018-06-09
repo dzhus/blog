@@ -745,7 +745,7 @@ Metapost-код:
   [GNU make]: http://www.gnu.org/software/make/
     "GNU Make — сборочная система"
   [Файлы проекта]: http://github.com/dzhus/term-paper-diffeq/file/bc94df402ff0b58f03d5e37450fca5fa81a22fd3/source
-  [Mercurial-репозитории]: http://dzhus.org/blog/entry/howto-mercurial-repo-with-web-fastcgi-and-ssl/
+  [Mercurial-репозитории]: http://dzhus.org/posts/2007-06-27-howto-mercurial-repo-with-web-fastcgi-and-ssl.html
     "Настройка веб-сервера для работы с Mercurial"
   [PDF]: http://dzhus.org/media/uploads/report.pdf
   [Texdepend]: http://www.ctan.org/tex-archive/support/texdepend/
@@ -760,7 +760,7 @@ Metapost-код:
   [Scheme Elucidator]: http://www.cs.aau.dk/~normark/elucidative-programming/
   [LAML]: http://www.cs.aau.dk/~normark/laml/
   [Semantic]: http://cedet.sourceforge.net/semantic.shtml
-  [написал]: http://dzhus.org/blog/entry/semantic-wizardry/
+  [написал]: http://dzhus.org/posts/2007-11-03-semantic-wizardry.html
     "Использование API Semantic в Emacs для работы с исходным кодом"
   [tag-listing.sh]: http://github.com/dzhus/term-paper-diffeq/file/bc94df402ff0b58f03d5e37450fca5fa81a22fd3/doc/tag-listing.sh
   [Lisp2TeX]: http://pagesperso-systeme.lip6.fr/Christian.Queinnec/WWW/l2t.html

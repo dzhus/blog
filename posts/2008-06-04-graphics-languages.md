@@ -708,9 +708,9 @@ XML; в таком случае `xsltproc(1)` решает.
     "Context Free Art"
   [контекстно-свободной грамматике]: http://ru.wikipedia.org/wiki/Контекстно-свободная_грамматика
     "Контекстно-свободная грамматика"
-  [подстановок]: http://dzhus.org/blog/entry/292/
+  [подстановок]: http://dzhus.org/posts/2006-10-28-292.html
     "Алгорифмы Маркова"
-  [фракталы]: http://dzhus.org/blog/entry/246/
+  [фракталы]: http://dzhus.org/posts/2006-06-21-246.html
   [Мышатки]: http://ru.wikipedia.org/wiki/Мыши
     "Мыши"
   [ситуация]: http://www.mathpages.com/home/kmath492/kmath492.htm
@@ -735,13 +735,13 @@ XML; в таком случае `xsltproc(1)` решает.
   {width="500" height="500"}
   [![Путешествия точки в цвете][]]: http://www.flickr.com/photos/nothingpersonal/2086289203/
     "Путешествия точки в цвете by Dmitry Dzhus, on Flickr"
-  [программ на Scheme]: http://dzhus.org/blog/entry/semantic-wizardry/
+  [программ на Scheme]: http://dzhus.org/posts/2007-11-03-semantic-wizardry.html
     "Использование API Semantic в Emacs для обработки исходных текстов"
-  [Emacs]: http://dzhus.org/blog/entry/emacs-intro/
+  [Emacs]: http://dzhus.org/posts/2007-02-20-emacs-intro.html
     "Начало пути к Emacs"
-  [XFN]: http://dzhus.org/blog/entry/what-are-microformats/
+  [XFN]: http://dzhus.org/posts/2007-06-15-what-are-microformats.html
     "Введение в микроформаты"
-  [нехитрого XSLT]: http://dzhus.org/blog/entry/simple-microformat-xslt-extraction/
+  [нехитрого XSLT]: http://dzhus.org/posts/2007-06-22-simple-microformat-xslt-extraction.html
     "Простое извлечение микроформатов с помощью XSLT"
   [описывал опыт]: http://dzhus.org/blog/entry/396/
     "Автоматизация сборки LaTeX-документов"
