@@ -70,8 +70,12 @@ main = do
   defaultContext <- mkDefaultContext
   let
     postCtx :: Context String
-    postCtx =
-        leadingH1Context <> dateField "date" "%d.%m.%Y" <> defaultContext
+    postCtx = mconcat
+      [ leadingH1Context
+      , dateField "date" "%d.%m.%Y"
+      , dateField "isoDate" "%Y-%m-%d"
+      , defaultContext
+      ]
 
   hakyll $ do
     match "images/*" $ do

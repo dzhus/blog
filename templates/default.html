@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="ru">
+<html lang="ru" prefix="og: http://ogp.me/ns#
+                        dc: http://purl.org/dc/elements/1.1/">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -27,6 +28,10 @@
       $for(alternates)$
       <link rel="alternate" href="$url$" type="text/markdown" />
       $endfor$
+      <meta property="og:title" content="$title$" />
+      <meta property="og:type" content="article" />
+      <meta property="og:article:author" content="$creator$" />
+      <meta property="og:article:published_time" content="$isoDate$" />
     $endif$
     <title>$title$ - $creator$</title>
   </head>
