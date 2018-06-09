@@ -34,7 +34,7 @@
       <meta property="og:article:description" content="$description$" />
       <meta property="og:article:published_time" content="$isoDate$" />
     $endif$
-    <title>$title$ - $creator$</title>
+    <title>$if(pageTitle)$ $pageTitle$ $else$ $title$ - $creator$ $endif$</title>
   </head>
   <body>
     <header>

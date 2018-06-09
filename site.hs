@@ -153,6 +153,7 @@ main = do
       compile $ do
         posts <- fmap (take 5) . recentFirst =<< loadAll renderedPosts
         let ctx = listField "posts" postCtx (return posts) <>
+                  constField "pageTitle" siteTitle <>
                   defaultContext
         makeItem ""
           >>= loadAndApplyTemplate "templates/index.html" ctx
