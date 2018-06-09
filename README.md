@@ -54,6 +54,11 @@ replaces the old Django-based blog engine which was used in 2006-2012.
        (previous/next) links between consecutive items will result in
        circular dependencies.
 
+## Known issues
+
+- [ ] CI pipeline pushes all posts to S3, not just those which updated
+      (waste of POSTs)
+
 ## A note on Semantic Web technologies
 
 The last big changes to the old engine were made somewhere in 2009. In
