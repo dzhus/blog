@@ -118,22 +118,25 @@ main = do
         hasTags <- getMetadataField thisPostId "tags"
         route $ setExtension "html"
 
-        let postCtx' =
-              listField "alternates" postCtx (return <$> loadRaw) <>
-              paginateContext postStream pn <>
-              boolField "hasTags" (const $ isJust hasTags) <>
-              tagsField "tags" tags <>
-              postCtx
+        compile $ do
+          html <- getResourceBody >>= pandocWithoutLeadingH1
 
-        compile $
-          getResourceBody >>=
-          pandocWithoutLeadingH1 >>=
-          saveSnapshot "html" >>=
-          loadAndApplyTemplate "templates/post.html" postCtx' >>=
-          saveSnapshot "post" >>=
-          loadAndApplyTemplate "templates/single-page.html" postCtx' >>=
-          loadAndApplyTemplate "templates/page-navigation.html" postCtx' >>=
-          finishTemplating postCtx'
+          -- Populate $description$ from rendered post body
+          let postCtx' =
+                listField "alternates" postCtx (return <$> loadRaw) <>
+                paginateContext postStream pn <>
+                boolField "hasTags" (const $ isJust hasTags) <>
+                tagsField "tags" tags <>
+                constField "description"
+                ((<> "…") $ take 190 $ stripTags $ itemBody html) <>
+                postCtx
+
+          saveSnapshot "html" html >>=
+            loadAndApplyTemplate "templates/post.html" postCtx' >>=
+            saveSnapshot "post" >>=
+            loadAndApplyTemplate "templates/single-page.html" postCtx' >>=
+            loadAndApplyTemplate "templates/page-navigation.html" postCtx' >>=
+            finishTemplating postCtx'
 
     -- .md post sources
     match "posts/*" $ version "raw" $ do
