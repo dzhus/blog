@@ -24,4 +24,5 @@ executables:
       - hakyll
       - pandoc
       - pandoc-types
+      - pureMD5
       - skylighting

@@ -1,4 +1,5 @@
 import ClassyPrelude
+import Data.Digest.Pure.MD5
 import Hakyll hiding (defaultContext)
 import Text.Pandoc
 import Skylighting.Format.HTML
@@ -9,6 +10,9 @@ import qualified Hakyll as H
 creator :: String
 creator = "Дмитрий Джус"
 
+email :: String
+email = "dima@dzhus.org"
+
 siteTitle :: String
 siteTitle = "Журнал Дмитрия Джуса"
 
@@ -18,7 +22,7 @@ feedConfiguration =
   { feedTitle = siteTitle
   , feedDescription = ""
   , feedAuthorName = creator
-  , feedAuthorEmail = "dima@dzhus.org"
+  , feedAuthorEmail = email
   , feedRoot = "http://dzhus.org"
   }
 
@@ -57,6 +61,8 @@ mkDefaultContext = do
   now <- ClassyPrelude.getCurrentTime
   return $
     constField "creator" creator <>
+    constField "gravatar"
+    ("https://www.gravatar.com/avatar/" <> show (md5 $ fromString email)) <>
     constField "siteTitle" siteTitle <>
     constField "thisYear" (formatTime defaultTimeLocale "%Y" now) <>
     H.defaultContext
