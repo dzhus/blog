@@ -743,7 +743,7 @@ XML; в таком случае `xsltproc(1)` решает.
     "Введение в микроформаты"
   [нехитрого XSLT]: http://dzhus.org/posts/2007-06-22-simple-microformat-xslt-extraction.html
     "Простое извлечение микроформатов с помощью XSLT"
-  [описывал опыт]: http://dzhus.org/blog/entry/396/
+  [описывал опыт]: http://dzhus.org/posts/2007-11-27-latex-autobuild.html
     "Автоматизация сборки LaTeX-документов"
   [Asymptote]: http://sourceforge.net/projects/asymptote
   [ePiX]: http://mathcs.holycross.edu/~ahwang/current/ePiX.html

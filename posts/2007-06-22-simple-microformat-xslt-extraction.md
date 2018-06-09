@@ -462,7 +462,7 @@ XFN-ссылок, возможно, было бы проще сделать с �
   [![][1] ![misc][]]: http://services.alphaworks.ibm.com/manyeyes/view/SNnqRHsOtha6KBUjJZqVH2-
   [Graphviz]: http://www.graphviz.org/
     "Пакет для визуализации графов"
-  [RSS]: http://dzhus.org/blog/entry/what-is-rsss
+  [RSS]: http://dzhus.org/posts/2006-09-11-what-is-rss.html
   [OPML]: http://opml.org/
   [Google Reader]: http://google.com/reader/
   [make-opml.xsl]: http://github.com/dzhus/xfn-spider/blob/master/make-opml.xsl

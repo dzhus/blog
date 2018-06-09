@@ -15,7 +15,7 @@ title: 'Полезное дополнение для markdown-mode в Emacs'
 
   [Markdown-mode]: http://jblevins.org/projects/markdown-mode/
   [Emacs]: http://dzhus.org/posts/2007-02-20-emacs-intro.html
-  [Длинные посты™]: http://dzhus.org/blog/entry/396
+  [Длинные посты™]: http://dzhus.org/posts/2007-11-27-latex-autobuild.html
     "Автоматизация сборки LaTeX-документов"
   [Mozex]: http://mozex.mozdev.org/
   [Markdown]: http://dzhus.org/posts/2007-03-16-markdown-and-lightweight-markup.html
