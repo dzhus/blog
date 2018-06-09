@@ -57,7 +57,7 @@ mkDefaultContext = do
   now <- ClassyPrelude.getCurrentTime
   return $
     constField "creator" creator <>
-    constField "sitetitle" siteTitle <>
+    constField "siteTitle" siteTitle <>
     constField "thisYear" (formatTime defaultTimeLocale "%Y" now) <>
     H.defaultContext
 
