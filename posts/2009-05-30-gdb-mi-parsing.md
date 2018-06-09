@@ -209,7 +209,6 @@ JSON-парсером.
 
 > > I wonder why was GDB/MI syntax designed this way.
 >
-> \
 > What makes you think it was designed? GDB/MI is not result of a design
 > session, but of somewhat long evolution, so some early decisions are
 > prominent.
