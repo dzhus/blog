@@ -225,7 +225,6 @@ Gtk-приложениях: Gtk+ по умолчанию использует с
   [Emacs]: http://dzhus.org/posts/2007-02-20-emacs-intro.html
   [nxml-mode]: http://www.thaiopensource.com/nxml-mode/
   [1]: http://farm2.static.flickr.com/1121/533360720_dff5e36d55_o.png
-  {width="484" height="99"}
   [![nxml-mode][1]]: http://www.flickr.com/photos/nothingpersonal/533360720/
     "Photo Sharing"
   [домашней странице Xah Lee]: http://xahlee.org/emacs/emacs_n_unicode.html

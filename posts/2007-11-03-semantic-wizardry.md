@@ -386,6 +386,6 @@ Scheme я пишу `(load "shared.scm")` и использую функции о
   [CLOS]: http://en.wikipedia.org/wiki/Common_Lisp_Object_System
   [Graphviz]: http://www.graphviz.org/
   [grok-lisp.dot]: http://farm3.static.flickr.com/2218/1843237727_66f890e05e.jpg
-  {width="450" height="500"}
+
   [![grok-lisp.dot][]]: http://www.flickr.com/photos/nothingpersonal/1843237727/
     "Photo Sharing"

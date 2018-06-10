@@ -23,7 +23,7 @@ Micro 4/3 встают без проблем. Почти все быстро п�
 href="https://www.flickr.com/photos/nothingpersonal/8727391803/"
 title="A boy and his dog"><img
 src="https://farm8.staticflickr.com/7356/8727391803_968cbf7f3e.jpg"
-width="500" height="375" alt="A boy and his dog"></a>
+ alt="A boy and his dog"></a>
 
 Один объектив отправил аж в США, судя по
 емейлу и адресу получатель был натуральным голливудским оператором
@@ -39,7 +39,7 @@ width="500" height="375" alt="A boy and his dog"></a>
 href="https://www.flickr.com/photos/nothingpersonal/36237920254/in/album-72157688348206705/"
 title="Near Alpspitze"><img
 src="https://farm5.staticflickr.com/4396/36237920254_ab7d54d870.jpg"
-width="500" height="375" alt="Near Alpspitze"></a>
+ alt="Near Alpspitze"></a>
 
 Тот фотик быстро продал и заменил на OM-D E-M10, которым до сих пор
 очень доволен.

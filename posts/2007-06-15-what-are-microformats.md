@@ -326,7 +326,7 @@ Technorati поддерживает специального индексаци�
   [описание системы на русском]: http://dikiy.com/blog/archive/2006/12/07/xfn.html
   [XFN Graph]: http://xfngraph.sourceforge.net/
   [XFN Graph: depth=3]: http://farm2.static.flickr.com/1025/556078393_b4b888fd28_m.jpg
-  {width="240" height="159"}
+
   [![XFN Graph: depth=3][]]: http://www.flickr.com/photos/nothingpersonal/556078393/
     "Photo Sharing"
   [many-eyes.com]: http://services.alphaworks.ibm.com/manyeyes/view/SNnqRHsOtha6i5-m6iGTH2-
@@ -343,7 +343,7 @@ Technorati поддерживает специального индексаци�
   [Operator]: https://addons.mozilla.org/en-US/firefox/addon/4106/
     "Расширение для работы с микроформатами для Firefox"
   [hCard в Operator]: http://farm2.static.flickr.com/1367/556078405_e913502388_m.jpg
-  {width="238" height="240"}
+
   [![hCard в Operator][]]: http://www.flickr.com/photos/nothingpersonal/556078405/
     "Photo Sharing"
   [hCard creator]: http://tantek.com/microformats/hcard-creator.html
@@ -356,7 +356,7 @@ Technorati поддерживает специального индексаци�
   [rel-tag]: http://microformats.org/wiki/rel-tag
     "Всё о rel-tag на Microformats.org"
   [rel-tag в Operator]: http://farm2.static.flickr.com/1230/555945834_7a72d58b0f_m.jpg
-  {width="240" height="138"}
+
   [![rel-tag в Operator][]]: http://www.flickr.com/photos/nothingpersonal/555945834/
     "Photo Sharing"
   [виджет]: http://technorati.com/widgets/blogwidgets

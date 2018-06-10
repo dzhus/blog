@@ -28,32 +28,34 @@ title: Средства описания изображений
 
 То есть, так:
 
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-    <!-- Created with Inkscape (http://www.inkscape.org/) -->
-    <svg
-       xmlns:svg="http://www.w3.org/2000/svg"
-       xmlns="http://www.w3.org/2000/svg"
-       version="1.0"
-       width="177.16534"
-       height="177.16534"
-       id="svg2">
-      <defs
-         id="defs4" />
-      <g
-         id="layer1">
-        <rect
-           width="95.714287"
-           height="70.714287"
-           x="45.357143"
-           y="77.522484"
-           style="fill:#a40000"
-           id="rect2160" />
-        <path
-           d="M 55.714285,80.022487 L 37.799451,79.466755 L 24.821318,91.828723 L 19.813862,74.618972 L 4.0464685,66.096093 L 18.866525,56.015614 L 22.099873,38.386217 L 36.266627,49.365889 L 54.032339,46.993202 L 47.967818,63.859491 L 55.714285,80.022487 z "
-           style="fill:#204a87"
-           id="path2253" />
-      </g>
-    </svg>
+```xml
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.0"
+   width="177.16534"
+   height="177.16534"
+   id="svg2">
+  <defs
+     id="defs4" />
+  <g
+     id="layer1">
+    <rect
+       width="95.714287"
+       height="70.714287"
+       x="45.357143"
+       y="77.522484"
+       style="fill:#a40000"
+       id="rect2160" />
+    <path
+       d="M 55.714285,80.022487 L 37.799451,79.466755 L 24.821318,91.828723 L 19.813862,74.618972 L 4.0464685,66.096093 L 18.866525,56.015614 L 22.099873,38.386217 L 36.266627,49.365889 L 54.032339,46.993202 L 47.967818,63.859491 L 55.714285,80.022487 z "
+       style="fill:#204a87"
+       id="path2253" />
+  </g>
+</svg>
+```
 
 Читать можно, но не нужно. Как и с большинством творений [W3C][], планов
 уйма — [анимация][] или [фильтры][].
@@ -74,16 +76,18 @@ title: Средства описания изображений
 
 Исходный файл этой картинки таков:
 
-    digraph D {
-        overlap=scale;
-        "get-file-tags" -> "print-tag-from-file";
-        "get-tag-body" -> "print-tag-from-file";
-        "get-file-tags" -> "get-file-functions";
-        "get-file-functions-deep" -> "get-file-depgraph";
-        "get-file-functions" -> "get-file-depgraph";
-        "get-tag-deps" -> "get-file-depgraph";
-        "get-file-depgraph" -> "print-files-depgraph";
-    }
+```dot
+digraph D {
+    overlap=scale;
+    "get-file-tags" -> "print-tag-from-file";
+    "get-tag-body" -> "print-tag-from-file";
+    "get-file-tags" -> "get-file-functions";
+    "get-file-functions-deep" -> "get-file-depgraph";
+    "get-file-functions" -> "get-file-depgraph";
+    "get-tag-deps" -> "get-file-depgraph";
+    "get-file-depgraph" -> "print-files-depgraph";
+}
+```
 
 Как видно, здесь просто описано отношение, которое задаёт граф на
 множестве вершин.
@@ -238,6 +242,7 @@ METAPOST: прямые, угловатые и скруглённые кривы�
 проведение окружности через точку, нехитрый цикл для проведения пачки
 параллельных прямых:
 
+```latex
     \begin{tikzpicture}
     \coordinate [] (O) at (0, 0) {};
 
@@ -271,6 +276,7 @@ METAPOST: прямые, угловатые и скруглённые кривы�
     %dot marks
     \foreach \p in {X, Y, A, B, P, M, N} \draw node[dot] at (\p) {};
     \end{tikzpicture}
+```
 
 Ещё много функциональности вынесено в отдельные дополнения к PGF&TikZ.
 Например, есть дополнения для рисования развёрток многогранников или
@@ -604,7 +610,7 @@ CFDG прекрасно описываются геометрические [ф�
 номером цифры в разложении π), то есть применение правила потребует
 знание контекста.
 
-## Почему рисовать самостоятельно не всегда кошерно
+## Почему рисовать вручную не всегда правильно
 
 Достоинства большинства языков описания изображений очевидны — они
 *просты*, *прозрачны* и пригодны к обработке при помощи стандартных
@@ -634,7 +640,7 @@ XML; в таком случае `xsltproc(1)` решает.
     "Scalable Vector Graphics"
   [XML]: http://www.w3.org/XML/
   [foo]: http://farm4.static.flickr.com/3045/2551065977_70ece078df_o.png
-  {width="177" height="177"}
+
   [![foo][]]: http://www.flickr.com/photos/nothingpersonal/2551065977/
     "foo by Dmitry Dzhus, on Flickr"
   [W3C]: http://www.w3.org/
@@ -647,14 +653,14 @@ XML; в таком случае `xsltproc(1)` решает.
     "The DOT language"
   [Graphviz]: http://www.graphviz.org/
   [grok-lisp.dot]: http://farm3.static.flickr.com/2218/1843237727_66f890e05e.jpg
-  {width="450" height="500"}
+
   [![grok-lisp.dot][]]: http://www.flickr.com/photos/nothingpersonal/1843237727/
     "grok-lisp.dot by Dmitry Dzhus, on Flickr"
   [используется]: http://graphviz.org/Gallery.php
   [groff]: http://www.gnu.org/software/groff/
   [сахара]: http://ru.wikipedia.org/w/index.php?title=Синтаксический_сахар
   [Profit with GNU Emacs (pic)]: http://farm4.static.flickr.com/3023/2441772594_0ab0589bfe.jpg
-  {width="282" height="500"}
+
   [![Profit with GNU Emacs (pic)][]]: http://www.flickr.com/photos/nothingpersonal/2441772594/
     "Profit with GNU Emacs (pic) by Dmitry Dzhus, on Flickr"
   [Making pictures with GNU PIC]: http://floppsie.comp.glam.ac.uk/Glamorgan/gaius/web/pic.html
@@ -662,7 +668,7 @@ XML; в таком случае `xsltproc(1)` решает.
   [METAPOST]: http://ru.wikipedia.org/wiki/Metapost
   [модель Клейна в круге]: http://ru.wikipedia.org/w/index.php?title=Модель_Клейна
   [Klein disk model (METAPOST)]: http://farm4.static.flickr.com/3165/2548960414_1bdb7962a0.jpg
-  {width="489" height="500"}
+
   [![Klein disk model (METAPOST)][]]: http://www.flickr.com/photos/nothingpersonal/2548960414/
     "Klein disk model (METAPOST) by Dmitry Dzhus, on Flickr"
   [диаграмм Фейнмана]: http://ru.wikipedia.org/w/index.php?title=Диаграммы_Фейнмана
@@ -682,7 +688,7 @@ XML; в таком случае `xsltproc(1)` решает.
   [fauskes.net]: http://www.fauskes.net/
     "Сайт с информацией и галереями по графическим возможностям TeX"
   [Klein disk model (TikZ)]: http://farm4.static.flickr.com/3035/2548134839_896e64f62d.jpg
-  {width="465" height="500"}
+
   [![Klein disk model (TikZ)][]]: http://www.flickr.com/photos/nothingpersonal/2548134839/
     "Klein disk model (TikZ) by Dmitry Dzhus, on Flickr"
   [В коде]: http://github.com/dzhus/term-paper-hypergeom/blob/master/doc/klein-model.tkz.tex
@@ -691,7 +697,7 @@ XML; в таком случае `xsltproc(1)` решает.
   [описанная]: http://github.com/dzhus/term-paper-hypergeom/blob/master/doc/klein-to-poincare.tkz.tex
     "Исходник klein-to-poincare.tkz.tex"
   [Klein &amp; Poincaré models (TikZ)]: http://farm4.static.flickr.com/3157/2548960134_054a3a8d25.jpg
-  {width="500" height="396"}
+
   [![Klein &amp; Poincaré models (TikZ)][]]: http://www.flickr.com/photos/nothingpersonal/2548960134/
     "Klein &amp; Poincaré models (TikZ) by Dmitry Dzhus, on
     Flickr"
@@ -699,7 +705,7 @@ XML; в таком случае `xsltproc(1)` решает.
     "Sketch — A 3D Scene Description Translator"
   [pstricks]: http://tug.org/PSTricks/main.cgi/
   [Sketch-generated]: http://farm4.static.flickr.com/3161/2549980033_928406f29a.jpg
-  {width="480" height="500"}
+
   [![Sketch-generated][]]: http://www.flickr.com/photos/nothingpersonal/2549980033/
     "Sketch-generated by Dmitry Dzhus, on Flickr"
   [туториал]: http://www.fauskes.net/nb/introduction-to-sketch/
@@ -716,7 +722,7 @@ XML; в таком случае `xsltproc(1)` решает.
   [ситуация]: http://www.mathpages.com/home/kmath492/kmath492.htm
     "Zeno's Mice and the Logarithmic Spiral"
   [«4 (rasta)mice» (CFDG)]: http://farm4.static.flickr.com/3051/2551058407_38aab0f61d.jpg
-  {width="500" height="500"}
+
   [![«4 (rasta)mice» (CFDG)][]]: http://www.flickr.com/photos/nothingpersonal/2551058407/
     "«4 (rasta)mice» (CFDG) by Dmitry Dzhus, on Flickr"
   [SIDE-EFFECT]: http://github.com/dzhus/sicp/blob/master/painting/2.49.scm
@@ -725,14 +731,14 @@ XML; в таком случае `xsltproc(1)` решает.
   [нереальных изображений]: http://www.contextfreeart.org/gallery/
   [вики]: http://contextfreeart.org/mediawiki/index.php/CFDG_HOWTO
   [Swastika (CFDG)]: http://farm4.static.flickr.com/3163/2550790855_4e0eef1f17.jpg
-  {width="500" height="500"}
+
   [![Swastika (CFDG)][]]: http://www.flickr.com/photos/nothingpersonal/2550790855/
     "Swastika (CFDG) by Dmitry Dzhus, on Flickr"
   [статистический вес]: http://ru.wikipedia.org/wiki/Термодинамическая_энтропия
     "Стат. вес — кратность состояния"
   [броуновское движение]: http://ru.wikipedia.org/wiki/Броуновское_движение
   [Путешествия точки в цвете]: http://farm3.static.flickr.com/2165/2086289203_a5277595ea.jpg
-  {width="500" height="500"}
+
   [![Путешествия точки в цвете][]]: http://www.flickr.com/photos/nothingpersonal/2086289203/
     "Путешествия точки в цвете by Dmitry Dzhus, on Flickr"
   [программ на Scheme]: http://dzhus.org/posts/2007-11-03-semantic-wizardry.html

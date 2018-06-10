@@ -768,7 +768,7 @@ Metapost-код:
     "Классическое средство для текстового описания картинок"
   [примерно так]: http://github.com/dzhus/term-paper-diffeq/file/bc94df402ff0b58f03d5e37450fca5fa81a22fd3/source/statement.scm
   [screen1196171299]: http://farm3.static.flickr.com/2396/2068111487_3dbdbd9732.jpg
-  {width="500" height="236"}
+
   [![screen1196171299][]]: http://www.flickr.com/photos/nothingpersonal/2068111487/
     "screen1196171299 by Dmitry Dzhus, on Flickr"
   [скрипт]: http://github.com/dzhus/term-paper-diffeq/file/bc94df402ff0b58f03d5e37450fca5fa81a22fd3/doc/initial-data.sh
