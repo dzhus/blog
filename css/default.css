@@ -1,13 +1,20 @@
 body {
     color: #2e3436;
     background-color: #eeeeec;
-
     margin: auto;
 }
 
 @media only screen and (min-width: 41pc) {
     body {
         width: 40pc;
+    }
+}
+
+@media (max-width: 40pc) {
+    img {
+        max-width: 38pc;
+        height: auto;
+        width: 100%;
     }
 }
 
