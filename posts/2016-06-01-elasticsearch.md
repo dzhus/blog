@@ -1,3 +1,7 @@
+---
+lang: en
+---
+
 # Maintaining Elasticsearch indices and mappings
 
 This post addresses several caveats when working with persistent ES
