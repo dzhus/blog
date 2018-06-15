@@ -11,7 +11,7 @@ title: 'Полезное дополнение для markdown-mode в Emacs'
 для блога я всегда пишу в Emacs (при помощи [Mozex][] + `emacsclient(1)`
 или просто копируя финишный [Markdown][]-документ в браузер).
 
-(остаток записи утерян в 2012-2018 годах)
+(остаток записи [утерян](http://dzhus.org/posts/2018-06-09-blog-revival.html) в 2012-2018 годах)
 
   [Markdown-mode]: http://jblevins.org/projects/markdown-mode/
   [Emacs]: http://dzhus.org/posts/2007-02-20-emacs-intro.html
