@@ -6,17 +6,17 @@
 $if(hasTags)$
 <section>Метки: $tags$.</section>
 $endif$
-
 <p class="post-body">$body$</p>
+<div class="post-links">
+  <a rel="bookmark" href="$url$">¶</a>
 
-<a rel="bookmark" href="$url$">¶</a>
-
-<div style="float: right;">
-<a href="https://github.com/dzhus/blog/commits/master/$path$">git</a>
-•
-$if(alternates)$
-  $for(alternates)$
-    <a href="$url$">.md</a>
-  $endfor$
-$endif$
+  <div style="float: right;">
+  <a href="https://github.com/dzhus/blog/commits/master/$path$">git</a>
+  •
+  $if(alternates)$
+    $for(alternates)$
+      <a href="$url$">.md</a>
+    $endfor$
+  $endif$
+  </div>
 </div>
