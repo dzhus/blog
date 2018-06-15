@@ -62,7 +62,8 @@ mkDefaultContext = do
   return $
     constField "creator" creator <>
     constField "gravatar"
-    ("https://www.gravatar.com/avatar/" <> show (md5 $ fromString email)) <>
+    ("https://www.gravatar.com/avatar/" <>
+     show (md5 $ fromString email) <> "?s=200") <>
     constField "siteTitle" siteTitle <>
     constField "thisYear" (formatTime defaultTimeLocale "%Y" now) <>
     H.defaultContext
