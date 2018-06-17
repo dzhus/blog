@@ -2,7 +2,6 @@
 tags:
 - code snippet
 - Emacs
-- Emacs Lisp
 - Free Software
 - Lisp
 - программирование
@@ -101,30 +100,32 @@ Manual» (есть в дистрибутиве [CEDET][]).
 
 В терминах Emacs Lisp с юзанием Семантика она решается так:
 
-    (require 'semantic)
+```lisp
+(require 'semantic)
 
-    ;; Return a Semantic tag table for file
-    (defun get-file-tags (file-name)
-      (with-current-buffer
-          (find-file-noselect file-name)
-        (semantic-fetch-tags)))
+;; Return a Semantic tag table for file
+(defun get-file-tags (file-name)
+  (with-current-buffer
+      (find-file-noselect file-name)
+    (semantic-fetch-tags)))
 
-    ;; Return full tag source code (suitable for princ-ing)
-    (defun get-tag-body (tag)
-      (let ((from (semantic-tag-start tag))
-            (to (semantic-tag-end tag))
-            (buffer (semantic-tag-buffer tag)))
-        (with-current-buffer buffer
-          (buffer-substring from to))))
+;; Return full tag source code (suitable for princ-ing)
+(defun get-tag-body (tag)
+  (let ((from (semantic-tag-start tag))
+        (to (semantic-tag-end tag))
+        (buffer (semantic-tag-buffer tag)))
+    (with-current-buffer buffer
+      (buffer-substring from to))))
 
-    ;; Print body of tag with specified name from specified file
-    (defun print-tag-from-file (tag-name file-name)
-      (let ((tag-table (get-file-tags file-name)))
-        (princ (format "%s"
-                       (get-tag-body
-                        (semantic-find-first-tag-by-name
-                         tag-name
-                         tag-table))))))
+;; Print body of tag with specified name from specified file
+(defun print-tag-from-file (tag-name file-name)
+  (let ((tag-table (get-file-tags file-name)))
+    (princ (format "%s"
+                   (get-tag-body
+                    (semantic-find-first-tag-by-name
+                     tag-name
+                     tag-table))))))
+```
 
 Структура решения понятна: `get-file-tags` запрашивает список тегов
 Семантика для обозначенного файла (в Semantic тег представлен простой
@@ -199,18 +200,20 @@ Emacs может выводить статусные сообщения при �
 Scheme я пишу `(load "shared.scm")` и использую функции оттуда) — их
 тоже нужно запросить.
 
-    (require 'semantic)
-    (require 'semanticdb)
-    (semanticdb-toggle-global-mode)
+```lisp
+(require 'semantic)
+(require 'semanticdb)
+(semanticdb-toggle-global-mode)
 
-    ;; Get a list of all 'function tags declared in specified file and its
-    ;; included files
-    (defun get-file-functions-deep (file-name)
-      (with-current-buffer
-          (find-file-noselect file-name)
-        (semanticdb-strip-find-results
-         (semanticdb-find-tags-by-class
-          'function))))
+;; Get a list of all 'function tags declared in specified file and its
+;; included files
+(defun get-file-functions-deep (file-name)
+  (with-current-buffer
+      (find-file-noselect file-name)
+    (semanticdb-strip-find-results
+     (semanticdb-find-tags-by-class
+      'function))))
+```
 
 Теперь нужно обработать целиком определение какого-то тега и найти в нём
 вхождения других. Обычный поиск по тексту не подойдёт, лучше
@@ -218,31 +221,33 @@ Scheme я пишу `(load "shared.scm")` и использую функции о
 `semantic-lex`. Тогда легко видеть, что вот такая функция делает что
 надо:
 
-    ;; Return a list of tags from tag-table which are also mentioned in
-    ;; tag
-    (defun get-tag-deps (tag tag-table)
-      (let ((from (semantic-tag-start tag))
-            (to (semantic-tag-end tag))
-            (buffer (semantic-tag-buffer tag))
-            ;; Build associative list with tag names as keys
-            (deps (mapcar
-                   (lambda (tag)
-                     (cons (semantic-tag-name tag)
-                           tag))
-                   tag-table)))
-        (with-current-buffer buffer
-          (let (result)
-            ;; cddddr is a Lisp-oriented hack to prevent tag itself from
-            ;; inclusion to dependency list
-            (dolist (lexem (cddddr (semantic-lex from to 1.0e+INF)) result)
-              (if (eq 'symbol (car lexem))
-                  (let* ((lexem-string (buffer-substring
-                                        (cadr lexem)
-                                        (cddr lexem)))
-                         (found-tag (assoc lexem-string
-                                           deps)))
-                    (if found-tag
-                        (add-to-list 'result (cdr found-tag) t)))))))))
+```lisp
+;; Return a list of tags from tag-table which are also mentioned in
+;; tag
+(defun get-tag-deps (tag tag-table)
+  (let ((from (semantic-tag-start tag))
+        (to (semantic-tag-end tag))
+        (buffer (semantic-tag-buffer tag))
+        ;; Build associative list with tag names as keys
+        (deps (mapcar
+               (lambda (tag)
+                 (cons (semantic-tag-name tag)
+                       tag))
+               tag-table)))
+    (with-current-buffer buffer
+      (let (result)
+        ;; cddddr is a Lisp-oriented hack to prevent tag itself from
+        ;; inclusion to dependency list
+        (dolist (lexem (cddddr (semantic-lex from to 1.0e+INF)) result)
+          (if (eq 'symbol (car lexem))
+              (let* ((lexem-string (buffer-substring
+                                    (cadr lexem)
+                                    (cddr lexem)))
+                     (found-tag (assoc lexem-string
+                                       deps)))
+                (if found-tag
+                    (add-to-list 'result (cdr found-tag) t)))))))))
+```
 
 Эта функция принимает два параметра — тег Семантика и таблицу тегов,
 которые предполагается искать в первом (обёртка над этой функцией,
@@ -264,16 +269,18 @@ Scheme я пишу `(load "shared.scm")` и использую функции о
 Функцию `get-tag-deps` невозможно ещё использовать, понадобится ещё
 обёртка:
 
-    ;; Return a list of pairs (TAG . DEPS) where DEPS is a list of
-    ;; functions TAG «depends» on
-    (defun get-file-depgraph (file-name)
-      (interactive "fFile name: ")
-      (let ((deep-tag-table (get-file-functions-deep file-name))
-            (file-tag-table (get-file-functions file-name))
-            (depgraph))
-        (dolist (tag file-tag-table depgraph)
-          (let ((deps (get-tag-deps tag deep-tag-table)))
-            (add-to-list 'depgraph (cons tag deps) t)))))
+```lisp
+;; Return a list of pairs (TAG . DEPS) where DEPS is a list of
+;; functions TAG «depends» on
+(defun get-file-depgraph (file-name)
+  (interactive "fFile name: ")
+  (let ((deep-tag-table (get-file-functions-deep file-name))
+        (file-tag-table (get-file-functions file-name))
+        (depgraph))
+    (dolist (tag file-tag-table depgraph)
+      (let ((deps (get-tag-deps tag deep-tag-table)))
+        (add-to-list 'depgraph (cons tag deps) t)))))
+```
 
 Которая строит список зависимостей не для одной данной функции, а для
 всех в указанном файле, возвращая список следующей структуры:
@@ -292,22 +299,24 @@ Scheme я пишу `(load "shared.scm")` и использую функции о
 форматах, но dot — это тоже очень переносимый и широко используемый
 формат для описания графов):
 
-    ;; Print depgraph for functions in specified files in DOT format
-    ;; (suitable for processing with Graphviz programs)
-    (defun print-files-depgraph (&rest file-names)
-      (princ "digraph D {\n")
-      (princ "overlap=scale;\n")
-      (dolist (file file-names)
-        (let ((depgraph (get-file-depgraph file)))
-          (dolist (dep-list-for-tag depgraph)
-            (let ((function-name (semantic-tag-name
-                                  (car dep-list-for-tag))))
-              (princ (format "\"%s\";\n" function-name))
-              (dolist (dependency (cdr dep-list-for-tag))
-                (princ (format "\"%s\" -> \"%s\";\n"
-                         (semantic-tag-name dependency)
-                         function-name)))))))
-      (princ "}\n"))
+```lisp
+   ;; Print depgraph for functions in specified files in DOT format
+   ;; (suitable for processing with Graphviz programs)
+   (defun print-files-depgraph (&rest file-names)
+     (princ "digraph D {\n")
+     (princ "overlap=scale;\n")
+     (dolist (file file-names)
+       (let ((depgraph (get-file-depgraph file)))
+         (dolist (dep-list-for-tag depgraph)
+           (let ((function-name (semantic-tag-name
+                                 (car dep-list-for-tag))))
+             (princ (format "\"%s\";\n" function-name))
+             (dolist (dependency (cdr dep-list-for-tag))
+               (princ (format "\"%s\" -> \"%s\";\n"
+                        (semantic-tag-name dependency)
+                        function-name)))))))
+     (princ "}\n"))
+```
 
 Эта функция вкладывает несколько отображений разных списков друг в
 друга: в каждом файле из переданного ей списка для каждой зависимости
@@ -327,24 +336,26 @@ Scheme я пишу `(load "shared.scm")` и использую функции о
 
 Заглянув в полученных файл, увидим:
 
-    digraph D {
-        overlap=scale;
-        "get-file-tags";
-        "get-tag-body";
-        "get-tag-deps";
-        "print-tag-from-file";
-        "get-file-tags" -> "print-tag-from-file";
-        "get-tag-body" -> "print-tag-from-file";
-        "get-file-functions";
-        "get-file-tags" -> "get-file-functions";
-        "get-file-functions-deep";
-        "get-file-depgraph";
-        "get-file-functions-deep" -> "get-file-depgraph";
-        "get-file-functions" -> "get-file-depgraph";
-        "get-tag-deps" -> "get-file-depgraph";
-        "print-files-depgraph";
-        "get-file-depgraph" -> "print-files-depgraph";
-    }
+```dot
+digraph D {
+    overlap=scale;
+    "get-file-tags";
+    "get-tag-body";
+    "get-tag-deps";
+    "print-tag-from-file";
+    "get-file-tags" -> "print-tag-from-file";
+    "get-tag-body" -> "print-tag-from-file";
+    "get-file-functions";
+    "get-file-tags" -> "get-file-functions";
+    "get-file-functions-deep";
+    "get-file-depgraph";
+    "get-file-functions-deep" -> "get-file-depgraph";
+    "get-file-functions" -> "get-file-depgraph";
+    "get-tag-deps" -> "get-file-depgraph";
+    "print-files-depgraph";
+    "get-file-depgraph" -> "print-files-depgraph";
+}
+```
 
 Теперь любой программой из [Graphviz][] можно сгенерировать изображение:
 
