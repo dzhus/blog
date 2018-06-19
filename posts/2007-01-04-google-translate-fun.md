@@ -1,7 +1,6 @@
 ---
 tags:
 - Google
-- english
 - смешно
 title: Переводчик Google
 ---

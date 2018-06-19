@@ -1,6 +1,5 @@
 ---
 tags:
-- code snippet
 - Emacs
 - Free Software
 - Lisp
