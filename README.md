@@ -20,6 +20,8 @@ replaces the old Django-based blog engine which was used in 2006-2012.
 
 - [x] Atom feed
 
+- [x] sitemap for posts
+
 - [x] list of tags on article page
 
 - [x] source code highlighting and scrolling

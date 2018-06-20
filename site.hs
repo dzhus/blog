@@ -16,6 +16,9 @@ email = "dima@dzhus.org"
 siteTitle :: String
 siteTitle = "Журнал Дмитрия Джуса"
 
+rootUrl :: String
+rootUrl = "http://dzhus.org"
+
 feedConfiguration :: FeedConfiguration
 feedConfiguration =
   FeedConfiguration
@@ -23,7 +26,7 @@ feedConfiguration =
   , feedDescription = ""
   , feedAuthorName = creator
   , feedAuthorEmail = email
-  , feedRoot = "http://dzhus.org"
+  , feedRoot = rootUrl
   }
 
 -- | If there's a leading level-1 heading in the document, split it
@@ -79,8 +82,10 @@ main = do
     postCtx :: Context String
     postCtx = mconcat
       [ leadingH1Context
+      , constField "rootUrl" rootUrl
       , dateField "date" "%d.%m.%Y"
       , dateField "isoDate" "%Y-%m-%d"
+      , modificationTimeField "modificationDate" "%Y-%m-%d"
       , defaultContext
       ]
 
@@ -173,6 +178,14 @@ main = do
         posts <- fmap (take 20) . recentFirst =<<
                  loadAllSnapshots renderedPosts "html"
         renderAtom feedConfiguration feedCtx posts
+
+    create ["sitemap.xml"] $ do
+      route idRoute
+      compile $ do
+        posts <- recentFirst =<< loadAll renderedPosts
+        let sitemapCtx = listField "entries" postCtx (return posts)
+        makeItem ("" :: String)
+          >>= loadAndApplyTemplate "templates/sitemap.xml" sitemapCtx
 
     create ["posts/index.html"] $ do
       route idRoute
