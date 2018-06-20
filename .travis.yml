@@ -6,6 +6,7 @@ env:
   global:
     - AWS_BUCKET: dzhus.org
     - AWS_REGION: eu-west-2
+    - SITEMAP_LOCATION: http://dzhus.org/sitemap.xml
     # AWS access keys
     - secure: "MSmfVoFTvDr+/SSyt8FOl8bfTVwQavkVHGnB92daEVGNhyJdhHr3ycKhGmG6bgcGl4kayohpkj8/nYv74LKoacNz+jAjoA6kQHWg8aL5C1X+5S44uSwL6JRNbav9afRSLDfZ9waScvphusrv6sunWI5DvGmY0d1Ra4sfpjChfbHv+X1vqNmKRsh2y2pZUf64CbASeQqr9Uy8vlcLHQKpoigIUEKIGPzqVLVcyRXEgXbBrpI4bXHz5i5vXPWExkGnwqtX7pkkgHmSoVhchgV4DaUFxrz4NIjOd7ajIYbLIqrCzNvq9fjxc8lgJgQ6sh84sgQXpyMLGwNGaztIlMVAJxiMIuSCPnyeU5rbvm1owR/SsOMaOLrscwPIYJsIpScYzG1AcAki5RX7AFpYwm2n3NEb2FHZoVa0yFeKWzA5XM1tpcRBybn9Bm+4TOvxNi9E5UywzAbDyVeH5ipFM/kVXWpz9yoz3u4jRq2aal4shR+XpwXlNXWTuXqz8M15jUk+EpNhMqcHIkMkDaAED/qNfhd5dTKbUJi2PG7kiHInms+rzKl2eB7AGQEptAOqsr2V9izAppBHOVVz/Dfz+TBsJdVCQZhuZ6Td3NqjKQV4ypxxlHt6EuQaUFMQ7cf+CnywZVsULTNYRZT35CFu9dGwXmCUmC3mr0ZImg1WKvLHz84="
     - secure: "s4QFNAVBllInCIzp55r5wkpBwXf9ySYmOYRMEum06RihviHbzZi4GaPGS/fw+3iOiqvONvyQ63hoVtW6aO39xE9BrcCTpMjnnYSlO4Y/xRMLUvAnpyLS9IVf4nJsU+84SFTklavnus2PXL20rZgYG2f393/JXMaTGFd4XmKEIbZhlk9RyX3yqKAPjfyaktlhVhlx1VyPeGq6zA2Bj5UsuxJwyM1fCzpoP2aEweHBG1rIRwjSnNYBTLjiX69AJjjugqCAyAxc0y6OA40v+OVml7ljWrArcQ5dugHR0EUAAhoEs8I7ZFWHEnobIr1HBFWaJJprFThe/oo8BJ9SI492UCzj7QOTEzX1i9AzFlX8hQ9f1MGqkjq4PkIwwPUb0m8Ue9WRrrWh85sU+9YTJ0tet0p3U5y0FBB490JsXIju8LMzv1u/g64i4MgoJvbhhJGQZwANlFnanwR7+SpXlcY7tdC90RwDOtNnAsq1epaqMAZGRCJr9iAu4fuzew3Hgf51mNoY/+ys5BTOvIbpW99at7q3QqdTQ8EXEHyG1nzbk4l4VqRybHrL/ID26t4USWtwJglNkGuDQcSXqkdoXThWzla/KDJo2OGjRk6RoTAVaHtUQGRnD8avFxrMTbWjobKHlYxcZ2xcAh2EFIvcpX/oVG70ZC6e/JMd/f+vnU/SoCc="
@@ -50,6 +51,7 @@ after_deploy:
   -H "X-Auth-Key: $CLOUDFLARE_AUTH_KEY"
   -H "Content-Type: application/json"
   --data '{"purge_everything":true}'
+- curl "http://google.com/ping?sitemap=$SITEMAP_LOCATION"
 
 cache:
   directories:
