@@ -19,7 +19,7 @@ Micro 4/3 встают без проблем. Почти все быстро п�
 баловство и не то, с чего нужно начинать. Да и старая дешёвая оптика
 тупо ниже качеством.
 
-<a data-flickr-embed="true"
+<a
 href="https://www.flickr.com/photos/nothingpersonal/8727391803/"
 title="A boy and his dog"><img
 src="https://farm8.staticflickr.com/7356/8727391803_968cbf7f3e.jpg"
@@ -35,7 +35,7 @@ src="https://farm8.staticflickr.com/7356/8727391803_968cbf7f3e.jpg"
 естественным освещением дело нехитрое (но всё же лучше, чем щёлкать
 голубей в спальном районе на средний формат, как некоторые).
 
-<a data-flickr-embed="true"
+<a
 href="https://www.flickr.com/photos/nothingpersonal/36237920254/in/album-72157688348206705/"
 title="Near Alpspitze"><img
 src="https://farm5.staticflickr.com/4396/36237920254_ab7d54d870.jpg"
