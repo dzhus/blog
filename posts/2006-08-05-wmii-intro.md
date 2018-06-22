@@ -1,7 +1,6 @@
 ---
 tags:
 - Free Software
-- Ъ
 title: wmii
 ---
 

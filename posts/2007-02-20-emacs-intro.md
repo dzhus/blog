@@ -2,7 +2,6 @@
 tags:
 - Emacs
 - Free Software
-- Ъ
 - новые знания
 - статьи
 title: Начало пути к Emacs
