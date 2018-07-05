@@ -243,39 +243,39 @@ METAPOST: прямые, угловатые и скруглённые кривы�
 параллельных прямых:
 
 ```latex
-    \begin{tikzpicture}
-    \coordinate [] (O) at (0, 0) {};
+\begin{tikzpicture}
+  \coordinate [] (O) at (0, 0) {};
 
-    \coordinate [label=above right:$X$] (X) at (60:1) {};
-    \coordinate [label=below left:$Y$] (Y) at (200:1) {};
+  \coordinate [label=above right:$X$] (X) at (60:1) {};
+  \coordinate [label=below left:$Y$] (Y) at (200:1) {};
 
-    \coordinate [label=above left:$A$] (A) at ($ (Y)!.3!(X)$) {};
-    \coordinate [label=above left:$B$] (B) at ($ (X)!.2!(Y)$) {};
+  \coordinate [label=above left:$A$] (A) at ($ (Y)!.3!(X)$) {};
+  \coordinate [label=above left:$B$] (B) at ($ (X)!.2!(Y)$) {};
 
-    \coordinate [label=below:$M$] (M) at (280:1) {};
-    \coordinate [label=below right:$N$] (N) at (330:1) {};
+  \coordinate [label=below:$M$] (M) at (280:1) {};
+  \coordinate [label=below right:$N$] (N) at (330:1) {};
 
-    \coordinate [label=above left:$P$] (P) at (intersection of X--M and Y--N) {};
+  \coordinate [label=above left:$P$] (P) at (intersection of X--M and Y--N) {};
 
-    % disk model
-    \node [draw,thick,circle through=(X)] (circle) at (O) {};
+  % disk model
+  \node [draw,thick,circle through=(X)] (circle) at (O) {};
 
-    % chords
-    \draw (X) --node[auto]{$l$} (Y);
-    \draw (X) -- (M);
-    \draw (Y) -- (N);
+  % chords
+  \draw (X) --node[auto]{$l$} (Y);
+  \draw (X) -- (M);
+  \draw (Y) -- (N);
 
-    % a bundle of parallel lines
-    \begin{scope}
-    \clip (O) circle(1);
-    \foreach \a in {0,...,6} \draw[very thin]
-                              ($ (P)+(180+\a*12:2) $) --
-                              ($ (P)+(\a*12:2) $);
-    \end{scope}
+  % a bundle of parallel lines
+  \begin{scope}
+  \clip (O) circle(1);
+  \foreach \a in {0,...,6} \draw[very thin]
+                            ($ (P)+(180+\a*12:2) $) --
+                            ($ (P)+(\a*12:2) $);
+  \end{scope}
 
-    %dot marks
-    \foreach \p in {X, Y, A, B, P, M, N} \draw node[dot] at (\p) {};
-    \end{tikzpicture}
+  %dot marks
+  \foreach \p in {X, Y, A, B, P, M, N} \draw node[dot] at (\p) {};
+\end{tikzpicture}
 ```
 
 Ещё много функциональности вынесено в отдельные дополнения к PGF&TikZ.
