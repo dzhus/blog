@@ -58,9 +58,6 @@ replaces the old Django-based blog engine which was used in 2006-2012.
 
 ## Known issues
 
-- [ ] CI pipeline pushes all posts to S3, not just those which updated
-      (waste of POSTs).
-
 - [ ] `modificationDate` for entries is populated from file
       modification time, not the date of the corresponding Git
       revision.
