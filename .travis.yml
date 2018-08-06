@@ -19,7 +19,7 @@ matrix:
   include:
     - env: FLAGS="" ARGS=""
       compiler: ": #stack default"
-      addons: {apt: {packages: [libgmp-dev]}}
+      addons: {apt: {packages: [libgmp-dev, python3-pip]}}
 
 before_install:
 - unset CC
@@ -31,6 +31,9 @@ script:
 - curl -sL https://raw.github.com/ndmitchell/hlint/master/misc/travis.sh | sh -s .
 - stack $ARGS --install-ghc --no-terminal build $FLAGS --pedantic --haddock --no-haddock-deps --test --bench
 - stack exec site build
+
+before_deploy:
+  - python3 -m pip install --user awscli
 
 deploy:
   provider: script
