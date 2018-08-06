@@ -37,7 +37,7 @@ before_deploy:
 
 deploy:
   provider: script
-  script: aws s3 sync --dryrun _site s3://"$AWS_BUCKET"
+  script: aws s3 sync --dryrun --delete _site s3://"$AWS_BUCKET"
   skip_cleanup: true
   on:
     branch: master
