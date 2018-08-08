@@ -111,13 +111,18 @@ main = do
         loadAndApplyTemplate "templates/single-page.html" defaultContext >>=
         loadAndApplyTemplate "templates/default.html" defaultContext
 
-    tags <- buildTags "posts/*" (fromCapture "tag/*")
+    let renderedPosts =
+          "posts/*" .&&.
+          hasNoVersion .&&.
+          complement "posts/index.html"
+
+    tags <- buildTags renderedPosts (fromCapture "tag/*")
 
     -- Paginate the whole history by pages of 1 to provide links to
     -- previous/next post
-    allPosts <- sortChronological =<< getMatches "posts/*"
+    allPosts <- sortChronological =<< getMatches renderedPosts
     postStream <- buildPaginateWith (fmap (paginateEvery 1) . sortChronological)
-                  "posts/*"
+                  renderedPosts
                   -- Make page identifiers equal to file identifiers
                   (\n -> fromMaybe "?" $ index allPosts (n - 1))
 
@@ -154,11 +159,6 @@ main = do
     match "posts/*" $ version "raw" $ do
       route idRoute
       compile getResourceString
-
-    let renderedPosts =
-          "posts/*" .&&.
-          hasNoVersion .&&.
-          complement "posts/index.html"
 
     create ["index.html"] $ do
       route idRoute
