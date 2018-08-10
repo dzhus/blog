@@ -1,3 +1,11 @@
+---
+lang: en
+tags:
+- TIL
+---
+
+# Communication skills
+
 Communication Skills workshop from [AGL][] was interesting. Even
 developing some basic awareness of how you come across does make a
 difference.
