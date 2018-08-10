@@ -56,14 +56,13 @@ replaces the old Django-based blog engine which was used in 2006-2012.
        (previous/next) links between consecutive items will result in
        circular dependencies.
 
+- [x] `modificationTimeField` for each entry is populated from the
+      author date of its latest Git revision
+
 ## Known issues
 
 - [ ] Presumably due to pagination/tags code, all pages are rebuilt
       after even a single post is modified.
-
-- [ ] `modificationDate` for entries is populated from file
-      modification time, not the date of the corresponding Git
-      revision.
 
 ## A note on Semantic Web technologies
 

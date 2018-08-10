@@ -26,3 +26,4 @@ executables:
       - pandoc-types
       - pureMD5
       - skylighting
+      - time

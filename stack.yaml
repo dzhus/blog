@@ -1,2 +1,4 @@
 resolver: lts-11.11
-packages: ['.']
+extra-deps:
+  - git: https://github.com/dzhus/hakyll
+    commit: ce71b85364c4a831cc47fada6fd367fa7e9d9efc

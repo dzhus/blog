@@ -1,5 +1,6 @@
 import ClassyPrelude
 import Data.Digest.Pure.MD5
+import Data.Time (iso8601DateFormat)
 import Hakyll hiding (defaultContext)
 import Text.Pandoc
 import Skylighting.Format.HTML
@@ -174,7 +175,9 @@ main = do
     create ["atom.xml"] $ do
       route idRoute
       compile $ do
-        let feedCtx = postCtx <> bodyField "description"
+        let feedCtx = postCtx <>
+                      bodyField "description" <>
+                      modificationTimeField "updated" (iso8601DateFormat (Just "%T%Z"))
         posts <- fmap (take 20) . recentFirst =<<
                  loadAllSnapshots renderedPosts "html"
         renderAtom feedConfiguration feedCtx posts
