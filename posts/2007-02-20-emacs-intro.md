@@ -80,7 +80,7 @@ Elisp'а не надо бояться и кивать на использова�
     свободная программа, однако нет никакого кондуита для экспорта баз
     Progect с КПК на большой компутер в приличный формат. А хранить
     большие TODO на компьютере не так удобно, как всегда иметь их под
-    рукой на КПК =\[
+    рукой на КПК.
 
 -   есть весьма мощный почтовик/ньюсридер [Gnus][]. NNTP, POP3, SMTP,
     IMAP, RSS, mbox, интеграция со всеми спаморезками и некоторыми
@@ -115,13 +115,13 @@ Emacs, нужно знать, что в нём есть :) Частым вопр
 
 Да поможет вам [EmacsWiki][].
 
-  [GNU Emacs]: http://www.gnu.org/software/emacs/
-  [TAOUP]: http://www.catb.org/~esr/writings/taoup/
-  [AUCTeX]: http://www.gnu.org/software/auctex/
-  [GNU Arch]: http://www.gnuarch.org/gnuarchwiki/
-  [DVC]: http://download.gna.org/dvc/
-  [darcs]: http://dzhus.org/posts/2006-12-31-darcs.html
-  [org-mode]: http://staff.science.uva.nl/~dominik/Tools/org/
-  [Progect]: http://sourceforge.net/projects/progect/
-  [Gnus]: http://www.emacswiki.org/cgi-bin/wiki/CategoryGnus
-  [EmacsWiki]: http://emacswiki.org/
+[GNU Emacs]: http://www.gnu.org/software/emacs/
+[TAOUP]: http://www.catb.org/~esr/writings/taoup/
+[AUCTeX]: http://www.gnu.org/software/auctex/
+[GNU Arch]: http://www.gnuarch.org/gnuarchwiki/
+[DVC]: http://download.gna.org/dvc/
+[darcs]: http://dzhus.org/posts/2006-12-31-darcs.html
+[org-mode]: http://staff.science.uva.nl/~dominik/Tools/org/
+[Progect]: http://sourceforge.net/projects/progect/
+[Gnus]: http://www.emacswiki.org/cgi-bin/wiki/CategoryGnus
+[EmacsWiki]: http://emacswiki.org/
