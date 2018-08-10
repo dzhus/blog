@@ -58,6 +58,9 @@ replaces the old Django-based blog engine which was used in 2006-2012.
 
 ## Known issues
 
+- [ ] Presumably due to pagination/tags code, all pages are rebuilt
+      after even a single post is modified.
+
 - [ ] `modificationDate` for entries is populated from file
       modification time, not the date of the corresponding Git
       revision.
