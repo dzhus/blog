@@ -4,7 +4,7 @@ tags:
 - TIL
 ---
 
-# Platforms and products.
+# Platforms and products
 
 Reading [Steve Yegge's rant about Google][sy-google] not being a
 platform reminded me of something I originally learned after getting
