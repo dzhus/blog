@@ -85,8 +85,9 @@ main = do
       [ leadingH1Context
       , constField "rootUrl" rootUrl
       , dateField "date" "%d.%m.%Y"
-      , dateField "isoDate" "%Y-%m-%d"
-      , modificationTimeField "modificationDate" "%Y-%m-%d"
+      , dateField "isoDate" "%F"
+      , modificationTimeField "modificationDate" "%F"
+      , modificationTimeField "updated" (iso8601DateFormat (Just "%T%Z"))
       , defaultContext
       ]
 
@@ -175,9 +176,7 @@ main = do
     create ["atom.xml"] $ do
       route idRoute
       compile $ do
-        let feedCtx = postCtx <>
-                      bodyField "description" <>
-                      modificationTimeField "updated" (iso8601DateFormat (Just "%T%Z"))
+        let feedCtx = postCtx <> bodyField "description"
         posts <- fmap (take 20) . recentFirst =<<
                  loadAllSnapshots renderedPosts "html"
         renderAtom feedConfiguration feedCtx posts
