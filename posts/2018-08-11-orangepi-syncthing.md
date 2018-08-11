@@ -35,10 +35,10 @@ me:
    even without Syncthing. When using only an SD card you could grab
    the whole Pi box though :)
 
-3. Orange Pi will struggle to pump enough power to the HDD. I used a $2
-   power injector USB cable (two males which connect to USB power and
-   the Orange Pi plus a single female port which takes the HDD USB
-   plug).
+3. Orange Pi will struggle to pump enough power to the HDD. I used a
+   $2 [USB splitter][usb-splitter-cable] cable which injects extra
+   power (two males which connect to USB power and the Orange Pi plus
+   a single female port which takes the HDD USB plug).
 
 4. USB power brick with at least two ports (I accumulated a few over
    years, otherwise it's maybe another $10).
@@ -69,3 +69,5 @@ maximum.
 [opi]: http://dzhus.org/posts/2017-09-10-orangepi.html
 
 [syncthing-playbook]: https://github.com/dzhus/globalchypre/blob/44df280/playbooks/syncthing.yml
+
+[usb-splitter-cable]: https://www.aliexpress.com/item/USB-2-0-A-Male-to-USB-Female-2-Double-Dual-USB-Female-Splitter-Extension-Cable/32828176439.html
