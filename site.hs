@@ -87,7 +87,7 @@ main = do
       , dateField "date" "%d.%m.%Y"
       , dateField "isoDate" "%F"
       , modificationTimeField "modificationDate" "%F"
-      , modificationTimeField "updated" (iso8601DateFormat (Just "%T%Z"))
+      , modificationTimeField "updated" (iso8601DateFormat (Just "%T%z"))
       , defaultContext
       ]
 
