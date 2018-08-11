@@ -9,10 +9,10 @@ tags:
 [Syncthing][] is pretty great, it just works, which is becoming rare
 for software these days. Syncthing is peer-to-peer, which means that
 there doesn't have to be a central node that can die, refuse service
-or rack up the price. You can replicate and share your files across a
-network of nodes *you* control, which can include your laptop, a
-storage server, an [Android][] phone etc., without relying on
-proprietary software or a third party such as Dropbox. Anything can
+or unexpectedly increase the price. You can replicate and share your
+files across a network of nodes *you* control, which can include your
+laptop, a storage server, an [Android][] phone etc., without relying
+on proprietary software or a third party such as Dropbox. Anything can
 work with files. Syncthing nodes don't even have to be on Internet.
 Cloud providers should provide Syncthing-as-a-service as a nicer way
 to interface laptops and phones with commoditised blob storage such as
