@@ -13,10 +13,10 @@ or unexpectedly increase the price. You can replicate and share your
 files across a network of nodes *you* control, which can include your
 laptop, a storage server, an [Android][] phone etc., without relying
 on proprietary software or a third party such as Dropbox. Anything can
-work with files. Syncthing nodes don't even have to be on Internet.
-Cloud providers should provide Syncthing-as-a-service as a nicer way
-to interface laptops and phones with commoditised blob storage such as
-S3 offered by AWS and GCP.
+work with files. Syncthing nodes don't even have to be on the
+Internet. Cloud providers should provide Syncthing-as-a-service as a
+nicer way to interface laptops and phones with commoditised blob
+storage such as S3 offered by AWS and GCP.
 
 Meanwhile, a cheap ARM-based computer such as [Orange Pi Zero][opi]
 makes a good Syncthing node. This is the setup which works great for
@@ -57,7 +57,7 @@ The whole thing fits anywhere in your furniture. It's probably better
 to invest in multiple nodes rather than a single box. In my flat
 resiliency means one node is under the bed and another is on top the
 wardrobe. You can simply buy more houses to achieve truly global
-resiliency for you file storage network.
+resiliency for your file storage network.
 
 Total budget: 30$ plus several hours of tinkering. Satisfaction:
 maximum.
