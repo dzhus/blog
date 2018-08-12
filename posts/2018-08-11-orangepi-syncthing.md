@@ -23,7 +23,8 @@ makes a good Syncthing node. This is the setup which works great for
 me:
 
 1. An Orange Pi Zero with network access (roughly $10). I simply use
-   Wi-Fi. It's rather bad on this particular board, wired Ethernet
+   Wi-Fi. It's rather bad on this particular board with Armbian 5.30
+   (Ubuntu Xenial-based, 3.4.x kernel, June 2017), wired Ethernet
    works much better. Quite enough for my Syncthing needs though.
 
 2. For the actual storage, I used a 2.5-inch laptop HDD with a USB
