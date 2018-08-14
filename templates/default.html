@@ -25,11 +25,8 @@
     <link rel="next" href="$nextPageUrl$" />
     $endif$
 
-    $if(alternates)$
-      $for(alternates)$
-      <link rel="alternate" href="$url$" type="text/markdown" />
-      $endfor$
-      <meta property="og:title" content="$title$" />
+    <meta property="og:title" content="$title$" />
+    $if(description)$
       <meta property="og:description" content="$description$" />
       <meta name="description" content="$description$" />
       <meta property="og:type" content="article" />

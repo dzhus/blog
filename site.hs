@@ -117,6 +117,13 @@ main = do
         loadAndApplyTemplate "templates/single-page.html" defaultContext >>=
         loadAndApplyTemplate "templates/default.html" defaultContext
 
+    -- Snapshot raw body of each resource, this is needed for `title`
+    -- field in postCtx to work (populated via leadingH1Context that
+    -- uses snapshots)
+    match "posts/*" $ version "raw" $ compile $ do
+      raw <- getResourceBody
+      saveSnapshot "raw" raw
+
     let renderedPosts =
           "posts/*" .&&.
           hasNoVersion .&&.
@@ -132,39 +139,28 @@ main = do
                   -- Make page identifiers equal to file identifiers
                   (\n -> fromMaybe "?" $ index allPosts (n - 1))
 
-    -- Single post rendering rule
-    paginateRules postStream $ \pn _ ->
-      let
-        thisPostId = paginateMakeId postStream pn
-        loadRaw = load $ setVersion (Just "raw") thisPostId
-      in do
-        hasTags <- getMetadataField thisPostId "tags"
-        route $ setExtension "html"
+    paginateRules postStream $ \pn _ -> do
+      hasTags <- getMetadataField (paginateMakeId postStream pn) "tags"
+      route $ setExtension "html"
 
-        compile $ do
-          html <- getResourceBody >>= pandocWithoutLeadingH1
+      compile $ do
+        html <- getResourceBody >>= pandocWithoutLeadingH1
 
-          -- Populate $description$ from rendered post body
-          let postCtx' =
-                listField "alternates" postCtx (return <$> loadRaw) <>
-                paginateContext postStream pn <>
-                boolField "hasTags" (const $ isJust hasTags) <>
-                tagsField "tags" tags <>
-                constField "description"
-                ((<> "…") $ take 190 $ stripTags $ itemBody html) <>
-                postCtx
+        -- Populate $description$ from rendered post body
+        let postCtx' =
+              paginateContext postStream pn <>
+              boolField "hasTags" (const $ isJust hasTags) <>
+              tagsField "tags" tags <>
+              constField "description"
+              ((<> "…") $ take 190 $ stripTags $ itemBody html) <>
+              postCtx
 
-          saveSnapshot "html" html >>=
-            loadAndApplyTemplate "templates/post.html" postCtx' >>=
-            saveSnapshot "post" >>=
-            loadAndApplyTemplate "templates/single-page.html" postCtx' >>=
-            loadAndApplyTemplate "templates/page-navigation.html" postCtx' >>=
-            finishTemplating postCtx'
-
-    -- .md post sources
-    match "posts/*" $ version "raw" $ do
-      route idRoute
-      compile getResourceString
+        saveSnapshot "html" html >>=
+          loadAndApplyTemplate "templates/post.html" postCtx' >>=
+          saveSnapshot "post" >>=
+          loadAndApplyTemplate "templates/single-page.html" postCtx' >>=
+          loadAndApplyTemplate "templates/page-navigation.html" postCtx' >>=
+          finishTemplating postCtx'
 
     create ["index.html"] $ do
       route idRoute

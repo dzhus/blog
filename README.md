@@ -26,12 +26,6 @@ replaces the old Django-based blog engine which was used in 2006-2012.
 
 - [x] source code highlighting and scrolling
 
-- [x] alternate links
-
-    For some reason, trying to do `loadAll pat .&&. hasVersion "raw"`
-    in the body of `paginateRules` results in no items loaded, so
-    we're using `load` instead (we know the identifier anyways).
-
 - [x] next/previous page link?
 
     This one seems more difficult than it should be:
