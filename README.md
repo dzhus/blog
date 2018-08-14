@@ -11,7 +11,10 @@ replaces the old Django-based blog engine which was used in 2006-2012.
 
 - [x] Home page
 
-- [ ] Multi-language support
+- [x] Multi-language support
+
+    Language-specific sections: post page, feeds, post list, tags,
+    pagination.
 
     Each entry should have a primary language. There should be feeds
     in both languages. Template must depend on entry language.

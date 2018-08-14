@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="$if(lang)$$lang$$else$ru$endif$"
+<html lang="$lang$"
       prefix="og: http://ogp.me/ns#
               dc: http://purl.org/dc/elements/1.1/">
   <head>
@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="/css/default.css" />
     <link rel="stylesheet" href="/css/syntax.css" />
 
-    <link rel="alternate" href="/atom.xml" type="application/atom+xml" />
+    <link rel="alternate" href="/atom-$lang$.xml" type="application/atom+xml" />
 
     $if(previousPageUrl)$
     <link rel="prev" href="$previousPageUrl$" />
@@ -50,7 +50,7 @@
     </main>
 
     <footer>
-      © 2005-$thisYear$ <a rel="author" href="/about.html">$creator$</a>
+      © 2005-$thisYear$ <a rel="author" href="/$langPrefix$about.html">$creator$</a>
     </footer>
   </body>
 </html>
