@@ -76,6 +76,10 @@ finishTemplating :: Context a -> Item a -> Compiler (Item String)
 finishTemplating ctx i =
   loadAndApplyTemplate "templates/default.html" ctx i >>= relativizeUrls
 
+filterBy :: MonadMetadata m => String -> Maybe String -> [Item a] -> m [Item a]
+filterBy field val =
+  filterM (\Item{..} -> (== val) <$> getMetadataField itemIdentifier field)
+
 main :: IO ()
 main = do
   defaultContext <- mkDefaultContext
@@ -178,6 +182,7 @@ main = do
       compile $ do
         let feedCtx = postCtx <> bodyField "description"
         posts <- fmap (take 20) . recentFirst =<<
+                 filterBy "lang" Nothing =<<
                  loadAllSnapshots renderedPosts "html"
         renderAtom feedConfiguration feedCtx posts
 
