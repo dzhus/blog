@@ -1,6 +1,4 @@
 ---
-tags:
-- RuNIX
 title: 'emacs-shellfm'
 ---
 

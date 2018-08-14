@@ -1,6 +1,4 @@
 ---
-tags:
-- RuNIX
 title: 'Немного мыслей о GDB/MI'
 ---
 
