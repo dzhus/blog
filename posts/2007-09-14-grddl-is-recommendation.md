@@ -1,6 +1,5 @@
 ---
 tags:
-- RDF
 - Semantic Web
 - web
 - XML
