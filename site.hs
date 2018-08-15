@@ -260,7 +260,6 @@ main = do
 
           saveSnapshot "html" html >>=
             loadAndApplyTemplate "templates/post.html" postCtx >>=
-            saveSnapshot "post" >>=
             loadAndApplyTemplate "templates/single-page.html" postCtx >>=
             loadAndApplyTemplate "templates/page-navigation.html" postCtx >>=
             finishTemplating postCtx
