@@ -103,8 +103,8 @@ main :: IO ()
 main = do
   defaultContext <- mkDefaultContext
   let
-    fullCtx :: Context String
-    fullCtx = mconcat
+    richCtx :: Context String
+    richCtx = mconcat
       [ leadingH1Context
       , constField "rootUrl" rootUrl
       , constField "lang" defaultLang
@@ -136,11 +136,11 @@ main = do
       route $ gsubRoute "pages/" (const "") `composeRoutes` setExtension "html"
       compile $
         pandocCompiler >>=
-        loadAndApplyTemplate "templates/single-page.html" fullCtx >>=
-        loadAndApplyTemplate "templates/default.html" fullCtx
+        loadAndApplyTemplate "templates/single-page.html" richCtx >>=
+        loadAndApplyTemplate "templates/default.html" richCtx
 
     -- Snapshot raw body of each resource, this is needed for `title`
-    -- field in fullCtx to work (populated via leadingH1Context that
+    -- field in richCtx to work (populated via leadingH1Context that
     -- uses snapshots)
     match "posts/*" $ version "raw" $ compile $ do
       raw <- getResourceBody
@@ -155,7 +155,7 @@ main = do
       route idRoute
       compile $ do
         posts <- recentFirst =<< loadAll renderedPosts
-        let sitemapCtx = listField "entries" fullCtx (return posts)
+        let sitemapCtx = listField "entries" richCtx (return posts)
         makeItem ("" :: String)
           >>= loadAndApplyTemplate "templates/sitemap.xml" sitemapCtx
 
@@ -163,7 +163,7 @@ main = do
     create ["atom-all.xml"] $ do
       route idRoute
       compile $ do
-        let feedCtx = fullCtx <> bodyField "description"
+        let feedCtx = richCtx <> bodyField "description"
         posts <- fmap (take 20) . recentFirst =<<
                  loadAllSnapshots renderedPosts "html"
         renderAtom feedConfiguration feedCtx posts
@@ -176,19 +176,19 @@ main = do
       compile $
         renderTagCloud 100 150 tags
         >>= makeItem
-        >>= loadAndApplyTemplate "templates/single-page.html" fullCtx
-        >>= finishTemplating fullCtx
+        >>= loadAndApplyTemplate "templates/single-page.html" richCtx
+        >>= finishTemplating richCtx
 
     tagsRules tags $ \tag pat -> do
       route $ setExtension "html"
       compile $ do
         posts <- recentFirst =<< loadAll pat
         let ctx = constField "title" tag <>
-                  listField "posts" fullCtx (return posts) <>
-                  fullCtx
+                  listField "posts" richCtx (return posts) <>
+                  richCtx
         makeItem ""
           >>= loadAndApplyTemplate "templates/post-list.html" ctx
-          >>= finishTemplating fullCtx
+          >>= finishTemplating richCtx
 
     -- Language-specific stuff below
     forM_ [Nothing, Just "en"] $ \lang -> do
@@ -197,10 +197,10 @@ main = do
                   getMatches renderedPosts
 
       let langPrefix = maybe "" (<> "/") lang
-          fullCtx' = constField "lang" (fromMaybe defaultLang lang) <>
+          richCtx' = constField "lang" (fromMaybe defaultLang lang) <>
                      constField "langPrefix" langPrefix <>
                      langCtx lang <>
-                     fullCtx
+                     richCtx
 
       -- Home page
       create [fromString $ langPrefix <> "index.html"] $ do
@@ -208,29 +208,30 @@ main = do
         compile $ do
           posts <- fmap (take 5) . recentFirst =<<
                    loadAll (H.fromList allPosts)
-          let ctx = listField "posts" fullCtx' (return posts) <>
-                    fullCtx'
+          let homeCtx = listField "posts" richCtx' (return posts) <>
+                        richCtx'
           makeItem ""
             >>= loadAndApplyTemplate
-                (fromString $ "templates/" <> langPrefix <> "index.html") ctx
-            >>= finishTemplating ctx
+                (fromString $ "templates/" <> langPrefix <> "index.html")
+                homeCtx
+            >>= finishTemplating homeCtx
 
       -- Post list
       create [fromString $ langPrefix <> "posts/index.html"] $ do
         route idRoute
         compile $ do
           posts <- recentFirst =<< loadAll (H.fromList allPosts)
-          let ctx = listField "posts" fullCtx' (return posts) <>
-                    fullCtx'
+          let indexCtx = listField "posts" richCtx' (return posts) <>
+                         richCtx'
           makeItem ""
-            >>= loadAndApplyTemplate "templates/post-list.html" ctx
-            >>= finishTemplating ctx
+            >>= loadAndApplyTemplate "templates/post-list.html" indexCtx
+            >>= finishTemplating indexCtx
 
       -- Language-specific Atom feed
       create [fromString $ langPrefix <> "atom.xml"] $ do
         route idRoute
         compile $ do
-          let feedCtx = fullCtx' <> bodyField "description"
+          let feedCtx = richCtx' <> bodyField "description"
           posts <- fmap (take 20) . recentFirst =<<
                    loadAllSnapshots (H.fromList allPosts) "html"
           renderAtom feedConfiguration feedCtx posts
@@ -256,7 +257,7 @@ main = do
                 paginateContext postStream pn <>
                 constField "description"
                 ((<> "…") $ take 190 $ stripTags $ itemBody html) <>
-                fullCtx'
+                richCtx'
 
           saveSnapshot "html" html >>=
             loadAndApplyTemplate "templates/post.html" postCtx >>=
