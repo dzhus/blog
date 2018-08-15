@@ -209,6 +209,7 @@ main = do
           posts <- fmap (take 5) . recentFirst =<<
                    loadAll (H.fromList allPosts)
           let homeCtx = listField "posts" richCtx' (return posts) <>
+                        boolField "noTitle" (const True) <>
                         richCtx'
           makeItem ""
             >>= loadAndApplyTemplate
@@ -222,6 +223,7 @@ main = do
         compile $ do
           posts <- recentFirst =<< loadAll (H.fromList allPosts)
           let indexCtx = listField "posts" richCtx' (return posts) <>
+                         boolField "noTitle" (const True) <>
                          richCtx'
           makeItem ""
             >>= loadAndApplyTemplate "templates/post-list.html" indexCtx
