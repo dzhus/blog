@@ -67,7 +67,7 @@ maximum.
 
 [android]: https://play.google.com/store/apps/details?id=com.nutomic.syncthingandroid
 
-[opi]: http://dzhus.org/posts/2017-09-10-orangepi.html
+[opi]: http://dzhus.org/en/posts/2017-09-10-orangepi.html
 
 [syncthing-playbook]: https://github.com/dzhus/globalchypre/blob/44df280/playbooks/syncthing.yml
 
