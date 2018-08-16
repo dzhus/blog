@@ -5,53 +5,29 @@ replaces the old Django-based blog engine which was used in 2006-2012.
 
 ## Features
 
+- [x] Home page
+
 - [x] Extract title from the first `<h1>` heading in the file
 
 - [x] Mobile view with responsive design
-
-- [x] Home page
 
 - [x] Multi-language support
 
     Language-specific sections: post page, feeds, post list, tags,
     pagination.
 
-    Each entry should have a primary language. There should be feeds
-    in both languages. Template must depend on entry language.
-    Next/previous page links must lead to entries in the same
-    language.
+    Each entry can hava a language specified via `lang` metadata
+    field. There are feeds in both languages. Template must depend on
+    entry language. Next/previous page links must lead to entries in
+    the same language.
 
-- [x] Atom feed
+- [x] Atom feeds
 
-- [x] sitemap for posts
+- [x] Sitemap for posts
 
-- [x] list of tags on article page
+- [x] Source code highlighting and scrolling
 
-- [x] source code highlighting and scrolling
-
-- [x] next/previous page link?
-
-    This one seems more difficult than it should be:
-
-    1. Pagination. `buildPaginateWith` has no means to specify sorting
-       order. It's unclear what `pattern` argument in `paginateRules`
-       refers to.
-
-       Somehow I got this to work:
-
-       - Make page identifiers equal to file identifiers
-
-       - Using paginateRules forces files with correct names to be
-         created (with a single identifier per page). The question is
-         how `pandocCompiler` picks the right source file if the
-         enclosing `Rules` are `create`, not `match`?
-
-    2. `sortChronologically` + `getMatches`: this operates on
-       Identifiers only, but it seems there's no way to go from an
-       Identifier to its URL outside of compiler context for the Item
-       which corresponds to that identifier. It means that mutual
-       (previous/next) links between consecutive items will result in
-       circular dependencies.
+- [x] Next/previous page link
 
 - [x] `modificationTimeField` for each entry is populated from the
       author date of its latest Git revision
