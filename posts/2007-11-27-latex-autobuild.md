@@ -747,7 +747,7 @@ Metapost-код:
   [Файлы проекта]: http://github.com/dzhus/term-paper-diffeq/blob/4319de9/source
   [Mercurial-репозитории]: http://dzhus.org/posts/2007-06-27-howto-mercurial-repo-with-web-fastcgi-and-ssl.html
     "Настройка веб-сервера для работы с Mercurial"
-  [PDF]: http://dzhus.org/media/uploads/report.pdf
+  [PDF]: https://github.com/dzhus/term-paper-diffeq/blob/master/term3.pdf
   [Texdepend]: http://www.ctan.org/tex-archive/support/texdepend/
   [makedepend]: http://en.wikipedia.org/wiki/Makedepend
   [Makefile]: http://github.com/dzhus/term-paper-diffeq/blob/4319de9/doc/Makefile
