@@ -22,6 +22,12 @@ GNU-попойке), наклейки (немного удивил l33tsp34k в 
 «[Free Your Android!][android]» для локальных акций против
 Google-оккупации смартфонов честных трудящихся.
 
+<a
+href="https://www.flickr.com/photos/nothingpersonal/7248218682/in/datetaken/"
+title="FSFE goodies"><img
+src="https://farm8.staticflickr.com/7080/7248218682_d62482fa94.jpg"
+alt="FSFE goodies"></a>
+
 Но в уголке посылки было ещё и что-то тяжёленькое. В изумлении я
 извлёк на свет увесистую металлическую покерную фишку в пластиковой
 защите с эмблемой сайта [PokerStars.com][poker]. Фишка ярко-ярко
