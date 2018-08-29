@@ -29,20 +29,20 @@ me:
 
 2. For the actual storage, I used a 2.5-inch laptop HDD with a USB
    enclosure (roughly $18 for both). I simply had a few 140GB spares
-   lying around (which inspired this work in the first place). Picking
-   a bigger SD card for the Pi is another option of course, but
-   they're still pricier than HDDs at this point. Good thing about USB
-   connection is that you can grab the disk and go plug it elsewhere
-   even without Syncthing. When using only an SD card you could grab
-   the whole Pi box though :)
+   lying around (which inspired this project in the first place).
+   Picking a bigger SD card for the Pi is another option of course,
+   but they're still pricier than HDDs at this point and probably wear
+   out quicker. Good thing about USB connection is that you can grab
+   the disk and go plug it elsewhere even without Syncthing. When
+   using only an SD card you could grab the whole Pi box though :)
 
 3. Orange Pi will struggle to pump enough power to the HDD. I used a
-   $2 [USB splitter][usb-splitter-cable] cable which injects extra
+   $2 [USB splitter][usb-splitter-cable] Y-cable which injects extra
    power (two males which connect to USB power and the Orange Pi plus
    a single female port which takes the HDD USB plug).
 
 4. USB power brick with at least two ports (I accumulated a few over
-   years, otherwise it's maybe another $10).
+   years, otherwise it's maybe another $5) capable of doing 2A each.
 
 <a
 href="https://www.flickr.com/photos/nothingpersonal/29040829177/in/datetaken/"
@@ -60,7 +60,7 @@ resiliency means one node is under the bed and another is on top the
 wardrobe. You can simply buy more houses to achieve truly global
 resiliency for your file storage network.
 
-Total budget: 30$ plus several hours of tinkering. Satisfaction:
+Total budget: 35$ plus several hours of tinkering. Satisfaction:
 maximum.
 
 [syncthing]: https://syncthing.net/
