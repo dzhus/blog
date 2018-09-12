@@ -18,7 +18,7 @@ email :: String
 email = "dima@dzhus.org"
 
 rootUrl :: String
-rootUrl = "http://dzhus.org"
+rootUrl = "https://dzhus.org"
 
 defaultLang :: String
 defaultLang = "ru"
