@@ -2,7 +2,6 @@
 tags:
 - Emacs
 - Free Software
-- GNU
 - HOWTO
 - Python
 - музыка
