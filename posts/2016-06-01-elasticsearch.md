@@ -18,7 +18,7 @@ The aims of the post are:
 - make your ES deployments more reproducible;
 
 - (secretly make you give up on ES altogether or at least implement a
-  proper typed API to make it edible).
+  proper typed API to make it minimally usable).
 
 Prerequisites: you should know what Elasticsearch
 [indices and types/mappings][index-concept] are.
@@ -35,7 +35,7 @@ Examples below use Elasticsearch 5.0.
 
 In other words, do what you'd do when using a proper RDBMS. Or just
 don't use Elasticsearch instead of a database (although it's actually
-quite good «you know, for search»).
+quite good when used «you know, for search»).
 
 ## Dynamic mappings
 
@@ -273,7 +273,7 @@ handling script):
 
 Suppose you need to change the mapping for your documents to use
 different types of fields, different analyzers etc. It's much easier
-to do so with minimal lag if your application is pointed at
+to do so with minimal downtime if your application is pointed at
 [aliases][index-aliases] instead of targeting indices directly. You
 can have different aliases for reading and writing. Switching an alias
 from an old index to a new one is atomic.
