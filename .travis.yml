@@ -29,7 +29,7 @@ before_install:
 
 script:
 - curl -sL https://raw.github.com/ndmitchell/hlint/master/misc/travis.sh | sh -s .
-- stack $ARGS --install-ghc --no-terminal build $FLAGS --pedantic --haddock --no-haddock-deps --test --bench
+- stack $ARGS --install-ghc -j2 --no-terminal build $FLAGS --pedantic --haddock --no-haddock-deps --test --bench
 - stack exec site rebuild
 
 before_deploy:
