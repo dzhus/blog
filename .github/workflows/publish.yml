@@ -1,0 +1,60 @@
+name: Publish updates
+on:
+  push:
+    branches:
+      - master
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_BUCKET: dzhus.org
+  AWS_DEFAULT_REGION: eu-west-2
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+  SITEMAP_LOCATION: https://dzhus.org/sitemap.xml
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Stack
+        uses: haskell/actions/setup@v2
+        with:
+          enable-stack: true
+          stack-version: 'latest'
+
+      - name: Clone project
+        uses: actions/checkout@v3
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.stack
+            .stack-work
+            _cache
+            _site
+          key: ${{ runner.os }}-${{ hashFiles('stack.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
+
+      - name: Build
+        run: |
+          stack build -j2 --fast --no-terminal --pedantic
+          stack exec site rebuild
+
+      - name: Publish
+        run:
+          aws s3 sync --delete _site s3://"$AWS_BUCKET"
+
+      - name: Purge CDN cache
+        run: >-
+          curl -X POST \
+          "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE_ID/purge_cache"
+          -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN
+          -H "Content-Type: application/json"
+          --data '{"purge_everything":true}'
+
+      - name: Update Google sitemap
+        run: |
+          curl "http://google.com/ping?sitemap=$SITEMAP_LOCATION"
