@@ -35,18 +35,6 @@ replaces the old Django-based blog engine which was used in 2006-2012.
 - [ ] Presumably due to pagination/tags code, all pages are rebuilt
       after even a single post is modified.
 
-## A note on Semantic Web technologies
-
-The last big changes to the old engine were made somewhere in 2009. In
-2017, the state of the Semantic Web tech adoption has changed
-(positively) compared to 2010s:
-
-- HTML5 is mainstream
-
-- Microformats, RDFa were «superseded» by [microformats2][]
-
-- Some `<link>` `rel` values were [dropped][rel-drop]
-
 ## TOCs
 
 It's possible to get Pandoc to include table of contents in the HTML
@@ -61,5 +49,3 @@ Perhaps it's best to leave it to the [client][client-toc].
 
 [client-toc]: https://chrome.google.com/webstore/detail/smart-toc/lifgeihcfpkmmlfjbailfpfhbahhibba
 [hakyll]: https://jaspervdj.be/hakyll/index.html
-[microformats2]: http://microformats.org/wiki/microformats2
-[rel-drop]: http://lists.w3.org/Archives/Public/public-html/2011Feb/att-0481/issue-118-decision.html
