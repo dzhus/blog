@@ -22,6 +22,8 @@ title: Не забывать про минус в матрицах
 (Обозначения сбоку для элементарных операций, выполняемых над матрицей,
 делаются с помощью пакета [gauss][]).
 
+<a data-flickr-embed="true" href="https://www.flickr.com/photos/nothingpersonal/3255876487/in/datetaken/" title="Человечек херачит кувалдой по колонке, выбивая цифру с минусом"><img src="https://live.staticflickr.com/3532/3255876487_4a59f6e98e_z.jpg" width="363" height="620" alt="Человечек херачит кувалдой по колонке, выбивая цифру с минусом"/></a>
+
 (остаток записи [утерян](http://dzhus.org/posts/2018-06-09-blog-revival.html) в 2012-2018 годах)
 
   [amsmath]: http://www.ctan.org/tex-archive/macros/latex/required/amslatex/
