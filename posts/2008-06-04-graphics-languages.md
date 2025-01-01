@@ -659,7 +659,6 @@ XML; в таком случае `xsltproc(1)` решает.
   [HSV]: http://ru.wikipedia.org/wiki/HSV
   [нереальных изображений]: http://www.contextfreeart.org/gallery/
   [вики]: http://contextfreeart.org/mediawiki/index.php/CFDG_HOWTO
-  [Swastika (CFDG)]: http://farm4.static.flickr.com/3163/2550790855_4e0eef1f17.jpg
 
   [статистический вес]: http://ru.wikipedia.org/wiki/Термодинамическая_энтропия
     "Стат. вес — кратность состояния"
