@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import sharp from "sharp";
-import { renderBasemap, TILE_SOURCE_ID } from "./basemap.ts";
+import { renderTripTiles, TILE_SOURCE_ID } from "./basemap.ts";
 import { discoverTrips } from "./discover.ts";
 import {
   formatIsoCapturedAt,
@@ -14,10 +14,11 @@ import {
   mergeBBox,
   padBBox,
 } from "./geo.ts";
-import { processGpxFiles, writeTracksJson } from "./gpx.ts";
+import { processGpxFiles, writeTracksJson, formatDistanceKm } from "./gpx.ts";
 import { processPhotoImages } from "./images.ts";
 import { writeMapScript } from "./mapScript.ts";
 import type { TripManifest, TripPhoto, TripsManifest } from "./types.ts";
+import type { BBox } from "./types.ts";
 import { vendorLeaflet } from "./vendor.ts";
 
 export type BuildTripsOptions = {
@@ -30,7 +31,6 @@ export type BuildTripsOptions = {
 export async function buildTrips(
   options: BuildTripsOptions,
 ): Promise<TripsManifest> {
-  // Avoid libvips racing many open path handles under Node 22+.
   sharp.concurrency(1);
   sharp.cache(false);
   const projectRoot = options.projectRoot;
@@ -38,7 +38,8 @@ export async function buildTrips(
   const siteRoot = options.siteRoot ?? path.join(projectRoot, "_site");
   const cacheRoot = options.cacheRoot ?? path.join(projectRoot, "_cache");
 
-  const tileCacheDir = path.join(cacheRoot, "tiles", TILE_SOURCE_ID);
+  const colorCacheDir = path.join(cacheRoot, "tiles", TILE_SOURCE_ID);
+  const greyCacheDir = path.join(cacheRoot, "tiles", `${TILE_SOURCE_ID}-grey`);
   const tripsCacheDir = path.join(cacheRoot, "trips");
   const manifestPath = path.join(tripsCacheDir, "manifest.json");
 
@@ -54,19 +55,20 @@ export async function buildTrips(
     fs.mkdirSync(siteTripDir, { recursive: true });
     fs.mkdirSync(cacheTripDir, { recursive: true });
 
-    const { tracks, bounds: trackBounds } = processGpxFiles(
-      trip.gpxFiles,
-      trip.slug,
-      siteTripDir,
-    );
+    const {
+      tracks,
+      bounds: trackBounds,
+      distanceMeters,
+    } = processGpxFiles(trip.gpxFiles, trip.slug, siteTripDir);
+    const distanceKm = formatDistanceKm(distanceMeters);
 
     const photoMetas: Array<{
       src: string;
       filename: string;
       capturedAt: Date;
       displayCapturedAt: string;
-      lat: number | null;
-      lon: number | null;
+      lat: number;
+      lon: number;
     }> = [];
 
     for (const src of trip.images) {
@@ -95,9 +97,7 @@ export async function buildTrips(
         siteTripDir,
       );
       const stem = path.basename(meta.filename, path.extname(meta.filename));
-      if (meta.lat != null && meta.lon != null) {
-        expandBBox(photoBounds, meta.lat, meta.lon);
-      }
+      expandBBox(photoBounds, meta.lat, meta.lon);
       photos.push({
         id: stem,
         basename: stem,
@@ -121,31 +121,118 @@ export async function buildTrips(
         : photoBounds;
     }
     if (!isValidBBox(bounds)) {
-      // Fallback tiny box if somehow empty
       bounds = { south: 0, west: 0, north: 0.01, east: 0.01 };
     }
     bounds = padBBox(bounds, 0.1);
 
     const mapDir = path.join(siteTripDir, "map");
     fs.mkdirSync(mapDir, { recursive: true });
-    const basemapPath = path.join(mapDir, "basemap.jpg");
     const tracksPath = path.join(mapDir, "tracks.json");
     const mapScriptPath = path.join(mapDir, "map.js");
 
-    // Cache basemap by tile source + bounds
-    const boundsKey = JSON.stringify({ source: TILE_SOURCE_ID, bounds });
-    const basemapMeta = path.join(cacheTripDir, "basemap.key");
-    const basemapCache = path.join(cacheTripDir, "basemap.jpg");
-    if (
-      fs.existsSync(basemapCache) &&
-      fs.existsSync(basemapMeta) &&
-      fs.readFileSync(basemapMeta, "utf8") === boundsKey
-    ) {
-      fs.copyFileSync(basemapCache, basemapPath);
-    } else {
-      await renderBasemap(bounds, basemapCache, tileCacheDir);
-      fs.writeFileSync(basemapMeta, boundsKey);
-      fs.copyFileSync(basemapCache, basemapPath);
+    type TileCacheMeta = {
+      version: 4;
+      source: string;
+      requestBounds: BBox;
+      zoom: number;
+      xMin: number;
+      xMax: number;
+      yMin: number;
+      yMax: number;
+      bounds: BBox;
+      tileUrlTemplate: string;
+    };
+    const tilesMetaPath = path.join(cacheTripDir, "tiles.json");
+
+    let tileSet: {
+      zoom: number;
+      xMin: number;
+      xMax: number;
+      yMin: number;
+      yMax: number;
+      bounds: BBox;
+      tileUrlTemplate: string;
+    } | null = null;
+
+    let cacheHit = false;
+    if (fs.existsSync(tilesMetaPath)) {
+      try {
+        const cached = JSON.parse(
+          fs.readFileSync(tilesMetaPath, "utf8"),
+        ) as TileCacheMeta;
+        if (
+          cached.version === 4 &&
+          cached.source === TILE_SOURCE_ID &&
+          JSON.stringify(cached.requestBounds) === JSON.stringify(bounds)
+        ) {
+          tileSet = {
+            zoom: cached.zoom,
+            xMin: cached.xMin,
+            xMax: cached.xMax,
+            yMin: cached.yMin,
+            yMax: cached.yMax,
+            bounds: cached.bounds,
+            tileUrlTemplate: cached.tileUrlTemplate,
+          };
+          // Re-copy greyscale tiles from cache into _site
+          const z = cached.zoom;
+          let missing = false;
+          outer: for (let ty = cached.yMin; ty <= cached.yMax; ty++) {
+            for (let tx = cached.xMin; tx <= cached.xMax; tx++) {
+              const from = path.join(
+                greyCacheDir,
+                String(z),
+                String(tx),
+                `${ty}.png`,
+              );
+              if (!fs.existsSync(from)) {
+                missing = true;
+                break outer;
+              }
+              const toDir = path.join(mapDir, "tiles", String(z), String(tx));
+              fs.mkdirSync(toDir, { recursive: true });
+              fs.copyFileSync(from, path.join(toDir, `${ty}.png`));
+            }
+          }
+          if (missing) {
+            tileSet = null;
+            cacheHit = false;
+          } else {
+            cacheHit = true;
+          }
+        }
+      } catch {
+        cacheHit = false;
+        tileSet = null;
+      }
+    }
+
+    if (!cacheHit || !tileSet) {
+      tileSet = await renderTripTiles(
+        bounds,
+        trip.slug,
+        mapDir,
+        colorCacheDir,
+        greyCacheDir,
+      );
+      const meta: TileCacheMeta = {
+        version: 4,
+        source: TILE_SOURCE_ID,
+        requestBounds: bounds,
+        zoom: tileSet.zoom,
+        xMin: tileSet.xMin,
+        xMax: tileSet.xMax,
+        yMin: tileSet.yMin,
+        yMax: tileSet.yMax,
+        bounds: tileSet.bounds,
+        tileUrlTemplate: tileSet.tileUrlTemplate,
+      };
+      fs.writeFileSync(tilesMetaPath, JSON.stringify(meta));
+      // Drop legacy basemap cache files
+      for (const legacy of ["basemap.json", "basemap.jpg", "basemap.key"]) {
+        const p = path.join(cacheTripDir, legacy);
+        if (fs.existsSync(p)) fs.unlinkSync(p);
+      }
     }
 
     writeTracksJson(tracks, tracksPath);
@@ -154,14 +241,12 @@ export async function buildTrips(
     const coverThumbUrl = photos[0]?.gridThumbUrl ?? null;
 
     const mapPhotosJson = JSON.stringify(
-      photos
-        .filter((p) => p.lat != null && p.lon != null)
-        .map((p) => ({
-          lat: p.lat,
-          lon: p.lon,
-          thumb: p.mapThumbUrl,
-          url: p.photoPageUrl,
-        })),
+      photos.map((p) => ({
+        lat: p.lat,
+        lon: p.lon,
+        thumb: p.mapThumbUrl,
+        url: p.photoPageUrl,
+      })),
     );
 
     trips.push({
@@ -171,14 +256,16 @@ export async function buildTrips(
       from: trip.from,
       to: trip.to,
       dateRange: trip.dateRange,
+      distanceKm,
       url: `/trips/${trip.slug}/`,
       coverThumbUrl,
       photoCount: photos.length,
       trackCount: tracks.length,
-      bounds,
-      boundsJson: JSON.stringify(bounds),
+      bounds: tileSet.bounds,
+      boundsJson: JSON.stringify(tileSet.bounds),
+      tileUrlTemplate: tileSet.tileUrlTemplate,
+      tileZoom: tileSet.zoom,
       mapPhotosJson,
-      basemapUrl: `/trips/${trip.slug}/map/basemap.jpg`,
       tracksJsonUrl: `/trips/${trip.slug}/map/tracks.json`,
       mapScriptUrl: `/trips/${trip.slug}/map/map.js`,
       photos,
@@ -198,8 +285,6 @@ export async function buildTrips(
 
   fs.mkdirSync(path.dirname(manifestPath), { recursive: true });
   fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
-
-  // Also write a lightweight trips index asset dir
   fs.mkdirSync(path.join(siteRoot, "trips"), { recursive: true });
 
   return manifest;

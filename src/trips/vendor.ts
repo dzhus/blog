@@ -33,7 +33,7 @@ Copyright (c) Volodymyr Agafonkin, Leaflet contributors
 https://leafletjs.com/
 License: BSD-2-Clause (see leaflet package)
 
-Map tiles used to generate static basemap snapshots:
+Map tiles copied into each trip at build time (greyscale OpenTopoMap XYZ):
 © OpenStreetMap contributors
 © OpenTopoMap (CC-BY-SA) — https://opentopomap.org/
 https://www.openstreetmap.org/copyright

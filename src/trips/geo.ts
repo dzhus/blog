@@ -1,5 +1,30 @@
 import type { BBox, LatLon } from "./types.ts";
 
+export const TILE_SIZE = 256;
+
+export function lonToTileX(lon: number, z: number): number {
+  return ((lon + 180) / 360) * Math.pow(2, z);
+}
+
+export function latToTileY(lat: number, z: number): number {
+  const rad = (lat * Math.PI) / 180;
+  return (
+    ((1 -
+      Math.log(Math.tan(rad) + 1 / Math.cos(rad)) / Math.PI) /
+      2) *
+    Math.pow(2, z)
+  );
+}
+
+export function tileXToLon(x: number, z: number): number {
+  return (x / Math.pow(2, z)) * 360 - 180;
+}
+
+export function tileYToLat(y: number, z: number): number {
+  const n = Math.PI - (2 * Math.PI * y) / Math.pow(2, z);
+  return (180 / Math.PI) * Math.atan(0.5 * (Math.exp(n) - Math.exp(-n)));
+}
+
 export function emptyBBox(): BBox {
   return { south: 90, west: 180, north: -90, east: -180 };
 }
@@ -35,12 +60,7 @@ export function padBBox(box: BBox, fraction = 0.08): BBox {
   };
 }
 
-/** Squared distance from point to segment AB (lon/lat as x/y). */
-function distToSegmentSq(
-  p: LatLon,
-  a: LatLon,
-  b: LatLon,
-): number {
+function distToSegmentSq(p: LatLon, a: LatLon, b: LatLon): number {
   const x = p.lon;
   const y = p.lat;
   const x1 = a.lon;
@@ -65,7 +85,7 @@ function distToSegmentSq(
 
 /**
  * Douglas–Peucker simplification. `tolerance` is in degrees.
- * Returns [lat, lon] pairs for Leaflet.
+ * Returns [lat, lon] pairs for later projection.
  */
 export function simplifyTrack(
   points: LatLon[],

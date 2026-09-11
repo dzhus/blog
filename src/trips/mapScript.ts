@@ -2,11 +2,12 @@ import fs from "node:fs";
 import path from "node:path";
 
 export function writeMapScript(outPath: string): void {
-  const script = `/* Trip map widget — local Leaflet only, no remote tiles */
+  const script = `/* Trip map — local greyscale XYZ tiles + EPSG:3857 (no remote tiles) */
 (function () {
   function init(el) {
     var bounds = JSON.parse(el.getAttribute("data-bounds"));
-    var basemapUrl = el.getAttribute("data-basemap");
+    var tilesUrl = el.getAttribute("data-tiles");
+    var zoom = Number(el.getAttribute("data-zoom"));
     var tracksUrl = el.getAttribute("data-tracks");
     var photos = JSON.parse(el.getAttribute("data-photos") || "[]");
 
@@ -16,7 +17,9 @@ export function writeMapScript(outPath: string): void {
 
     var map = L.map(el, {
       crs: L.CRS.EPSG3857,
-      maxBounds: latLngBounds.pad(0.05),
+      minZoom: Math.max(0, zoom - 2),
+      maxZoom: zoom + 1,
+      maxBounds: latLngBounds.pad(0.08),
       maxBoundsViscosity: 1.0,
       scrollWheelZoom: true,
       attributionControl: true,
@@ -29,8 +32,18 @@ export function writeMapScript(outPath: string): void {
       '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="https://opentopomap.org">OpenTopoMap</a> (CC-BY-SA)'
     );
 
-    L.imageOverlay(basemapUrl, latLngBounds, { opacity: 1, interactive: false }).addTo(map);
+    L.tileLayer(tilesUrl, {
+      minNativeZoom: zoom,
+      maxNativeZoom: zoom,
+      minZoom: Math.max(0, zoom - 2),
+      maxZoom: zoom + 1,
+      noWrap: true,
+      bounds: latLngBounds,
+      attribution: "",
+    }).addTo(map);
+
     map.fitBounds(latLngBounds);
+    el._tripMap = map;
 
     fetch(tracksUrl)
       .then(function (r) { return r.json(); })
@@ -50,8 +63,9 @@ export function writeMapScript(outPath: string): void {
           }).addTo(map);
         });
       })
-      .catch(function () { /* tracks optional at runtime */ });
+      .catch(function () {});
 
+    var photoLayer = L.layerGroup();
     photos.forEach(function (p) {
       if (p.lat == null || p.lon == null) return;
       var icon = L.divIcon({
@@ -60,11 +74,21 @@ export function writeMapScript(outPath: string): void {
         iconSize: [44, 44],
         iconAnchor: [22, 22],
       });
-      L.marker([p.lat, p.lon], { icon: icon }).addTo(map);
+      photoLayer.addLayer(L.marker([p.lat, p.lon], { icon: icon }));
     });
+    photoLayer.addTo(map);
+    el._tripPhotoLayer = photoLayer;
+
+    el._setTripPhotosVisible = function (visible) {
+      if (visible) {
+        if (!map.hasLayer(photoLayer)) photoLayer.addTo(map);
+      } else if (map.hasLayer(photoLayer)) {
+        map.removeLayer(photoLayer);
+      }
+    };
   }
 
-  document.querySelectorAll(".trip-map[data-bounds]").forEach(init);
+  document.querySelectorAll(".trip-map[data-tiles]").forEach(init);
 })();
 `;
   fs.mkdirSync(path.dirname(outPath), { recursive: true });
