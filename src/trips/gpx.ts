@@ -66,7 +66,7 @@ export function formatDistanceKm(meters: number): string | null {
     Number.isInteger(rounded) || rounded >= 100
       ? String(Math.round(rounded))
       : rounded.toFixed(1);
-  return `${text} км`;
+  return `${text} км`;
 }
 
 function parsePointTime(raw: unknown): number | null {
