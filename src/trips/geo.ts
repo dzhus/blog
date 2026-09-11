@@ -60,29 +60,6 @@ export function padBBox(box: BBox, fraction = 0.08): BBox {
   };
 }
 
-/**
- * Expand a bbox in Web Mercator so an integer Leaflet contain-zoom
- * (floor of the ideal fractional zoom) still lies inside the coverage.
- * Worst-case overshoot is just under 2× in each dimension.
- */
-export function expandBBoxForIntegerContain(box: BBox): BBox {
-  const z = 12;
-  const x0 = lonToTileX(box.west, z);
-  const x1 = lonToTileX(box.east, z);
-  const y0 = latToTileY(box.north, z);
-  const y1 = latToTileY(box.south, z);
-  const cx = (x0 + x1) / 2;
-  const cy = (y0 + y1) / 2;
-  const halfW = Math.max((x1 - x0) / 2, 1e-9);
-  const halfH = Math.max((y1 - y0) / 2, 1e-9);
-  return {
-    west: tileXToLon(cx - 2 * halfW, z),
-    east: tileXToLon(cx + 2 * halfW, z),
-    north: tileYToLat(cy - 2 * halfH, z),
-    south: tileYToLat(cy + 2 * halfH, z),
-  };
-}
-
 function distToSegmentSq(p: LatLon, a: LatLon, b: LatLon): number {
   const x = p.lon;
   const y = p.lat;

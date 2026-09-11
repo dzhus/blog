@@ -48,9 +48,7 @@ export type TripManifest = {
   trackCount: number;
   bounds: BBox;
   boundsJson: string;
-  /** Exact WGS84 coverage of fetched tiles (may extend past fit bounds). */
-  tileBoundsJson: string;
-  /** Web Mercator width/height of the fitted trip bbox; used for CSS aspect-ratio. */
+  /** Web Mercator width/height of tile coverage; used for CSS aspect-ratio. */
   mapAspect: number;
   tileUrlTemplate: string;
   tileZoom: number;

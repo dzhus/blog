@@ -53,7 +53,6 @@ eleventyComputed:
             class="trip-map"
             style="--trip-map-aspect: {{ trip.mapAspect }}"
             data-bounds='{{ trip.boundsJson | safe }}'
-            data-tile-bounds='{{ trip.tileBoundsJson | safe }}'
             data-tiles="{{ trip.tileUrlTemplate }}"
             data-zoom="{{ trip.tileZoom }}"
             data-tracks="{{ trip.tracksJsonUrl }}"
@@ -134,8 +133,10 @@ eleventyComputed:
     layout.classList.toggle("trip-layout--map-hidden", !state.map);
     layout.classList.toggle("trip-layout--photos-hidden", !state.photos);
 
-    if (hideMapBtn) hideMapBtn.hidden = !state.map;
-    if (hidePhotosBtn) hidePhotosBtn.hidden = !state.photos;
+    // Hide the "collapse" chevron when the other pane is already hidden
+    // (never allow collapsing the last remaining pane).
+    if (hideMapBtn) hideMapBtn.hidden = !state.map || !state.photos;
+    if (hidePhotosBtn) hidePhotosBtn.hidden = !state.photos || !state.map;
     if (showMapBtn) showMapBtn.hidden = state.map;
     if (showPhotosBtn) showPhotosBtn.hidden = state.photos;
 

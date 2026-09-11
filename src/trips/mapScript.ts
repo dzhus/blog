@@ -6,25 +6,16 @@ export function writeMapScript(outPath: string): void {
 (function () {
   function init(el) {
     var bounds = JSON.parse(el.getAttribute("data-bounds"));
-    var tileBoundsRaw = el.getAttribute("data-tile-bounds");
-    var tileBounds = tileBoundsRaw ? JSON.parse(tileBoundsRaw) : bounds;
     var tilesUrl = el.getAttribute("data-tiles");
     var zoom = Number(el.getAttribute("data-zoom"));
     var tracksUrl = el.getAttribute("data-tracks");
     var photos = JSON.parse(el.getAttribute("data-photos") || "[]");
 
-    var fitLatLngBounds = L.latLngBounds(
+    var latLngBounds = L.latLngBounds(
       L.latLng(bounds.south, bounds.west),
       L.latLng(bounds.north, bounds.east)
     );
-    var tileLatLngBounds = L.latLngBounds(
-      L.latLng(tileBounds.south, tileBounds.west),
-      L.latLng(tileBounds.north, tileBounds.east)
-    );
 
-    // Integer zoomSnap: smooth wheel zoom and no fractional-scale tile seams.
-    // Tiles are fetched oversized (see expandBBoxForIntegerContain) so contain
-    // fit at floor(z) still has coverage across the whole pane.
     var map = L.map(el, {
       crs: L.CRS.EPSG3857,
       zoomSnap: 1,
@@ -48,13 +39,14 @@ export function writeMapScript(outPath: string): void {
       minZoom: Math.max(0, zoom - 2),
       maxZoom: zoom + 1,
       noWrap: true,
-      bounds: tileLatLngBounds,
+      bounds: latLngBounds,
       attribution: "",
     }).addTo(map);
 
     function fitTripBounds() {
       map.invalidateSize({ animate: false });
-      map.fitBounds(fitLatLngBounds, { animate: false, padding: [0, 0] });
+      var z = map.getBoundsZoom(latLngBounds, true);
+      map.setView(latLngBounds.getCenter(), z, { animate: false });
     }
 
     fitTripBounds();
