@@ -17,6 +17,7 @@ import {
 import { processGpxFiles, writeTracksJson, formatDistanceKm } from "./gpx.ts";
 import { processPhotoImages } from "./images.ts";
 import { writeMapScript } from "./mapScript.ts";
+import { formatTripDateRange } from "./metadata.ts";
 import type { TripManifest, TripPhoto, TripsManifest } from "./types.ts";
 import type { BBox } from "./types.ts";
 import { vendorLeaflet } from "./vendor.ts";
@@ -59,7 +60,10 @@ export async function buildTrips(
       tracks,
       bounds: trackBounds,
       distanceMeters,
+      from,
+      to,
     } = processGpxFiles(trip.gpxFiles, trip.slug, siteTripDir);
+    const dateRange = formatTripDateRange(from, to);
     const distanceKm = formatDistanceKm(distanceMeters);
 
     const photoMetas: Array<{
@@ -253,9 +257,9 @@ export async function buildTrips(
       slug: trip.slug,
       title: trip.title,
       period: trip.period,
-      from: trip.from,
-      to: trip.to,
-      dateRange: trip.dateRange,
+      from,
+      to,
+      dateRange,
       distanceKm,
       url: `/trips/${trip.slug}/`,
       coverThumbUrl,

@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { formatTripDateRange, readTripMetadata } from "./metadata.ts";
+import { readTripMetadata } from "./metadata.ts";
 
 const IMAGE_EXT = new Set([".jpg", ".jpeg", ".png", ".webp"]);
 
@@ -8,9 +8,6 @@ export type DiscoveredTrip = {
   slug: string;
   title: string;
   period: string;
-  dateRange: string | null;
-  from: string | null;
-  to: string | null;
   dir: string;
   images: string[];
   gpxFiles: string[];
@@ -54,9 +51,6 @@ export function discoverTrips(tripsRoot: string): DiscoveredTrip[] {
       slug: entry.name,
       title: meta.name ?? folderTitle,
       period,
-      dateRange: formatTripDateRange(meta.from, meta.to),
-      from: meta.from ?? null,
-      to: meta.to ?? null,
       dir,
       images,
       gpxFiles,

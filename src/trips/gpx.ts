@@ -24,9 +24,15 @@ function asArray<T>(v: T | T[] | undefined | null): T[] {
 
 type GpxParseResult = {
   points: LatLon[];
-  /** Epoch ms of the first track/route point with a usable `<time>`, else null. */
-  startedAtMs: number | null;
+  /** Min epoch ms among track/route points with a usable `<time>`, else null. */
+  minTimeMs: number | null;
+  /** Max epoch ms among track/route points with a usable `<time>`, else null. */
+  maxTimeMs: number | null;
 };
+
+function calendarDateFromMs(ms: number): string {
+  return new Date(ms).toISOString().slice(0, 10);
+}
 
 const EARTH_RADIUS_M = 6371000;
 
@@ -73,19 +79,21 @@ function readGpx(filePath: string): GpxParseResult {
   const xml = fs.readFileSync(filePath, "utf8");
   const doc = parser.parse(xml);
   const gpx = doc.gpx;
-  if (!gpx) return { points: [], startedAtMs: null };
+  if (!gpx) return { points: [], minTimeMs: null, maxTimeMs: null };
 
   const points: LatLon[] = [];
-  let startedAtMs: number | null = null;
+  let minTimeMs: number | null = null;
+  let maxTimeMs: number | null = null;
 
   const considerPoint = (pt: Record<string, unknown>) => {
     const lat = Number(pt["@_lat"]);
     const lon = Number(pt["@_lon"]);
     if (!Number.isFinite(lat) || !Number.isFinite(lon)) return;
     points.push({ lat, lon });
-    if (startedAtMs == null) {
-      startedAtMs = parsePointTime(pt.time);
-    }
+    const t = parsePointTime(pt.time);
+    if (t == null) return;
+    if (minTimeMs == null || t < minTimeMs) minTimeMs = t;
+    if (maxTimeMs == null || t > maxTimeMs) maxTimeMs = t;
   };
 
   for (const trk of asArray(gpx.trk)) {
@@ -104,43 +112,63 @@ function readGpx(filePath: string): GpxParseResult {
     }
   }
 
-  return { points, startedAtMs };
+  return { points, minTimeMs, maxTimeMs };
 }
+
+export type GpxProcessResult = {
+  tracks: TripTrack[];
+  bounds: BBox;
+  distanceMeters: number;
+  /** Calendar YYYY-MM-DD from min/max of all GPX point times, or null if no GPX. */
+  from: string | null;
+  to: string | null;
+};
 
 export function processGpxFiles(
   gpxFiles: string[],
   slug: string,
   siteTripDir: string,
-): { tracks: TripTrack[]; bounds: BBox; distanceMeters: number } {
+): GpxProcessResult {
   const gpxOutDir = path.join(siteTripDir, "gpx");
   fs.mkdirSync(gpxOutDir, { recursive: true });
 
   const bounds = emptyBBox();
   let distanceMeters = 0;
+  let tripMinMs: number | null = null;
+  let tripMaxMs: number | null = null;
 
   const parsed = gpxFiles.map((filePath) => {
     const filename = path.basename(filePath);
     const dest = path.join(gpxOutDir, filename);
     fs.copyFileSync(filePath, dest);
 
-    const { points, startedAtMs } = readGpx(filePath);
+    const { points, minTimeMs, maxTimeMs } = readGpx(filePath);
     for (const p of points) expandBBox(bounds, p.lat, p.lon);
     distanceMeters += pathLengthMeters(points);
 
-    if (startedAtMs == null) {
+    if (minTimeMs == null || maxTimeMs == null) {
       const label = path.relative(process.cwd(), filePath) || filePath;
       throw new Error(
-        `Missing <time> on the first track point in ${label}. GPX tracks are ordered by that timestamp.`,
+        `Missing usable <time> on track/route points in ${label}. GPX tracks are ordered by those timestamps and trip dates are inferred from them.`,
       );
     }
 
+    if (tripMinMs == null || minTimeMs < tripMinMs) tripMinMs = minTimeMs;
+    if (tripMaxMs == null || maxTimeMs > tripMaxMs) tripMaxMs = maxTimeMs;
+
     return {
       filename,
-      startedAtMs,
+      startedAtMs: minTimeMs,
       coordinates: simplifyTrack(points),
       id: path.basename(filename, path.extname(filename)),
     };
   });
+
+  if (gpxFiles.length > 0 && (tripMinMs == null || tripMaxMs == null)) {
+    throw new Error(
+      `No usable <time> values in GPX for trip ${slug}. Trip dates are inferred from track point timestamps.`,
+    );
+  }
 
   parsed.sort((a, b) => {
     if (a.startedAtMs !== b.startedAtMs) return a.startedAtMs - b.startedAtMs;
@@ -159,6 +187,8 @@ export function processGpxFiles(
     tracks,
     bounds: isValidBBox(bounds) ? bounds : emptyBBox(),
     distanceMeters,
+    from: tripMinMs != null ? calendarDateFromMs(tripMinMs) : null,
+    to: tripMaxMs != null ? calendarDateFromMs(tripMaxMs) : null,
   };
 }
 
