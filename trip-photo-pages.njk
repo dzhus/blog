@@ -21,7 +21,7 @@ eleventyComputed:
       <time datetime="{{ item.photo.capturedAt }}">{{ item.photo.displayCapturedAt }}</time>
       {% endif %}
       ·
-      <a href="{{ item.photo.originalUrl }}" download>Скачать оригинал</a>
+      <a href="{{ item.photo.originalUrl }}" download="{{ item.photo.filename }}">{{ item.photo.filename }} ({{ item.photo.originalSize }})</a>
       ·
       {{ item.index + 1 }}/{{ item.total }}
     </figcaption>

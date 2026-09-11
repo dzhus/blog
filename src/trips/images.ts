@@ -13,6 +13,20 @@ const GRID = { max: 600, quality: 80 } as const;
 const MAP = { size: 48, quality: 75 } as const;
 const DISPLAY = { max: 2400, quality: 92 } as const;
 
+/** Format byte size for download labels (e.g. "4.2 MB"). */
+export function formatFileSize(bytes: number): string {
+  if (!(bytes >= 0) || !Number.isFinite(bytes)) return "0 B";
+  if (bytes < 1000) return `${Math.round(bytes)} B`;
+  if (bytes < 1000 * 1000) {
+    const kb = bytes / 1000;
+    const text = kb < 10 ? kb.toFixed(1) : String(Math.round(kb));
+    return `${text} KB`;
+  }
+  const mb = bytes / (1000 * 1000);
+  const text = mb < 10 ? mb.toFixed(1) : String(Math.round(mb));
+  return `${text} MB`;
+}
+
 function sourceKey(srcPath: string): string {
   const st = fs.statSync(srcPath);
   return `${st.mtimeMs}_${st.size}`;

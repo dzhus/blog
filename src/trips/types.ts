@@ -19,6 +19,8 @@ export type TripPhoto = {
   mapThumbUrl: string;
   displayUrl: string;
   originalUrl: string;
+  /** Human-readable size of the original file, e.g. "4.2 MB". */
+  originalSize: string;
   photoPageUrl: string;
 };
 

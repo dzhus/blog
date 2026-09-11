@@ -149,6 +149,7 @@ body.trip-photo article.trip-photo-page {
   background: #d3d7cf;
 }
 
+/* Heights drive map pane aspect; tile fetch covers ~0.9–2.2 (see ASPECT_* in basemap.ts). */
 .trip-map {
   width: 100%;
   height: min(70vh, 32rem);
