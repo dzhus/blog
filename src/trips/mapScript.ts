@@ -11,17 +11,16 @@ export function writeMapScript(outPath: string): void {
     var tracksUrl = el.getAttribute("data-tracks");
     var photos = JSON.parse(el.getAttribute("data-photos") || "[]");
 
-    var latLngBounds = L.latLngBounds(
-      L.latLng(bounds.south, bounds.west),
-      L.latLng(bounds.north, bounds.east)
-    );
+    var southWest = L.latLng(bounds.south, bounds.west);
+    var northEast = L.latLng(bounds.north, bounds.east);
+    var latLngBounds = L.latLngBounds(southWest, northEast);
 
     var map = L.map(el, {
       crs: L.CRS.EPSG3857,
-      zoomSnap: 1,
-      zoomDelta: 1,
       minZoom: Math.max(0, zoom - 2),
       maxZoom: zoom + 1,
+      maxBounds: latLngBounds.pad(0.08),
+      maxBoundsViscosity: 1.0,
       scrollWheelZoom: true,
       attributionControl: true,
     });
@@ -43,15 +42,12 @@ export function writeMapScript(outPath: string): void {
       attribution: "",
     }).addTo(map);
 
-    function fitTripBounds() {
-      map.invalidateSize({ animate: false });
-      var z = map.getBoundsZoom(latLngBounds, true);
-      map.setView(latLngBounds.getCenter(), z, { animate: false });
-    }
-
-    fitTripBounds();
+    map.fitBounds(latLngBounds);
     el._tripMap = map;
-    el._tripFit = fitTripBounds;
+    el._tripFit = function () {
+      map.invalidateSize();
+      map.fitBounds(latLngBounds);
+    };
 
     fetch(tracksUrl)
       .then(function (r) { return r.json(); })

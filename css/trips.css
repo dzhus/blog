@@ -147,31 +147,17 @@ body.trip-photo article.trip-photo-page {
 .trip-map-frame {
   border: 1px solid #888a85;
   background: #d3d7cf;
-  display: flex;
-  justify-content: center;
 }
 
-/* Aspect matches track bbox (Web Mercator); see trip.mapAspect / mercatorAspectRatio. */
 .trip-map {
-  --trip-map-max-h: min(85vh, 48rem);
-  width: min(100%, calc(var(--trip-map-max-h) * var(--trip-map-aspect, 1)));
-  aspect-ratio: var(--trip-map-aspect, 1);
-  max-height: var(--trip-map-max-h);
-  height: auto;
+  width: 100%;
+  height: min(70vh, 32rem);
   background: #d3d7cf;
   border: none;
 }
 
-/* Kill subpixel seams between scaled raster tiles. */
-.trip-map .leaflet-tile {
-  border: none;
-  outline: none;
-}
-
-.trip-map .leaflet-tile-container img {
-  /* Slight oversize closes hairlines from CSS transform rounding. */
-  width: 256.5px !important;
-  height: 256.5px !important;
+.trip-layout.trip-layout--photos-hidden .trip-map {
+  height: min(80vh, 40rem);
 }
 
 .trip-gpx-list {

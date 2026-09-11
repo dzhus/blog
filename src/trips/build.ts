@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import sharp from "sharp";
-import { renderTripTiles, TILE_SOURCE_ID, mercatorAspectRatio } from "./basemap.ts";
+import { renderTripTiles, TILE_SOURCE_ID } from "./basemap.ts";
 import { discoverTrips } from "./discover.ts";
 import {
   formatIsoCapturedAt,
@@ -137,7 +137,6 @@ export async function buildTrips(
       bounds = { south: 0, west: 0, north: 0.01, east: 0.01 };
     }
     bounds = padBBox(bounds, 0.1);
-    const tileRequestBounds = bounds;
 
     const mapDir = path.join(siteTripDir, "map");
     fs.mkdirSync(mapDir, { recursive: true });
@@ -145,7 +144,7 @@ export async function buildTrips(
     const mapScriptPath = path.join(mapDir, "map.js");
 
     type TileCacheMeta = {
-      version: 8;
+      version: 4;
       source: string;
       requestBounds: BBox;
       zoom: number;
@@ -175,10 +174,9 @@ export async function buildTrips(
           fs.readFileSync(tilesMetaPath, "utf8"),
         ) as TileCacheMeta;
         if (
-          cached.version === 8 &&
+          cached.version === 4 &&
           cached.source === TILE_SOURCE_ID &&
-          JSON.stringify(cached.requestBounds) ===
-            JSON.stringify(tileRequestBounds)
+          JSON.stringify(cached.requestBounds) === JSON.stringify(bounds)
         ) {
           tileSet = {
             zoom: cached.zoom,
@@ -224,16 +222,16 @@ export async function buildTrips(
 
     if (!cacheHit || !tileSet) {
       tileSet = await renderTripTiles(
-        tileRequestBounds,
+        bounds,
         trip.slug,
         mapDir,
         colorCacheDir,
         greyCacheDir,
       );
       const meta: TileCacheMeta = {
-        version: 8,
+        version: 4,
         source: TILE_SOURCE_ID,
-        requestBounds: tileRequestBounds,
+        requestBounds: bounds,
         zoom: tileSet.zoom,
         xMin: tileSet.xMin,
         xMax: tileSet.xMax,
@@ -288,7 +286,6 @@ export async function buildTrips(
       trackCount: tracks.length,
       bounds: tileSet.bounds,
       boundsJson: JSON.stringify(tileSet.bounds),
-      mapAspect: mercatorAspectRatio(tileSet.bounds),
       tileUrlTemplate: tileSet.tileUrlTemplate,
       tileZoom: tileSet.zoom,
       mapPhotosJson,

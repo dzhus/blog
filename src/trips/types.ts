@@ -48,8 +48,6 @@ export type TripManifest = {
   trackCount: number;
   bounds: BBox;
   boundsJson: string;
-  /** Web Mercator width/height of tile coverage; used for CSS aspect-ratio. */
-  mapAspect: number;
   tileUrlTemplate: string;
   tileZoom: number;
   mapPhotosJson: string;

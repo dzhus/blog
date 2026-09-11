@@ -21,15 +21,6 @@ const TILE_URL = (z: number, x: number, y: number) =>
 /** Soft cap on mosaic pixel span used only to pick zoom. */
 const MAX_EDGE = 2048;
 
-/** Web Mercator width/height ratio of a WGS84 bbox (matches Leaflet EPSG:3857). */
-export function mercatorAspectRatio(bounds: BBox): number {
-  const z = 12;
-  const w = lonToTileX(bounds.east, z) - lonToTileX(bounds.west, z);
-  const h = latToTileY(bounds.south, z) - latToTileY(bounds.north, z);
-  if (!(w > 0) || !(h > 0)) return 1;
-  return w / h;
-}
-
 function chooseZoom(bounds: BBox): number {
   for (let z = 16; z >= 6; z--) {
     const x0 = lonToTileX(bounds.west, z);

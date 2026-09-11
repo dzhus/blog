@@ -51,7 +51,6 @@ eleventyComputed:
           <div
             id="trip-map-{{ trip.slug }}"
             class="trip-map"
-            style="--trip-map-aspect: {{ trip.mapAspect }}"
             data-bounds='{{ trip.boundsJson | safe }}'
             data-tiles="{{ trip.tileUrlTemplate }}"
             data-zoom="{{ trip.tileZoom }}"
