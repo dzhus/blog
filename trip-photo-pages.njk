@@ -81,9 +81,9 @@ eleventyComputed:
       var dy = t.clientY - startY;
       if (Math.abs(dx) < THRESHOLD) return;
       if (Math.abs(dx) <= Math.abs(dy)) return;
-      // Swipe left → previous; swipe right → next
-      if (dx < 0 && prev) location.href = prev.href;
-      else if (dx > 0 && next) location.href = next.href;
+      // Swipe left → next; swipe right → previous
+      if (dx < 0 && next) location.href = next.href;
+      else if (dx > 0 && prev) location.href = prev.href;
     },
     { passive: true }
   );
