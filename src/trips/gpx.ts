@@ -57,16 +57,19 @@ export function pathLengthMeters(points: LatLon[]): number {
   return total;
 }
 
-/** Format kilometres for trip UI (e.g. "142 км"). */
-export function formatDistanceKm(meters: number): string | null {
-  if (!(meters > 0)) return null;
+/** Format kilometres for trip UI (e.g. "142 км" / "142 km"). */
+export function formatDistanceKm(
+  meters: number | null | undefined,
+  unit = "км",
+): string | null {
+  if (!(typeof meters === "number" && meters > 0)) return null;
   const km = meters / 1000;
   const rounded = km >= 100 ? Math.round(km) : Math.round(km * 10) / 10;
   const text =
     Number.isInteger(rounded) || rounded >= 100
       ? String(Math.round(rounded))
       : rounded.toFixed(1);
-  return `${text} км`;
+  return `${text}\u00a0${unit}`;
 }
 
 function parsePointTime(raw: unknown): number | null {

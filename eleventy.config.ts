@@ -15,6 +15,7 @@ import {
 } from "./src/siteConstants.ts";
 import { collectTags, renderTagCloud } from "./src/tags.ts";
 import { buildTrips, readTripsManifest } from "./src/trips/build.ts";
+import { localizeTrips, tripUi } from "./src/trips/i18n.ts";
 import type { TripManifest, TripPhoto } from "./src/trips/types.ts";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -74,12 +75,9 @@ export default function (eleventyConfig: UserConfig) {
     await buildTrips({ projectRoot: __dirname });
   });
 
-  eleventyConfig.addGlobalData("trips", () => {
-    return readTripsManifest(__dirname).trips;
-  });
+  eleventyConfig.addGlobalData("tripUi", tripUi);
 
-  eleventyConfig.addGlobalData("tripPhotos", (): TripPhotoPage[] => {
-    const trips = readTripsManifest(__dirname).trips;
+  function tripPhotoPages(trips: TripManifest[]): TripPhotoPage[] {
     const pages: TripPhotoPage[] = [];
     for (const trip of trips) {
       const total = trip.photos.length;
@@ -95,6 +93,22 @@ export default function (eleventyConfig: UserConfig) {
       });
     }
     return pages;
+  }
+
+  eleventyConfig.addGlobalData("trips", () => {
+    return localizeTrips(readTripsManifest(__dirname).trips, "ru");
+  });
+
+  eleventyConfig.addGlobalData("tripsEn", () => {
+    return localizeTrips(readTripsManifest(__dirname).trips, "en");
+  });
+
+  eleventyConfig.addGlobalData("tripPhotos", (): TripPhotoPage[] => {
+    return tripPhotoPages(localizeTrips(readTripsManifest(__dirname).trips, "ru"));
+  });
+
+  eleventyConfig.addGlobalData("tripPhotosEn", (): TripPhotoPage[] => {
+    return tripPhotoPages(localizeTrips(readTripsManifest(__dirname).trips, "en"));
   });
 
   eleventyConfig.addCollection("postsAll", (api) =>

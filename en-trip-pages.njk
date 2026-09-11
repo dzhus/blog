@@ -1,13 +1,15 @@
 ---
 pagination:
-  data: trips
+  data: tripsEn
   size: 1
   alias: trip
-permalink: "/trips/{{ trip.slug }}/index.html"
+permalink: "/en/trips/{{ trip.slug }}/index.html"
 layout: default.njk
 bodyClass: trip-page
-lang: ru
-langPrefix: ""
+lang: en
+langPrefix: en/
+creator: Dmitry Dzhus
+siteTitle: Dmitry's journal
 eleventyComputed:
   title: "{{ trip.title }}"
 ---

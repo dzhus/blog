@@ -1,13 +1,15 @@
 ---
 pagination:
-  data: tripPhotos
+  data: tripPhotosEn
   size: 1
   alias: item
-permalink: "/trips/{{ item.trip.slug }}/photo/{{ item.photo.basename }}.html"
+permalink: "/en/trips/{{ item.trip.slug }}/photo/{{ item.photo.basename }}.html"
 layout: default.njk
 bodyClass: trip-photo
-lang: ru
-langPrefix: ""
+lang: en
+langPrefix: en/
+creator: Dmitry Dzhus
+siteTitle: Dmitry's journal
 eleventyComputed:
   title: "{{ item.trip.title }} — {{ item.photo.displayCapturedAt }}"
 ---

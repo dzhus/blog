@@ -1,12 +1,16 @@
 import fs from "node:fs";
 import path from "node:path";
+import type { TripNameEntry } from "./i18n.ts";
 import { readTripMetadata } from "./metadata.ts";
 
 const IMAGE_EXT = new Set([".jpg", ".jpeg", ".png", ".webp"]);
 
 export type DiscoveredTrip = {
   slug: string;
-  title: string;
+  /** Slug-derived title used when name/names are absent. */
+  folderTitle: string;
+  name?: string;
+  names?: TripNameEntry[];
   period: string;
   dir: string;
   images: string[];
@@ -67,7 +71,9 @@ export function discoverTrips(tripsRoot: string): DiscoveredTrip[] {
 
     trips.push({
       slug: entry.name,
-      title: meta.name ?? folderTitle,
+      folderTitle,
+      name: meta.name,
+      names: meta.names,
       period,
       dir,
       images,

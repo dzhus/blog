@@ -1,0 +1,233 @@
+{% set t = tripUi[lang] %}
+<article class="trip">
+  <h1>{{ trip.title }}</h1>
+  {% if trip.dateRange or trip.distanceKm %}
+  <p class="trip-dates">
+    {% if trip.dateRange %}{{ trip.dateRange }}{% endif %}
+    {% if trip.dateRange and trip.distanceKm %} · {% endif %}
+    {% if trip.distanceKm %}{{ trip.distanceKm }}{% endif %}
+  </p>
+  {% endif %}
+  <p class="trip-back"><a href="/{{ t.langPrefix }}trips/index.html">← {{ t.allTrips }}</a></p>
+
+  <div class="trip-layout">
+    <div class="trip-map-column">
+      <div class="trip-map-wrap">
+        <div class="trip-chevron-bar">
+          <button
+            type="button"
+            class="trip-chevron trip-chevron--map"
+            data-toggle-section="map"
+            aria-label="{{ t.hideMap }}"
+            title="{{ t.hideMap }}"
+          >‹</button>
+          <button
+            type="button"
+            class="trip-map-thumbs-toggle"
+            aria-pressed="true"
+            aria-label="{{ t.mapThumbsLabel }}"
+            title="{{ t.hideMapThumbs }}"
+            data-title-on="{{ t.hideMapThumbs }}"
+            data-title-off="{{ t.showMapThumbs }}"
+          >▣</button>
+          <button
+            type="button"
+            class="trip-chevron trip-chevron--show-photos"
+            data-toggle-section="photos"
+            aria-label="{{ t.showPhotos }}"
+            title="{{ t.showPhotos }}"
+            hidden
+          >‹</button>
+        </div>
+        <div class="trip-map-frame">
+          <div
+            id="trip-map-{{ trip.slug }}"
+            class="trip-map"
+            data-bounds='{{ trip.boundsJson | safe }}'
+            data-tiles="{{ trip.tileUrlTemplate }}"
+            data-zoom="{{ trip.tileZoom }}"
+            data-tracks="{{ trip.tracksJsonUrl }}"
+            data-photos='{{ trip.mapPhotosJson | safe }}'
+          ></div>
+        </div>
+      </div>
+
+      {% if trip.tracks and trip.tracks.length %}
+      <ul class="trip-gpx-list">
+        {% for track in trip.tracks %}
+        <li>
+          <span class="trip-track-swatch" style="background:{{ track.color }}"></span>
+          <a href="{{ track.gpxUrl }}" download>{{ track.filename }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+
+    <div class="trip-photos-column">
+      <div class="trip-photos-wrap">
+        <div class="trip-chevron-bar">
+          <button
+            type="button"
+            class="trip-chevron trip-chevron--show-map"
+            data-toggle-section="map"
+            aria-label="{{ t.showMap }}"
+            title="{{ t.showMap }}"
+            hidden
+          >›</button>
+          <button
+            type="button"
+            class="trip-chevron trip-chevron--photos"
+            data-toggle-section="photos"
+            aria-label="{{ t.hidePhotos }}"
+            title="{{ t.hidePhotos }}"
+          >›</button>
+        </div>
+        <div class="trip-photos-stage">
+          <div class="trip-photo-grid">
+            {% for photo in trip.photos %}
+            <a
+              class="trip-photo-grid-item"
+              href="{{ photo.photoPageUrl }}"
+              data-photo-url="{{ photo.photoPageUrl }}"
+              data-display-url="{{ photo.displayUrl }}"
+              title="{{ photo.exifTooltip }}"
+            >
+              <img src="{{ photo.gridThumbUrl }}" alt="" loading="lazy" />
+            </a>
+            {% endfor %}
+          </div>
+          <a class="trip-photo-hover-preview">
+            <img alt="" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+<script src="/vendor/leaflet/leaflet.js"></script>
+<script src="{{ trip.mapScriptUrl }}"></script>
+<script>
+(function () {
+  var layout = document.querySelector(".trip-layout");
+  if (!layout) return;
+
+  var state = { map: true, photos: true };
+
+  var hideMapBtn = layout.querySelector(".trip-chevron--map");
+  var hidePhotosBtn = layout.querySelector(".trip-chevron--photos");
+  var showMapBtn = layout.querySelector(".trip-chevron--show-map");
+  var showPhotosBtn = layout.querySelector(".trip-chevron--show-photos");
+
+  function apply() {
+    layout.classList.toggle("trip-layout--map-hidden", !state.map);
+    layout.classList.toggle("trip-layout--photos-hidden", !state.photos);
+
+    // Hide the "collapse" chevron when the other pane is already hidden
+    // (never allow collapsing the last remaining pane).
+    if (hideMapBtn) hideMapBtn.hidden = !state.map || !state.photos;
+    if (hidePhotosBtn) hidePhotosBtn.hidden = !state.photos || !state.map;
+    if (showMapBtn) showMapBtn.hidden = state.map;
+    if (showPhotosBtn) showPhotosBtn.hidden = state.photos;
+
+    if (state.map) {
+      requestAnimationFrame(function () {
+        document.querySelectorAll(".trip-map").forEach(function (el) {
+          if (el._tripFit) el._tripFit();
+          else if (el._tripMap) el._tripMap.invalidateSize();
+        });
+      });
+    }
+  }
+
+  function bind(btn, section, show) {
+    if (!btn) return;
+    btn.addEventListener("click", function () {
+      if (show) {
+        state[section] = true;
+      } else {
+        if (section === "map" && !state.photos) return;
+        if (section === "photos" && !state.map) return;
+        state[section] = false;
+      }
+      apply();
+    });
+  }
+
+  bind(hideMapBtn, "map", false);
+  bind(hidePhotosBtn, "photos", false);
+  bind(showMapBtn, "map", true);
+  bind(showPhotosBtn, "photos", true);
+
+  var thumbsBtn = layout.querySelector(".trip-map-thumbs-toggle");
+  if (thumbsBtn) {
+    thumbsBtn.addEventListener("click", function () {
+      var on = thumbsBtn.getAttribute("aria-pressed") !== "true";
+      thumbsBtn.setAttribute("aria-pressed", on ? "true" : "false");
+      var titleOn = thumbsBtn.getAttribute("data-title-on") || "";
+      var titleOff = thumbsBtn.getAttribute("data-title-off") || "";
+      thumbsBtn.title = on ? titleOn : titleOff;
+      thumbsBtn.textContent = on ? "▣" : "□";
+      document.querySelectorAll(".trip-map").forEach(function (el) {
+        if (el._setTripPhotosVisible) el._setTripPhotosVisible(on);
+      });
+    });
+  }
+
+  var stage = layout.querySelector(".trip-photos-stage");
+  var grid = layout.querySelector(".trip-photo-grid");
+  var preview = layout.querySelector(".trip-photo-hover-preview");
+  var previewImg = preview ? preview.querySelector("img") : null;
+
+  if (grid) {
+    grid.querySelectorAll(".trip-photo-grid-item[data-photo-url]").forEach(function (item) {
+      item.addEventListener("mouseenter", function () {
+        var url = item.getAttribute("data-photo-url");
+        document.querySelectorAll(".trip-map").forEach(function (el) {
+          if (el._focusTripPhoto) el._focusTripPhoto(url);
+        });
+      });
+      item.addEventListener("mouseleave", function () {
+        document.querySelectorAll(".trip-map").forEach(function (el) {
+          if (el._focusTripPhoto) el._focusTripPhoto(null);
+        });
+      });
+    });
+  }
+
+  function setGridPhotoPreview(photo) {
+    if (!stage || !preview || !previewImg) return;
+    var url = photo && photo.url;
+    var display = photo && photo.display;
+    var tooltip = "";
+    if (url && grid) {
+      var match = grid.querySelector(
+        '.trip-photo-grid-item[data-photo-url="' + url.replace(/"/g, '\\"') + '"]'
+      );
+      if (match) {
+        if (!display) display = match.getAttribute("data-display-url");
+        tooltip = match.getAttribute("title") || "";
+      }
+    }
+    if (!url || !display) {
+      stage.classList.remove("is-previewing");
+      preview.removeAttribute("href");
+      preview.removeAttribute("title");
+      previewImg.removeAttribute("src");
+      previewImg.alt = "";
+      return;
+    }
+    previewImg.src = display;
+    previewImg.alt = "";
+    preview.href = url;
+    if (tooltip) preview.title = tooltip;
+    else preview.removeAttribute("title");
+    stage.classList.add("is-previewing");
+  }
+
+  document.querySelectorAll(".trip-map").forEach(function (el) {
+    el._onMapPhotoHover = setGridPhotoPreview;
+  });
+})();
+</script>

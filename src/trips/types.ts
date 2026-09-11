@@ -1,3 +1,5 @@
+import type { TripNameEntry } from "./i18n.ts";
+
 export type LatLon = { lat: number; lon: number };
 
 export type BBox = {
@@ -36,11 +38,21 @@ export type TripTrack = {
 
 export type TripManifest = {
   slug: string;
+  /** Effective title for the current language (set by localizeTrip). */
   title: string;
+  /** Slug-derived title fallback. */
+  folderTitle: string;
+  /** Top-level trip.yml `name`, if any. */
+  name?: string;
+  /** Localized titles from trip.yml `names`. */
+  names?: TripNameEntry[];
   period: string;
   from: string;
   to: string;
   dateRange: string;
+  /** Raw GPX distance; format per language via localizeTrip. */
+  distanceMeters: number | null;
+  /** Formatted distance for the current language (set by localizeTrip). */
   distanceKm: string | null;
   url: string;
   coverThumbUrl: string | null;

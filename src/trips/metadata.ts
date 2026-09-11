@@ -1,11 +1,13 @@
 import fs from "node:fs";
 import path from "node:path";
 import { load as loadYaml } from "js-yaml";
+import { isTripLang, type TripLang, type TripNameEntry } from "./i18n.ts";
 
 const META_FILENAMES = ["trip.yml", "trip.yaml", "metadata.yml", "metadata.yaml"];
 
 export type TripMetadata = {
   name?: string;
+  names?: TripNameEntry[];
   /** Basename of a trip photo to use as the listing cover (e.g. "2026-08-08-07-33.jpg"). */
   thumbnail?: string;
 };
@@ -51,6 +53,42 @@ export function readTripMetadata(tripDir: string): TripMetadata {
     meta.name = raw.name.trim();
   }
 
+  if (raw.names !== undefined) {
+    if (!Array.isArray(raw.names) || raw.names.length === 0) {
+      throw new Error(
+        `Invalid names in ${fileLabel}: expected a non-empty list of { lang, name }`,
+      );
+    }
+    const names: TripNameEntry[] = [];
+    const seen = new Set<TripLang>();
+    for (let i = 0; i < raw.names.length; i++) {
+      const entry = raw.names[i];
+      if (!isPlainObject(entry)) {
+        throw new Error(
+          `Invalid names[${i}] in ${fileLabel}: expected a mapping with lang and name`,
+        );
+      }
+      if (!isTripLang(entry.lang)) {
+        throw new Error(
+          `Invalid names[${i}].lang in ${fileLabel}: expected one of ru, en, got ${JSON.stringify(entry.lang)}`,
+        );
+      }
+      if (typeof entry.name !== "string" || entry.name.trim() === "") {
+        throw new Error(
+          `Invalid names[${i}].name in ${fileLabel}: expected a non-empty string`,
+        );
+      }
+      if (seen.has(entry.lang)) {
+        throw new Error(
+          `Duplicate names lang ${JSON.stringify(entry.lang)} in ${fileLabel}`,
+        );
+      }
+      seen.add(entry.lang);
+      names.push({ lang: entry.lang, name: entry.name.trim() });
+    }
+    meta.names = names;
+  }
+
   if (raw.thumbnail !== undefined) {
     if (typeof raw.thumbnail !== "string" || raw.thumbnail.trim() === "") {
       throw new Error(
@@ -66,11 +104,11 @@ export function readTripMetadata(tripDir: string): TripMetadata {
     meta.thumbnail = thumb;
   }
 
-  const allowed = new Set(["name", "thumbnail"]);
+  const allowed = new Set(["name", "names", "thumbnail"]);
   for (const key of Object.keys(raw)) {
     if (!allowed.has(key)) {
       throw new Error(
-        `Unknown key "${key}" in ${fileLabel}. Allowed: name, thumbnail`,
+        `Unknown key "${key}" in ${fileLabel}. Allowed: name, names, thumbnail`,
       );
     }
   }

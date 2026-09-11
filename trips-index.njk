@@ -6,34 +6,5 @@ title: Поездки
 lang: ru
 langPrefix: ""
 ---
-<article class="trips-index">
-  <h1>Поездки</h1>
-  {% if trips and trips.length %}
-  <ul class="trips-list">
-    {% for trip in trips %}
-    <li>
-      <a class="trips-list-link" href="{{ trip.url }}">
-        {% if trip.coverThumbUrl %}
-        <span class="trips-list-thumb">
-          <img src="{{ trip.coverThumbUrl }}" alt="" width="120" height="120" loading="lazy" />
-        </span>
-        {% endif %}
-        <span class="trips-list-meta">
-          <span class="trips-list-title">{{ trip.title }}</span>
-          {% if trip.dateRange or trip.distanceKm %}
-          <span class="trips-list-period">
-            {% if trip.dateRange %}{{ trip.dateRange }}{% endif %}
-            {% if trip.dateRange and trip.distanceKm %} · {% endif %}
-            {% if trip.distanceKm %}{{ trip.distanceKm }}{% endif %}
-          </span>
-          {% endif %}
-          <span class="trips-list-counts">{{ trip.photoCount }} фото{% if trip.trackCount %}, {{ trip.trackCount }} трек{% if trip.trackCount > 1 %}а{% endif %}{% endif %}</span>
-        </span>
-      </a>
-    </li>
-    {% endfor %}
-  </ul>
-  {% else %}
-  <p>Пока нет поездок.</p>
-  {% endif %}
-</article>
+{% set tripsList = trips %}
+{% include "trips/list.njk" %}

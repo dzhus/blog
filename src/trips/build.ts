@@ -14,8 +14,9 @@ import {
   mergeBBox,
   padBBox,
 } from "./geo.ts";
-import { processGpxFiles, writeTracksJson, formatDistanceKm } from "./gpx.ts";
+import { processGpxFiles, writeTracksJson } from "./gpx.ts";
 import { processPhotoImages, formatFileSize } from "./images.ts";
+import { resolveTripTitle } from "./i18n.ts";
 import { writeMapScript } from "./mapScript.ts";
 import { formatTripDateRange } from "./metadata.ts";
 import type { TripManifest, TripPhoto, TripsManifest } from "./types.ts";
@@ -69,7 +70,6 @@ export async function buildTrips(
         `Trip ${trip.slug}: could not derive date range from GPX timestamps.`,
       );
     }
-    const distanceKm = formatDistanceKm(distanceMeters);
 
     const photoMetas: Array<{
       src: string;
@@ -276,12 +276,16 @@ export async function buildTrips(
 
     trips.push({
       slug: trip.slug,
-      title: trip.title,
+      title: resolveTripTitle(trip.names, trip.name, trip.folderTitle, "ru"),
+      folderTitle: trip.folderTitle,
+      name: trip.name,
+      names: trip.names,
       period: trip.period,
       from,
       to,
       dateRange,
-      distanceKm,
+      distanceMeters: distanceMeters > 0 ? distanceMeters : null,
+      distanceKm: null,
       url: `/trips/${trip.slug}/`,
       coverThumbUrl,
       photoCount: photos.length,
