@@ -14,7 +14,9 @@ langPrefix: ""
     <li>
       <a class="trips-list-link" href="{{ trip.url }}">
         {% if trip.coverThumbUrl %}
-        <img src="{{ trip.coverThumbUrl }}" alt="" width="120" height="120" loading="lazy" />
+        <span class="trips-list-thumb">
+          <img src="{{ trip.coverThumbUrl }}" alt="" width="120" height="120" loading="lazy" />
+        </span>
         {% endif %}
         <span class="trips-list-meta">
           <span class="trips-list-title">{{ trip.title }}</span>
