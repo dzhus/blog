@@ -1,0 +1,18 @@
+---
+pagination:
+  data: collections.blogTags
+  size: 1
+  alias: tagGroup
+permalink: "/tag/{{ tagGroup.tag }}.html"
+layout: default.njk
+noTitle: true
+lang: ru
+langPrefix: ""
+creator: Дмитрий Джус
+siteTitle: Журнал Дмитрия
+eleventyComputed:
+  title: "{{ tagGroup.tag }}"
+---
+{% set title = tagGroup.tag %}
+{% set posts = tagGroup.posts %}
+{% include "post-list.njk" %}

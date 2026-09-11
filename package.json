@@ -1,0 +1,29 @@
+{
+  "name": "dzhus-blog",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Personal blog of Dmitry Dzhus (Eleventy)",
+  "scripts": {
+    "build": "npm run clean && tsx ./node_modules/@11ty/eleventy/cmd.cjs --config=eleventy.config.ts",
+    "start": "tsx ./node_modules/@11ty/eleventy/cmd.cjs --config=eleventy.config.ts --serve",
+    "clean": "rm -rf _site",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@11ty/eleventy": "^3.1.2",
+    "@11ty/eleventy-plugin-rss": "^2.0.4",
+    "gray-matter": "^4.0.3",
+    "highlight.js": "^11.11.1",
+    "markdown-it": "^14.1.0"
+  },
+  "devDependencies": {
+    "@types/markdown-it": "^14.1.2",
+    "@types/node": "^22.13.10",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  }
+}

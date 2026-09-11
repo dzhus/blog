@@ -1,0 +1,27 @@
+---
+permalink: /en/atom.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>{{ site.feedTitle | safe }}</title>
+  <link href="{{ rootUrl }}/en/atom.xml" rel="self" />
+  <link href="{{ rootUrl }}/" />
+  <updated>{{ collections.postsEn | getNewestCollectionItemDate | dateToRfc3339 }}</updated>
+  <id>{{ rootUrl }}/en/atom.xml</id>
+  <author>
+    <name>{{ site.feedAuthorName }}</name>
+    <email>{{ site.email }}</email>
+  </author>
+  {%- for post in collections.postsEn | head(20) %}
+  {% set absolutePostUrl %}{{ post.url | absoluteUrl(rootUrl) }}{% endset %}
+  <entry>
+    <title>{{ post.data.title }}</title>
+    <link href="{{ absolutePostUrl }}" />
+    <id>{{ absolutePostUrl }}</id>
+    <published>{{ post.data.isoDate }}T00:00:00Z</published>
+    <updated>{{ post.data.updated }}</updated>
+    <summary type="html"><![CDATA[{{ post.data.contentHtml | safe }}]]></summary>
+  </entry>
+  {%- endfor %}
+</feed>

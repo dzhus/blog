@@ -2,3 +2,6 @@
 *.cabal
 _site
 _cache
+node_modules
+css/syntax.css
+.DS_Store

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="{{ lang }}"
+      prefix="og: http://ogp.me/ns#
+              dc: http://purl.org/dc/elements/1.1/">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta property="dc:creator" content="{{ creator }}" />
+
+    <meta name="author" content="{{ creator }}" />
+    <meta name="generator" content="Eleventy" />
+
+    <link rel="icon" type="image/png" href="/images/favicon.png" />
+    <link rel="stylesheet" href="/css/default.css" />
+    <link rel="stylesheet" href="/css/syntax.css" />
+
+    <link rel="alternate" href="/{{ langPrefix }}atom.xml" type="application/atom+xml" />
+
+    {% if previousPageUrl %}
+    <link rel="prev" href="{{ previousPageUrl }}" />
+    {% endif %}
+
+    {% if nextPageUrl %}
+    <link rel="next" href="{{ nextPageUrl }}" />
+    {% endif %}
+
+    {% if description %}
+      <meta property="og:title" content="{{ title }}" />
+      <meta property="og:description" content="{{ description }}" />
+      <meta name="description" content="{{ description }}" />
+      <meta property="og:type" content="article" />
+      <meta property="og:image" content="{{ gravatar }}" />
+      <meta property="og:author" content="{{ creator }}" />
+      <meta property="og:site_name" content="{{ siteTitle }}" />
+      <meta property="og:article:published_time" content="{{ isoDate }}" />
+      <meta property="og:article:modified_time" content="{{ updated }}" />
+    {% endif %}
+    <title>{% if noTitle %}{{ siteTitle }}{% else %}{{ title }}{% endif %}</title>
+  </head>
+  <body>
+    <header>
+      <a class="logo" href="/{{ langPrefix }}">
+        <img src="/images/planet.png" alt="{{ siteTitle }}"/>
+      </a>
+    </header>
+
+    <main>
+      {{ content | safe }}
+    </main>
+
+    <footer>
+      © 2005-{{ thisYear }} <a rel="author" href="/{{ langPrefix }}about.html">{{ creator }}</a>
+    </footer>
+  </body>
+</html>

@@ -21,31 +21,20 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - name: Setup Stack
-        uses: haskell/actions/setup@v2
-        with:
-          enable-stack: true
-          stack-version: 'latest'
-
       - name: Clone project
         uses: actions/checkout@v4
 
-      - name: Cache dependencies
-        uses: actions/cache@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          path: |
-            ~/.stack
-            .stack-work
-            _cache
-            _site
-          key: ${{ runner.os }}-${{ hashFiles('stack.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-
+          node-version: "22"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
 
       - name: Build
-        run: |
-          stack build -j2 --fast --no-terminal --pedantic
-          stack exec site rebuild
+        run: npm run build
 
       - name: Publish
         run:

@@ -1,0 +1,17 @@
+---
+layout: page-navigation.njk
+---
+{# We keep post title in an outside <h1> so that potential h1's
+   inside the post content would not be viewed as starting new
+   sections on the same level #}
+<h1>{{ title }}</h1>
+<p class="post-date">{{ displayDate }}</p>
+{% if tagList and tagList.length %}
+<section>Метки: {% for tag in tagList %}<a href="{{ tag.href }}">{{ tag.name }}</a>{% if not loop.last %}, {% endif %}{% endfor %}.</section>
+{% endif %}
+<div class="post-body">{{ content | safe }}</div>
+<div class="post-links">
+  <div style="float: right;">
+  <a href="https://github.com/dzhus/blog/commits/master/{{ path }}">git</a>
+  </div>
+</div>
