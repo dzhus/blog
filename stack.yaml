@@ -1,4 +1,4 @@
-resolver: lts-11.11
+resolver: lts-22.23
 extra-deps:
   - git: https://github.com/dzhus/hakyll
-    commit: ce71b85364c4a831cc47fada6fd367fa7e9d9efc
+    commit: f7db927b852a6c2d47cccdf740e85fb190397a35

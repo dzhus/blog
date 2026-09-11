@@ -1,6 +1,6 @@
 import ClassyPrelude
 import Data.Digest.Pure.MD5
-import Data.Time (iso8601DateFormat)
+import Data.Time.Format.ISO8601 (iso8601Show)
 import Hakyll hiding (defaultContext)
 import Text.Pandoc
 import Skylighting.Format.HTML
@@ -112,7 +112,8 @@ main = do
       , dateField "date" "%d.%m.%Y"
       , dateField "isoDate" "%F"
       , modificationTimeField "modificationDate" "%F"
-      , modificationTimeField "updated" (iso8601DateFormat (Just "%T%z"))
+      , field "updated" $ \i ->
+          iso8601Show <$> getItemModificationTime (itemIdentifier i)
       , langCtx Nothing
       , defaultContext
       ]
