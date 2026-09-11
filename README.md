@@ -35,7 +35,7 @@ The first trip build downloads OpenTopoMap tiles (with contour lines; cached und
 |------|------|
 | `posts/*.md` | Blog posts (`YYYY-MM-DD-slug.md`) |
 | `pages/` | Static pages (`about`, `en/about`, `error`) |
-| `trips/<YYYY-MM-Name>/` | Trip sources: photos (JPEG/PNG) + `.gpx` tracks |
+| `trips/<YYYY-Place>/` | Trip sources: photos (JPEG/PNG) + `.gpx` tracks |
 | `templates/` | Nunjucks layouts |
 | `css/`, `images/` | Assets |
 | `eleventy.config.ts` | Site configuration |
