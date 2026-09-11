@@ -12,7 +12,7 @@ defaultCreator :: String
 defaultCreator = "Дмитрий Джус"
 
 defaultTitle :: String
-defaultTitle = "Журнал Дмитрия Джуса"
+defaultTitle = "Журнал Дмитрия"
 
 email :: String
 email = "dima@dzhus.org"

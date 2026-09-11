@@ -134,7 +134,6 @@ vkontakte.ru или Last.FM); карты получились бы достат�
 
     <div id="owner-vcard" class="vcard">
         <span class="fn"><b>Дмитрий Джус</b></span><br />
-        aka <span class="nickname">Sphinx</span><br />
         WWW: <a class="url" rel="me" href="http://dzhus.org">dzhus.org</a>
         <br />
         E-mail: <a class="email" href="mailto:mail@dzhus.org">mail@dzhus.org</a>
