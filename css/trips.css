@@ -194,6 +194,15 @@ body.trip-photo article.trip-photo-page {
   aspect-ratio: 1;
   overflow: hidden;
   background: #d3d7cf;
+  transition: opacity 0.12s ease;
+}
+
+.trip-photo-grid.is-map-hovering .trip-photo-grid-item {
+  opacity: 0.28;
+}
+
+.trip-photo-grid.is-map-hovering .trip-photo-grid-item.is-map-active {
+  opacity: 1;
 }
 
 .trip-photo-grid-item img {

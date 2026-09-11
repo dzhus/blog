@@ -94,7 +94,7 @@ eleventyComputed:
         </div>
         <div class="trip-photo-grid">
           {% for photo in trip.photos %}
-          <a class="trip-photo-grid-item" href="{{ photo.photoPageUrl }}">
+          <a class="trip-photo-grid-item" href="{{ photo.photoPageUrl }}" data-photo-url="{{ photo.photoPageUrl }}">
             <img src="{{ photo.gridThumbUrl }}" alt="{{ photo.displayCapturedAt }}" loading="lazy" />
           </a>
           {% endfor %}
@@ -170,5 +170,44 @@ eleventyComputed:
       });
     });
   }
+
+  var grid = layout.querySelector(".trip-photo-grid");
+  if (grid) {
+    grid.querySelectorAll(".trip-photo-grid-item[data-photo-url]").forEach(function (item) {
+      item.addEventListener("mouseenter", function () {
+        var url = item.getAttribute("data-photo-url");
+        document.querySelectorAll(".trip-map").forEach(function (el) {
+          if (el._focusTripPhoto) el._focusTripPhoto(url);
+        });
+      });
+      item.addEventListener("mouseleave", function () {
+        document.querySelectorAll(".trip-map").forEach(function (el) {
+          if (el._focusTripPhoto) el._focusTripPhoto(null);
+        });
+      });
+    });
+  }
+
+  function setGridPhotoHighlight(url) {
+    if (!grid) return;
+    if (!url) {
+      grid.classList.remove("is-map-hovering");
+      grid.querySelectorAll(".trip-photo-grid-item.is-map-active").forEach(function (item) {
+        item.classList.remove("is-map-active");
+      });
+      return;
+    }
+    grid.classList.add("is-map-hovering");
+    grid.querySelectorAll(".trip-photo-grid-item[data-photo-url]").forEach(function (item) {
+      item.classList.toggle(
+        "is-map-active",
+        item.getAttribute("data-photo-url") === url
+      );
+    });
+  }
+
+  document.querySelectorAll(".trip-map").forEach(function (el) {
+    el._onMapPhotoHover = setGridPhotoHighlight;
+  });
 })();
 </script>

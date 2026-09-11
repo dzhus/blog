@@ -75,6 +75,26 @@ export function writeMapScript(outPath: string): void {
       .catch(function () {});
 
     var photoLayer = L.layerGroup();
+    var photoMarkers = [];
+    var photosVisible = true;
+    var focusedUrl = null;
+
+    function syncPhotoMarkers() {
+      photoMarkers.forEach(function (item) {
+        var show = photosVisible && (focusedUrl == null || item.url === focusedUrl);
+        if (show) {
+          if (!photoLayer.hasLayer(item.marker)) photoLayer.addLayer(item.marker);
+        } else if (photoLayer.hasLayer(item.marker)) {
+          photoLayer.removeLayer(item.marker);
+        }
+      });
+      if (photosVisible) {
+        if (!map.hasLayer(photoLayer)) photoLayer.addTo(map);
+      } else if (map.hasLayer(photoLayer)) {
+        map.removeLayer(photoLayer);
+      }
+    }
+
     photos.forEach(function (p) {
       if (p.lat == null || p.lon == null) return;
       var icon = L.divIcon({
@@ -83,17 +103,29 @@ export function writeMapScript(outPath: string): void {
         iconSize: [44, 44],
         iconAnchor: [22, 22],
       });
-      photoLayer.addLayer(L.marker([p.lat, p.lon], { icon: icon }));
+      var marker = L.marker([p.lat, p.lon], { icon: icon });
+      marker.on("mouseover", function () {
+        if (el._onMapPhotoHover) el._onMapPhotoHover(p.url);
+      });
+      marker.on("mouseout", function () {
+        if (el._onMapPhotoHover) el._onMapPhotoHover(null);
+      });
+      photoMarkers.push({ url: p.url, marker: marker });
+      photoLayer.addLayer(marker);
     });
     photoLayer.addTo(map);
     el._tripPhotoLayer = photoLayer;
 
     el._setTripPhotosVisible = function (visible) {
-      if (visible) {
-        if (!map.hasLayer(photoLayer)) photoLayer.addTo(map);
-      } else if (map.hasLayer(photoLayer)) {
-        map.removeLayer(photoLayer);
-      }
+      photosVisible = !!visible;
+      if (!photosVisible) focusedUrl = null;
+      syncPhotoMarkers();
+    };
+
+    el._focusTripPhoto = function (url) {
+      if (!photosVisible) return;
+      focusedUrl = url || null;
+      syncPhotoMarkers();
     };
   }
 

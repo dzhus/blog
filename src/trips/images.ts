@@ -11,7 +11,7 @@ export type ImageDerivatives = {
 
 const GRID = { max: 600, quality: 80 } as const;
 const MAP = { size: 48, quality: 75 } as const;
-const DISPLAY = { max: 3200, quality: 92 } as const;
+const DISPLAY = { max: 2400, quality: 92 } as const;
 
 /** Format byte size for download labels (e.g. "4.2 MB"). */
 export function formatFileSize(bytes: number): string {
