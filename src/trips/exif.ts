@@ -9,7 +9,22 @@ export type PhotoExif = {
   lon: number;
   /** Multi-line hover tooltip: date/time, exposure, GPS. */
   tooltip: string;
+  /** Source file size in bytes (from the same stat used for the cache key). */
+  sourceSize: number;
 };
+
+type CachedExifPayload = {
+  capturedAt: string;
+  displayCapturedAt: string;
+  lat: number;
+  lon: number;
+  tooltip: string;
+};
+
+function sourceKey(srcPath: string): { key: string; size: number } {
+  const st = fs.statSync(srcPath);
+  return { key: `${st.mtimeMs}_${st.size}`, size: st.size };
+}
 
 function formatExifLocal(dt: Date): string {
   const pad = (n: number) => String(n).padStart(2, "0");
@@ -69,7 +84,39 @@ export function formatExifTooltip(parts: {
   return lines.join("\n");
 }
 
-export async function readPhotoExif(filePath: string): Promise<PhotoExif> {
+function readCachedExif(
+  cacheJsonPath: string,
+  cacheKeyPath: string,
+  key: string,
+): CachedExifPayload | null {
+  if (!fs.existsSync(cacheJsonPath) || !fs.existsSync(cacheKeyPath)) return null;
+  if (fs.readFileSync(cacheKeyPath, "utf8") !== key) return null;
+  try {
+    const raw = JSON.parse(
+      fs.readFileSync(cacheJsonPath, "utf8"),
+    ) as Partial<CachedExifPayload>;
+    if (
+      typeof raw.capturedAt !== "string" ||
+      typeof raw.displayCapturedAt !== "string" ||
+      typeof raw.lat !== "number" ||
+      typeof raw.lon !== "number" ||
+      typeof raw.tooltip !== "string"
+    ) {
+      return null;
+    }
+    return {
+      capturedAt: raw.capturedAt,
+      displayCapturedAt: raw.displayCapturedAt,
+      lat: raw.lat,
+      lon: raw.lon,
+      tooltip: raw.tooltip,
+    };
+  } catch {
+    return null;
+  }
+}
+
+async function parsePhotoExif(filePath: string): Promise<Omit<PhotoExif, "sourceSize">> {
   const label = path.relative(process.cwd(), filePath) || filePath;
   const buf = await fs.promises.readFile(filePath);
 
@@ -147,6 +194,46 @@ export async function readPhotoExif(filePath: string): Promise<PhotoExif> {
       lon,
     }),
   };
+}
+
+export async function readPhotoExif(
+  filePath: string,
+  cacheTripDir: string,
+): Promise<PhotoExif> {
+  const { key, size } = sourceKey(filePath);
+  const base = path.basename(filePath);
+  const exifDir = path.join(cacheTripDir, "exif");
+  const cacheJsonPath = path.join(exifDir, `${base}.json`);
+  const cacheKeyPath = path.join(exifDir, `${base}.key`);
+
+  const cached = readCachedExif(cacheJsonPath, cacheKeyPath, key);
+  if (cached) {
+    const capturedAt = new Date(cached.capturedAt);
+    if (!Number.isNaN(+capturedAt)) {
+      return {
+        capturedAt,
+        displayCapturedAt: cached.displayCapturedAt,
+        lat: cached.lat,
+        lon: cached.lon,
+        tooltip: cached.tooltip,
+        sourceSize: size,
+      };
+    }
+  }
+
+  const parsed = await parsePhotoExif(filePath);
+  fs.mkdirSync(exifDir, { recursive: true });
+  const payload: CachedExifPayload = {
+    capturedAt: parsed.capturedAt.toISOString(),
+    displayCapturedAt: parsed.displayCapturedAt,
+    lat: parsed.lat,
+    lon: parsed.lon,
+    tooltip: parsed.tooltip,
+  };
+  fs.writeFileSync(cacheJsonPath, JSON.stringify(payload));
+  fs.writeFileSync(cacheKeyPath, key);
+
+  return { ...parsed, sourceSize: size };
 }
 
 export function formatIsoCapturedAt(date: Date): string {

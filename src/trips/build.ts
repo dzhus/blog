@@ -79,10 +79,11 @@ export async function buildTrips(
       exifTooltip: string;
       lat: number;
       lon: number;
+      sourceSize: number;
     }> = [];
 
     for (const src of trip.images) {
-      const exif = await readPhotoExif(src);
+      const exif = await readPhotoExif(src, cacheTripDir);
       photoMetas.push({
         src,
         filename: path.basename(src),
@@ -91,6 +92,7 @@ export async function buildTrips(
         exifTooltip: exif.tooltip,
         lat: exif.lat,
         lon: exif.lon,
+        sourceSize: exif.sourceSize,
       });
     }
 
@@ -122,7 +124,7 @@ export async function buildTrips(
         mapThumbUrl: derivatives.mapThumbRel,
         displayUrl: derivatives.displayRel,
         originalUrl: derivatives.originalRel,
-        originalSize: formatFileSize(fs.statSync(meta.src).size),
+        originalSize: formatFileSize(meta.sourceSize),
         photoPageUrl: `/trips/${trip.slug}/photo/${stem}.html`,
       });
     }

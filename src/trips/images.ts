@@ -50,6 +50,17 @@ async function writeIfNeeded(
   fs.writeFileSync(metaPath, key);
 }
 
+/** Copy only when dest is missing or size differs from source. */
+function copyIfNeeded(from: string, to: string): void {
+  fs.mkdirSync(path.dirname(to), { recursive: true });
+  if (fs.existsSync(to)) {
+    const fromSt = fs.statSync(from);
+    const toSt = fs.statSync(to);
+    if (fromSt.size === toSt.size) return;
+  }
+  fs.copyFileSync(from, to);
+}
+
 export async function processPhotoImages(
   srcPath: string,
   slug: string,
@@ -145,17 +156,10 @@ export async function processPhotoImages(
   const siteDisplay = path.join(siteTripDir, "display", outName);
   const siteOriginal = path.join(siteTripDir, "originals", base);
 
-  for (const [from, to] of [
-    [cacheGrid, siteGrid],
-    [cacheMap, siteMap],
-    [cacheDisplay, siteDisplay],
-  ] as const) {
-    fs.mkdirSync(path.dirname(to), { recursive: true });
-    fs.copyFileSync(from, to);
-  }
-
-  fs.mkdirSync(path.dirname(siteOriginal), { recursive: true });
-  fs.copyFileSync(srcPath, siteOriginal);
+  copyIfNeeded(cacheGrid, siteGrid);
+  copyIfNeeded(cacheMap, siteMap);
+  copyIfNeeded(cacheDisplay, siteDisplay);
+  copyIfNeeded(srcPath, siteOriginal);
 
   return {
     gridThumbRel: `/trips/${slug}/thumbs/grid/${outName}`,
