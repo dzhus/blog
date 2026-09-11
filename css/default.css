@@ -24,6 +24,11 @@ header {
     text-align: center;
 }
 
+body.post header,
+body.trip-photo header {
+    display: none;
+}
+
 @media (max-width: 40pc) {
     header {
         display: none;
