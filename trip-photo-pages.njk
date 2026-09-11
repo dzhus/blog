@@ -26,15 +26,17 @@ eleventyComputed:
       {{ item.index + 1 }}/{{ item.total }}
     </figcaption>
   </figure>
+</article>
 
+<footer id="neighbour-links">
   <nav class="trip-photo-nav">
     {% if item.prev %}
-    <a class="page-link" rel="prev" href="{{ item.prev.photoPageUrl }}">← Предыдущее</a>
+    <a class="page-link" rel="prev" href="{{ item.prev.photoPageUrl }}">←</a>
     {% else %}
     <span></span>
     {% endif %}
     {% if item.next %}
-    <a class="page-link" rel="next" href="{{ item.next.photoPageUrl }}">Следующее →</a>
+    <a class="page-link" rel="next" href="{{ item.next.photoPageUrl }}">→</a>
     {% endif %}
   </nav>
-</article>
+</footer>
