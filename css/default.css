@@ -24,6 +24,12 @@ header {
     text-align: center;
 }
 
+@media (max-width: 40pc) {
+    header {
+        display: none;
+    }
+}
+
 .page-link {
     font-size: large;
 }

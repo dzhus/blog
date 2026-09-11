@@ -187,6 +187,12 @@ body.trip-photo article.trip-photo-page {
   gap: 0.5rem;
 }
 
+@media (max-width: 52rem) {
+  .trip-photo-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .trip-photos-stage.is-previewing .trip-photo-grid {
   display: none;
 }
@@ -320,6 +326,10 @@ body.trip-photo article.trip-photo-page {
 }
 
 /* Single photo */
+.trip-photo-page {
+  touch-action: pan-y;
+}
+
 .trip-photo-figure {
   margin: 0;
   text-align: center;
