@@ -9,7 +9,11 @@ export type ImageDerivatives = {
   originalRel: string;
 };
 
-function cacheKey(srcPath: string): string {
+const GRID = { max: 600, quality: 80 } as const;
+const MAP = { size: 48, quality: 75 } as const;
+const DISPLAY = { max: 2400, quality: 92 } as const;
+
+function sourceKey(srcPath: string): string {
   const st = fs.statSync(srcPath);
   return `${st.mtimeMs}_${st.size}`;
 }
@@ -39,7 +43,11 @@ export async function processPhotoImages(
   cacheTripDir: string,
   siteTripDir: string,
 ): Promise<ImageDerivatives> {
-  const key = cacheKey(srcPath);
+  const src = sourceKey(srcPath);
+  const gridKey = `${src}_grid_${GRID.max}_q${GRID.quality}`;
+  const mapKey = `${src}_map_${MAP.size}_q${MAP.quality}`;
+  const displayKey = `${src}_display_${DISPLAY.max}_q${DISPLAY.quality}`;
+
   const base = path.basename(filename);
   const stem = path.basename(base, path.extname(base));
   const outName = `${stem}.jpg`;
@@ -55,22 +63,21 @@ export async function processPhotoImages(
     !(
       fs.existsSync(cacheGrid) &&
       fs.existsSync(metaGrid) &&
-      fs.readFileSync(metaGrid, "utf8") === key
+      fs.readFileSync(metaGrid, "utf8") === gridKey
     );
   const needsMap =
     !(
       fs.existsSync(cacheMap) &&
       fs.existsSync(metaMap) &&
-      fs.readFileSync(metaMap, "utf8") === key
+      fs.readFileSync(metaMap, "utf8") === mapKey
     );
   const needsDisplay =
     !(
       fs.existsSync(cacheDisplay) &&
       fs.existsSync(metaDisplay) &&
-      fs.readFileSync(metaDisplay, "utf8") === key
+      fs.readFileSync(metaDisplay, "utf8") === displayKey
     );
 
-  // Read once into memory so sharp never holds path-based FileHandles.
   const input =
     needsGrid || needsMap || needsDisplay
       ? await fs.promises.readFile(srcPath)
@@ -78,43 +85,43 @@ export async function processPhotoImages(
 
   if (needsGrid) {
     if (!input) throw new Error(`Missing image buffer for ${srcPath}`);
-    await writeIfNeeded(cacheGrid, metaGrid, key, async () => {
+    await writeIfNeeded(cacheGrid, metaGrid, gridKey, async () => {
       await sharp(input, { failOn: "none" })
         .rotate()
         .resize({
-          width: 600,
-          height: 600,
+          width: GRID.max,
+          height: GRID.max,
           fit: "inside",
           withoutEnlargement: true,
         })
-        .jpeg({ quality: 80, mozjpeg: true })
+        .jpeg({ quality: GRID.quality, mozjpeg: true })
         .toFile(cacheGrid);
     });
   }
 
   if (needsMap) {
     if (!input) throw new Error(`Missing image buffer for ${srcPath}`);
-    await writeIfNeeded(cacheMap, metaMap, key, async () => {
+    await writeIfNeeded(cacheMap, metaMap, mapKey, async () => {
       await sharp(input, { failOn: "none" })
         .rotate()
-        .resize({ width: 48, height: 48, fit: "cover" })
-        .jpeg({ quality: 75, mozjpeg: true })
+        .resize({ width: MAP.size, height: MAP.size, fit: "cover" })
+        .jpeg({ quality: MAP.quality, mozjpeg: true })
         .toFile(cacheMap);
     });
   }
 
   if (needsDisplay) {
     if (!input) throw new Error(`Missing image buffer for ${srcPath}`);
-    await writeIfNeeded(cacheDisplay, metaDisplay, key, async () => {
+    await writeIfNeeded(cacheDisplay, metaDisplay, displayKey, async () => {
       await sharp(input, { failOn: "none" })
         .rotate()
         .resize({
-          width: 2048,
-          height: 2048,
+          width: DISPLAY.max,
+          height: DISPLAY.max,
           fit: "inside",
           withoutEnlargement: true,
         })
-        .jpeg({ quality: 85, mozjpeg: true })
+        .jpeg({ quality: DISPLAY.quality, mozjpeg: true })
         .toFile(cacheDisplay);
     });
   }

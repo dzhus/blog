@@ -11,23 +11,54 @@ eleventyComputed:
 ---
 <article class="trip">
   <h1>{{ trip.title }}</h1>
-  {% if trip.dateRange %}
-  <p class="trip-dates">{{ trip.dateRange }}</p>
-  {% elif trip.period %}
-  <p class="trip-dates">{{ trip.period }}</p>
+  {% if trip.dateRange or trip.period or trip.distanceKm %}
+  <p class="trip-dates">
+    {% if trip.dateRange %}{{ trip.dateRange }}{% elif trip.period %}{{ trip.period }}{% endif %}
+    {% if (trip.dateRange or trip.period) and trip.distanceKm %} · {% endif %}
+    {% if trip.distanceKm %}{{ trip.distanceKm }}{% endif %}
+  </p>
   {% endif %}
   <p class="trip-back"><a href="/trips/index.html">← Все поездки</a></p>
 
   <div class="trip-layout">
     <div class="trip-map-column">
-      <div
-        id="trip-map-{{ trip.slug }}"
-        class="trip-map"
-        data-bounds='{{ trip.boundsJson | safe }}'
-        data-basemap="{{ trip.basemapUrl }}"
-        data-tracks="{{ trip.tracksJsonUrl }}"
-        data-photos='{{ trip.mapPhotosJson | safe }}'
-      ></div>
+      <div class="trip-map-wrap">
+        <div class="trip-chevron-bar">
+          <button
+            type="button"
+            class="trip-chevron trip-chevron--map"
+            data-toggle-section="map"
+            aria-label="Скрыть карту"
+            title="Скрыть карту"
+          >‹</button>
+          <button
+            type="button"
+            class="trip-map-thumbs-toggle"
+            aria-pressed="true"
+            aria-label="Миниатюры на карте"
+            title="Скрыть миниатюры на карте"
+          >▣</button>
+          <button
+            type="button"
+            class="trip-chevron trip-chevron--show-photos"
+            data-toggle-section="photos"
+            aria-label="Показать фото"
+            title="Показать фото"
+            hidden
+          >›</button>
+        </div>
+        <div class="trip-map-frame">
+          <div
+            id="trip-map-{{ trip.slug }}"
+            class="trip-map"
+            data-bounds='{{ trip.boundsJson | safe }}'
+            data-tiles="{{ trip.tileUrlTemplate }}"
+            data-zoom="{{ trip.tileZoom }}"
+            data-tracks="{{ trip.tracksJsonUrl }}"
+            data-photos='{{ trip.mapPhotosJson | safe }}'
+          ></div>
+        </div>
+      </div>
 
       {% if trip.tracks and trip.tracks.length %}
       <ul class="trip-gpx-list">
@@ -42,12 +73,31 @@ eleventyComputed:
     </div>
 
     <div class="trip-photos-column">
-      <div class="trip-photo-grid">
-        {% for photo in trip.photos %}
-        <a class="trip-photo-grid-item" href="{{ photo.photoPageUrl }}">
-          <img src="{{ photo.gridThumbUrl }}" alt="{{ photo.displayCapturedAt }}" loading="lazy" />
-        </a>
-        {% endfor %}
+      <div class="trip-photos-wrap">
+        <div class="trip-chevron-bar">
+          <button
+            type="button"
+            class="trip-chevron trip-chevron--show-map"
+            data-toggle-section="map"
+            aria-label="Показать карту"
+            title="Показать карту"
+            hidden
+          >‹</button>
+          <button
+            type="button"
+            class="trip-chevron trip-chevron--photos"
+            data-toggle-section="photos"
+            aria-label="Скрыть фото"
+            title="Скрыть фото"
+          >›</button>
+        </div>
+        <div class="trip-photo-grid">
+          {% for photo in trip.photos %}
+          <a class="trip-photo-grid-item" href="{{ photo.photoPageUrl }}">
+            <img src="{{ photo.gridThumbUrl }}" alt="{{ photo.displayCapturedAt }}" loading="lazy" />
+          </a>
+          {% endfor %}
+        </div>
       </div>
     </div>
   </div>
@@ -55,3 +105,68 @@ eleventyComputed:
 
 <script src="/vendor/leaflet/leaflet.js"></script>
 <script src="{{ trip.mapScriptUrl }}"></script>
+<script>
+(function () {
+  var layout = document.querySelector(".trip-layout");
+  if (!layout) return;
+
+  var state = { map: true, photos: true };
+
+  var hideMapBtn = layout.querySelector(".trip-chevron--map");
+  var hidePhotosBtn = layout.querySelector(".trip-chevron--photos");
+  var showMapBtn = layout.querySelector(".trip-chevron--show-map");
+  var showPhotosBtn = layout.querySelector(".trip-chevron--show-photos");
+
+  function apply() {
+    layout.classList.toggle("trip-layout--map-hidden", !state.map);
+    layout.classList.toggle("trip-layout--photos-hidden", !state.photos);
+
+    if (hideMapBtn) hideMapBtn.hidden = !state.map;
+    if (hidePhotosBtn) hidePhotosBtn.hidden = !state.photos;
+    if (showMapBtn) showMapBtn.hidden = state.map;
+    if (showPhotosBtn) showPhotosBtn.hidden = state.photos;
+
+    if (state.map) {
+      requestAnimationFrame(function () {
+        document.querySelectorAll(".trip-map").forEach(function (el) {
+          if (el._tripMap) el._tripMap.invalidateSize();
+        });
+      });
+    }
+  }
+
+  function bind(btn, section, show) {
+    if (!btn) return;
+    btn.addEventListener("click", function () {
+      if (show) {
+        state[section] = true;
+      } else {
+        if (section === "map" && !state.photos) return;
+        if (section === "photos" && !state.map) return;
+        state[section] = false;
+      }
+      apply();
+    });
+  }
+
+  bind(hideMapBtn, "map", false);
+  bind(hidePhotosBtn, "photos", false);
+  bind(showMapBtn, "map", true);
+  bind(showPhotosBtn, "photos", true);
+
+  var thumbsBtn = layout.querySelector(".trip-map-thumbs-toggle");
+  if (thumbsBtn) {
+    thumbsBtn.addEventListener("click", function () {
+      var on = thumbsBtn.getAttribute("aria-pressed") !== "true";
+      thumbsBtn.setAttribute("aria-pressed", on ? "true" : "false");
+      thumbsBtn.title = on
+        ? "Скрыть миниатюры на карте"
+        : "Показать миниатюры на карте";
+      thumbsBtn.textContent = on ? "▣" : "□";
+      document.querySelectorAll(".trip-map").forEach(function (el) {
+        if (el._setTripPhotosVisible) el._setTripPhotosVisible(on);
+      });
+    });
+  }
+})();
+</script>

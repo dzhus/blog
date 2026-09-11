@@ -13,8 +13,8 @@ export type TripPhoto = {
   filename: string;
   capturedAt: string;
   displayCapturedAt: string;
-  lat: number | null;
-  lon: number | null;
+  lat: number;
+  lon: number;
   gridThumbUrl: string;
   mapThumbUrl: string;
   displayUrl: string;
@@ -37,14 +37,16 @@ export type TripManifest = {
   from: string | null;
   to: string | null;
   dateRange: string | null;
+  distanceKm: string | null;
   url: string;
   coverThumbUrl: string | null;
   photoCount: number;
   trackCount: number;
   bounds: BBox;
   boundsJson: string;
+  tileUrlTemplate: string;
+  tileZoom: number;
   mapPhotosJson: string;
-  basemapUrl: string;
   tracksJsonUrl: string;
   mapScriptUrl: string;
   photos: TripPhoto[];

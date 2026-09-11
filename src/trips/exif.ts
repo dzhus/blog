@@ -5,8 +5,8 @@ import exifr from "exifr";
 export type PhotoExif = {
   capturedAt: Date;
   displayCapturedAt: string;
-  lat: number | null;
-  lon: number | null;
+  lat: number;
+  lon: number;
 };
 
 function formatExifLocal(dt: Date): string {
@@ -26,7 +26,7 @@ export async function readPhotoExif(filePath: string): Promise<PhotoExif> {
   } catch (err) {
     const detail = err instanceof Error ? err.message : String(err);
     throw new Error(
-      `Failed to read EXIF from ${label}: ${detail}. Each trip photo must include DateTimeOriginal.`,
+      `Failed to read EXIF from ${label}: ${detail}. Each trip photo must include DateTimeOriginal and GPS coordinates.`,
     );
   }
 
@@ -37,20 +37,31 @@ export async function readPhotoExif(filePath: string): Promise<PhotoExif> {
     );
   }
 
-  let lat: number | null = null;
-  let lon: number | null = null;
+  let lat: number | undefined;
+  let lon: number | undefined;
   try {
     const gps = await exifr.gps(buf);
     if (
       gps &&
       typeof gps.latitude === "number" &&
-      typeof gps.longitude === "number"
+      typeof gps.longitude === "number" &&
+      Number.isFinite(gps.latitude) &&
+      Number.isFinite(gps.longitude)
     ) {
       lat = gps.latitude;
       lon = gps.longitude;
     }
-  } catch {
-    // GPS remains optional for map markers
+  } catch (err) {
+    const detail = err instanceof Error ? err.message : String(err);
+    throw new Error(
+      `Failed to read GPS EXIF from ${label}: ${detail}. Each trip photo must include GPS latitude/longitude for the map.`,
+    );
+  }
+
+  if (lat == null || lon == null) {
+    throw new Error(
+      `Missing GPS coordinates in ${label}. Each trip photo must include EXIF GPS latitude/longitude to appear on the trip map.`,
+    );
   }
 
   return {

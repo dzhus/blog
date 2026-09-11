@@ -18,10 +18,12 @@ langPrefix: ""
         {% endif %}
         <span class="trips-list-meta">
           <span class="trips-list-title">{{ trip.title }}</span>
-          {% if trip.dateRange %}
-          <span class="trips-list-period">{{ trip.dateRange }}</span>
-          {% elif trip.period %}
-          <span class="trips-list-period">{{ trip.period }}</span>
+          {% if trip.dateRange or trip.period or trip.distanceKm %}
+          <span class="trips-list-period">
+            {% if trip.dateRange %}{{ trip.dateRange }}{% elif trip.period %}{{ trip.period }}{% endif %}
+            {% if (trip.dateRange or trip.period) and trip.distanceKm %} · {% endif %}
+            {% if trip.distanceKm %}{{ trip.distanceKm }}{% endif %}
+          </span>
           {% endif %}
           <span class="trips-list-counts">{{ trip.photoCount }} фото{% if trip.trackCount %}, {{ trip.trackCount }} трек{% if trip.trackCount > 1 %}а{% endif %}{% endif %}</span>
         </span>
