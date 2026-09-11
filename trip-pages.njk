@@ -11,10 +11,10 @@ eleventyComputed:
 ---
 <article class="trip">
   <h1>{{ trip.title }}</h1>
-  {% if trip.dateRange or trip.period or trip.distanceKm %}
+  {% if trip.dateRange or trip.distanceKm %}
   <p class="trip-dates">
-    {% if trip.dateRange %}{{ trip.dateRange }}{% elif trip.period %}{{ trip.period }}{% endif %}
-    {% if (trip.dateRange or trip.period) and trip.distanceKm %} · {% endif %}
+    {% if trip.dateRange %}{{ trip.dateRange }}{% endif %}
+    {% if trip.dateRange and trip.distanceKm %} · {% endif %}
     {% if trip.distanceKm %}{{ trip.distanceKm }}{% endif %}
   </p>
   {% endif %}
@@ -51,6 +51,7 @@ eleventyComputed:
           <div
             id="trip-map-{{ trip.slug }}"
             class="trip-map"
+            style="--trip-map-aspect: {{ trip.mapAspect }}"
             data-bounds='{{ trip.boundsJson | safe }}'
             data-tiles="{{ trip.tileUrlTemplate }}"
             data-zoom="{{ trip.tileZoom }}"
@@ -129,7 +130,8 @@ eleventyComputed:
     if (state.map) {
       requestAnimationFrame(function () {
         document.querySelectorAll(".trip-map").forEach(function (el) {
-          if (el._tripMap) el._tripMap.invalidateSize();
+          if (el._tripFit) el._tripFit();
+          else if (el._tripMap) el._tripMap.invalidateSize();
         });
       });
     }

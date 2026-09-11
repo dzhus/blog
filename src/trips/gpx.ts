@@ -119,9 +119,9 @@ export type GpxProcessResult = {
   tracks: TripTrack[];
   bounds: BBox;
   distanceMeters: number;
-  /** Calendar YYYY-MM-DD from min/max of all GPX point times, or null if no GPX. */
-  from: string | null;
-  to: string | null;
+  /** Calendar YYYY-MM-DD from min/max of all GPX point times. */
+  from: string;
+  to: string;
 };
 
 export function processGpxFiles(
@@ -129,6 +129,12 @@ export function processGpxFiles(
   slug: string,
   siteTripDir: string,
 ): GpxProcessResult {
+  if (gpxFiles.length === 0) {
+    throw new Error(
+      `Trip ${slug} has no .gpx files. Each trip must include at least one GPX track.`,
+    );
+  }
+
   const gpxOutDir = path.join(siteTripDir, "gpx");
   fs.mkdirSync(gpxOutDir, { recursive: true });
 
@@ -164,7 +170,7 @@ export function processGpxFiles(
     };
   });
 
-  if (gpxFiles.length > 0 && (tripMinMs == null || tripMaxMs == null)) {
+  if (tripMinMs == null || tripMaxMs == null) {
     throw new Error(
       `No usable <time> values in GPX for trip ${slug}. Trip dates are inferred from track point timestamps.`,
     );
@@ -187,8 +193,8 @@ export function processGpxFiles(
     tracks,
     bounds: isValidBBox(bounds) ? bounds : emptyBBox(),
     distanceMeters,
-    from: tripMinMs != null ? calendarDateFromMs(tripMinMs) : null,
-    to: tripMaxMs != null ? calendarDateFromMs(tripMaxMs) : null,
+    from: calendarDateFromMs(tripMinMs),
+    to: calendarDateFromMs(tripMaxMs),
   };
 }
 

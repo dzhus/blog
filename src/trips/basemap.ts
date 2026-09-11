@@ -21,56 +21,13 @@ const TILE_URL = (z: number, x: number, y: number) =>
 /** Soft cap on mosaic pixel span used only to pick zoom. */
 const MAX_EDGE = 2048;
 
-/**
- * Map pane aspect ratios (width/height) covered at build time.
- * Keep in sync with `.trip-map` heights in `css/trips.css`
- * (`min(70vh, 32rem)` / `min(80vh, 40rem)` when photos hidden) and fluid column width.
- */
-const ASPECT_MIN = 0.9;
-const ASPECT_MAX = 2.2;
-
-/**
- * Grow the data-bbox tile range so fitBounds viewports from ASPECT_MIN..ASPECT_MAX
- * stay inside fetched tiles (no grey edges).
- */
-export function expandTileRangeForViewport(
-  xMin: number,
-  xMaxExcl: number,
-  yMin: number,
-  yMaxExcl: number,
-  z: number,
-): { xMin: number; xMaxExcl: number; yMin: number; yMaxExcl: number } {
-  const max = Math.pow(2, z);
-  const w = xMaxExcl - xMin;
-  const h = yMaxExcl - yMin;
-  const needW = Math.max(w, Math.ceil(h * ASPECT_MAX));
-  const needH = Math.max(h, Math.ceil(w / ASPECT_MIN));
-
-  const extraW = needW - w;
-  const extraH = needH - h;
-  let nx0 = xMin - Math.floor(extraW / 2);
-  let nx1 = xMaxExcl + (extraW - Math.floor(extraW / 2));
-  let ny0 = yMin - Math.floor(extraH / 2);
-  let ny1 = yMaxExcl + (extraH - Math.floor(extraH / 2));
-
-  if (nx0 < 0) {
-    nx1 = Math.min(max, nx1 - nx0);
-    nx0 = 0;
-  }
-  if (nx1 > max) {
-    nx0 = Math.max(0, nx0 - (nx1 - max));
-    nx1 = max;
-  }
-  if (ny0 < 0) {
-    ny1 = Math.min(max, ny1 - ny0);
-    ny0 = 0;
-  }
-  if (ny1 > max) {
-    ny0 = Math.max(0, ny0 - (ny1 - max));
-    ny1 = max;
-  }
-
-  return { xMin: nx0, xMaxExcl: nx1, yMin: ny0, yMaxExcl: ny1 };
+/** Web Mercator width/height ratio of a WGS84 bbox (matches Leaflet EPSG:3857). */
+export function mercatorAspectRatio(bounds: BBox): number {
+  const z = 12;
+  const w = lonToTileX(bounds.east, z) - lonToTileX(bounds.west, z);
+  const h = latToTileY(bounds.south, z) - latToTileY(bounds.north, z);
+  if (!(w > 0) || !(h > 0)) return 1;
+  return w / h;
 }
 
 function chooseZoom(bounds: BBox): number {
@@ -165,22 +122,14 @@ export async function renderTripTiles(
   greyCacheDir: string,
 ): Promise<TripTileSet> {
   const z = chooseZoom(bounds);
-  let xMin = Math.floor(lonToTileX(bounds.west, z));
-  let xMaxExcl = Math.ceil(lonToTileX(bounds.east, z));
-  let yMin = Math.floor(latToTileY(bounds.north, z));
-  let yMaxExcl = Math.ceil(latToTileY(bounds.south, z));
+  const xMin = Math.floor(lonToTileX(bounds.west, z));
+  const xMaxExcl = Math.ceil(lonToTileX(bounds.east, z));
+  const yMin = Math.floor(latToTileY(bounds.north, z));
+  const yMaxExcl = Math.ceil(latToTileY(bounds.south, z));
 
   if (xMaxExcl <= xMin || yMaxExcl <= yMin) {
     throw new Error("Invalid tile range for trip bounds");
   }
-
-  ({ xMin, xMaxExcl, yMin, yMaxExcl } = expandTileRangeForViewport(
-    xMin,
-    xMaxExcl,
-    yMin,
-    yMaxExcl,
-    z,
-  ));
 
   const siteTilesDir = path.join(siteMapDir, "tiles", String(z));
   fs.mkdirSync(siteTilesDir, { recursive: true });

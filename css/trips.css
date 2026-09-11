@@ -147,18 +147,19 @@ body.trip-photo article.trip-photo-page {
 .trip-map-frame {
   border: 1px solid #888a85;
   background: #d3d7cf;
+  display: flex;
+  justify-content: center;
 }
 
-/* Heights drive map pane aspect; tile fetch covers ~0.9–2.2 (see ASPECT_* in basemap.ts). */
+/* Aspect matches track bbox (Web Mercator); see trip.mapAspect / mercatorAspectRatio. */
 .trip-map {
-  width: 100%;
-  height: min(70vh, 32rem);
+  --trip-map-max-h: min(85vh, 48rem);
+  width: min(100%, calc(var(--trip-map-max-h) * var(--trip-map-aspect, 1)));
+  aspect-ratio: var(--trip-map-aspect, 1);
+  max-height: var(--trip-map-max-h);
+  height: auto;
   background: #d3d7cf;
   border: none;
-}
-
-.trip-layout.trip-layout--photos-hidden .trip-map {
-  height: min(80vh, 40rem);
 }
 
 .trip-gpx-list {

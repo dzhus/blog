@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import sharp from "sharp";
-import { renderTripTiles, TILE_SOURCE_ID } from "./basemap.ts";
+import { renderTripTiles, TILE_SOURCE_ID, mercatorAspectRatio } from "./basemap.ts";
 import { discoverTrips } from "./discover.ts";
 import {
   formatIsoCapturedAt,
@@ -64,6 +64,11 @@ export async function buildTrips(
       to,
     } = processGpxFiles(trip.gpxFiles, trip.slug, siteTripDir);
     const dateRange = formatTripDateRange(from, to);
+    if (!dateRange) {
+      throw new Error(
+        `Trip ${trip.slug}: could not derive date range from GPX timestamps.`,
+      );
+    }
     const distanceKm = formatDistanceKm(distanceMeters);
 
     const photoMetas: Array<{
@@ -136,7 +141,7 @@ export async function buildTrips(
     const mapScriptPath = path.join(mapDir, "map.js");
 
     type TileCacheMeta = {
-      version: 5;
+      version: 6;
       source: string;
       requestBounds: BBox;
       zoom: number;
@@ -166,7 +171,7 @@ export async function buildTrips(
           fs.readFileSync(tilesMetaPath, "utf8"),
         ) as TileCacheMeta;
         if (
-          cached.version === 5 &&
+          cached.version === 6 &&
           cached.source === TILE_SOURCE_ID &&
           JSON.stringify(cached.requestBounds) === JSON.stringify(bounds)
         ) {
@@ -221,7 +226,7 @@ export async function buildTrips(
         greyCacheDir,
       );
       const meta: TileCacheMeta = {
-        version: 5,
+        version: 6,
         source: TILE_SOURCE_ID,
         requestBounds: bounds,
         zoom: tileSet.zoom,
@@ -268,6 +273,7 @@ export async function buildTrips(
       trackCount: tracks.length,
       bounds: tileSet.bounds,
       boundsJson: JSON.stringify(tileSet.bounds),
+      mapAspect: mercatorAspectRatio(tileSet.bounds),
       tileUrlTemplate: tileSet.tileUrlTemplate,
       tileZoom: tileSet.zoom,
       mapPhotosJson,

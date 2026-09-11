@@ -36,9 +36,9 @@ export type TripManifest = {
   slug: string;
   title: string;
   period: string;
-  from: string | null;
-  to: string | null;
-  dateRange: string | null;
+  from: string;
+  to: string;
+  dateRange: string;
   distanceKm: string | null;
   url: string;
   coverThumbUrl: string | null;
@@ -46,6 +46,8 @@ export type TripManifest = {
   trackCount: number;
   bounds: BBox;
   boundsJson: string;
+  /** Web Mercator width/height of tile coverage; used for CSS aspect-ratio. */
+  mapAspect: number;
   tileUrlTemplate: string;
   tileZoom: number;
   mapPhotosJson: string;

@@ -15,12 +15,14 @@ export function writeMapScript(outPath: string): void {
     var northEast = L.latLng(bounds.north, bounds.east);
     var latLngBounds = L.latLngBounds(southWest, northEast);
 
+    // zoomSnap: 0 so fitBounds can match the map pane aspect exactly.
+    // Integer snap zooms out and reveals grey outside the local tile set.
     var map = L.map(el, {
       crs: L.CRS.EPSG3857,
+      zoomSnap: 0,
+      zoomDelta: 0.25,
       minZoom: Math.max(0, zoom - 2),
       maxZoom: zoom + 1,
-      maxBounds: latLngBounds.pad(0.08),
-      maxBoundsViscosity: 1.0,
       scrollWheelZoom: true,
       attributionControl: true,
     });
@@ -42,8 +44,15 @@ export function writeMapScript(outPath: string): void {
       attribution: "",
     }).addTo(map);
 
-    map.fitBounds(latLngBounds);
+    map.fitBounds(latLngBounds, { animate: false, padding: [0, 0] });
+    // Nudge in slightly so subpixel / control chrome cannot leave a grey hairline.
+    map.setZoom(map.getZoom() + 0.02, { animate: false });
     el._tripMap = map;
+    el._tripFit = function () {
+      map.invalidateSize({ animate: false });
+      map.fitBounds(latLngBounds, { animate: false, padding: [0, 0] });
+      map.setZoom(map.getZoom() + 0.02, { animate: false });
+    };
 
     fetch(tracksUrl)
       .then(function (r) { return r.json(); })

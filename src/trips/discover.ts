@@ -44,6 +44,12 @@ export function discoverTrips(tripsRoot: string): DiscoveredTrip[] {
 
     if (images.length === 0 && gpxFiles.length === 0) continue;
 
+    if (gpxFiles.length === 0) {
+      throw new Error(
+        `Trip ${entry.name} has no .gpx files. Each trip must include at least one GPX track (dates and map bounds come from GPX).`,
+      );
+    }
+
     const { title: folderTitle, period } = parseSlug(entry.name);
     const meta = readTripMetadata(dir);
 
