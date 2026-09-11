@@ -14,6 +14,12 @@
     <link rel="icon" type="image/png" href="/images/favicon.png" />
     <link rel="stylesheet" href="/css/default.css" />
     <link rel="stylesheet" href="/css/syntax.css" />
+    {% if bodyClass == "trip-page" or bodyClass == "trips-index" or bodyClass == "trip-photo" %}
+    <link rel="stylesheet" href="/css/trips.css" />
+    {% endif %}
+    {% if bodyClass == "trip-page" %}
+    <link rel="stylesheet" href="/vendor/leaflet/leaflet.css" />
+    {% endif %}
 
     <link rel="alternate" href="/{{ langPrefix }}atom.xml" type="application/atom+xml" />
 
@@ -38,7 +44,7 @@
     {% endif %}
     <title>{% if noTitle %}{{ siteTitle }}{% else %}{{ title }}{% endif %}</title>
   </head>
-  <body>
+  <body{% if bodyClass %} class="{{ bodyClass }}"{% endif %}>
     <header>
       <a class="logo" href="/{{ langPrefix }}">
         <img src="/images/planet.png" alt="{{ siteTitle }}"/>

@@ -1,0 +1,57 @@
+---
+pagination:
+  data: trips
+  size: 1
+  alias: trip
+permalink: "/trips/{{ trip.slug }}/index.html"
+layout: default.njk
+bodyClass: trip-page
+eleventyComputed:
+  title: "{{ trip.title }}"
+---
+<article class="trip">
+  <h1>{{ trip.title }}</h1>
+  {% if trip.dateRange %}
+  <p class="trip-dates">{{ trip.dateRange }}</p>
+  {% elif trip.period %}
+  <p class="trip-dates">{{ trip.period }}</p>
+  {% endif %}
+  <p class="trip-back"><a href="/trips/index.html">← Все поездки</a></p>
+
+  <div class="trip-layout">
+    <div class="trip-map-column">
+      <div
+        id="trip-map-{{ trip.slug }}"
+        class="trip-map"
+        data-bounds='{{ trip.boundsJson | safe }}'
+        data-basemap="{{ trip.basemapUrl }}"
+        data-tracks="{{ trip.tracksJsonUrl }}"
+        data-photos='{{ trip.mapPhotosJson | safe }}'
+      ></div>
+
+      {% if trip.tracks and trip.tracks.length %}
+      <ul class="trip-gpx-list">
+        {% for track in trip.tracks %}
+        <li>
+          <span class="trip-track-swatch" style="background:{{ track.color }}"></span>
+          <a href="{{ track.gpxUrl }}" download>{{ track.filename }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+
+    <div class="trip-photos-column">
+      <div class="trip-photo-grid">
+        {% for photo in trip.photos %}
+        <a class="trip-photo-grid-item" href="{{ photo.photoPageUrl }}">
+          <img src="{{ photo.gridThumbUrl }}" alt="{{ photo.displayCapturedAt }}" loading="lazy" />
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</article>
+
+<script src="/vendor/leaflet/leaflet.js"></script>
+<script src="{{ trip.mapScriptUrl }}"></script>

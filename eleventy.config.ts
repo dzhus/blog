@@ -14,8 +14,19 @@ import {
   thisYear,
 } from "./src/siteConstants.ts";
 import { collectTags, renderTagCloud } from "./src/tags.ts";
+import { buildTrips, readTripsManifest } from "./src/trips/build.ts";
+import type { TripManifest, TripPhoto } from "./src/trips/types.ts";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+export type TripPhotoPage = {
+  trip: TripManifest;
+  photo: TripPhoto;
+  prev: TripPhoto | null;
+  next: TripPhoto | null;
+  index: number;
+  total: number;
+};
 
 function isEnglishPost(item: CollectionItem): boolean {
   return item.data.lang === "en";
@@ -49,6 +60,7 @@ export default function (eleventyConfig: UserConfig) {
 
   eleventyConfig.addPassthroughCopy("images");
   eleventyConfig.addPassthroughCopy("css/default.css");
+  eleventyConfig.addPassthroughCopy("css/trips.css");
 
   eleventyConfig.addGlobalData("rootUrl", rootUrl);
   eleventyConfig.addGlobalData("gravatar", gravatar);
@@ -57,6 +69,33 @@ export default function (eleventyConfig: UserConfig) {
   eleventyConfig.addGlobalData("siteTitle", defaultTitle);
   eleventyConfig.addGlobalData("lang", "ru");
   eleventyConfig.addGlobalData("langPrefix", "");
+
+  eleventyConfig.on("eleventy.before", async () => {
+    await buildTrips({ projectRoot: __dirname });
+  });
+
+  eleventyConfig.addGlobalData("trips", () => {
+    return readTripsManifest(__dirname).trips;
+  });
+
+  eleventyConfig.addGlobalData("tripPhotos", (): TripPhotoPage[] => {
+    const trips = readTripsManifest(__dirname).trips;
+    const pages: TripPhotoPage[] = [];
+    for (const trip of trips) {
+      const total = trip.photos.length;
+      trip.photos.forEach((photo, index) => {
+        pages.push({
+          trip,
+          photo,
+          prev: index > 0 ? trip.photos[index - 1]! : null,
+          next: index < total - 1 ? trip.photos[index + 1]! : null,
+          index,
+          total,
+        });
+      });
+    }
+    return pages;
+  });
 
   eleventyConfig.addCollection("postsAll", (api) =>
     api.getFilteredByGlob("posts/*.md").sort(sortNewestFirst),

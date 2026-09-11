@@ -1,0 +1,40 @@
+---
+pagination:
+  data: tripPhotos
+  size: 1
+  alias: item
+permalink: "/trips/{{ item.trip.slug }}/photo/{{ item.photo.basename }}.html"
+layout: default.njk
+bodyClass: trip-photo
+eleventyComputed:
+  title: "{{ item.trip.title }} — {{ item.photo.displayCapturedAt }}"
+---
+<article class="trip-photo-page">
+  <p class="trip-back">
+    <a href="{{ item.trip.url }}">← {{ item.trip.title }}</a>
+  </p>
+
+  <figure class="trip-photo-figure">
+    <img src="{{ item.photo.displayUrl }}" alt="{{ item.photo.displayCapturedAt }}" />
+    <figcaption>
+      {% if item.photo.displayCapturedAt %}
+      <time datetime="{{ item.photo.capturedAt }}">{{ item.photo.displayCapturedAt }}</time>
+      {% endif %}
+      ·
+      <a href="{{ item.photo.originalUrl }}" download>Скачать оригинал</a>
+      ·
+      {{ item.index + 1 }}/{{ item.total }}
+    </figcaption>
+  </figure>
+
+  <nav class="trip-photo-nav">
+    {% if item.prev %}
+    <a class="page-link" rel="prev" href="{{ item.prev.photoPageUrl }}">← Предыдущее</a>
+    {% else %}
+    <span></span>
+    {% endif %}
+    {% if item.next %}
+    <a class="page-link" rel="next" href="{{ item.next.photoPageUrl }}">Следующее →</a>
+    {% endif %}
+  </nav>
+</article>
