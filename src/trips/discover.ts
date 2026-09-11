@@ -11,6 +11,8 @@ export type DiscoveredTrip = {
   dir: string;
   images: string[];
   gpxFiles: string[];
+  /** Optional cover photo basename from trip.yml `thumbnail`. */
+  thumbnail: string | null;
 };
 
 function parseSlug(slug: string): { title: string; period: string } {
@@ -53,6 +55,16 @@ export function discoverTrips(tripsRoot: string): DiscoveredTrip[] {
     const { title: folderTitle, period } = parseSlug(entry.name);
     const meta = readTripMetadata(dir);
 
+    let thumbnail: string | null = meta.thumbnail ?? null;
+    if (thumbnail) {
+      const imageNames = new Set(images.map((p) => path.basename(p)));
+      if (!imageNames.has(thumbnail)) {
+        throw new Error(
+          `Trip ${entry.name}: thumbnail ${JSON.stringify(thumbnail)} not found among trip photos`,
+        );
+      }
+    }
+
     trips.push({
       slug: entry.name,
       title: meta.name ?? folderTitle,
@@ -60,6 +72,7 @@ export function discoverTrips(tripsRoot: string): DiscoveredTrip[] {
       dir,
       images,
       gpxFiles,
+      thumbnail,
     });
   }
 

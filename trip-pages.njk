@@ -53,6 +53,7 @@ eleventyComputed:
             class="trip-map"
             style="--trip-map-aspect: {{ trip.mapAspect }}"
             data-bounds='{{ trip.boundsJson | safe }}'
+            data-tile-bounds='{{ trip.tileBoundsJson | safe }}'
             data-tiles="{{ trip.tileUrlTemplate }}"
             data-zoom="{{ trip.tileZoom }}"
             data-tracks="{{ trip.tracksJsonUrl }}"
@@ -92,12 +93,23 @@ eleventyComputed:
             title="Скрыть фото"
           >›</button>
         </div>
-        <div class="trip-photo-grid">
-          {% for photo in trip.photos %}
-          <a class="trip-photo-grid-item" href="{{ photo.photoPageUrl }}" data-photo-url="{{ photo.photoPageUrl }}">
-            <img src="{{ photo.gridThumbUrl }}" alt="{{ photo.displayCapturedAt }}" loading="lazy" />
+        <div class="trip-photos-stage">
+          <div class="trip-photo-grid">
+            {% for photo in trip.photos %}
+            <a
+              class="trip-photo-grid-item"
+              href="{{ photo.photoPageUrl }}"
+              data-photo-url="{{ photo.photoPageUrl }}"
+              data-display-url="{{ photo.displayUrl }}"
+              title="{{ photo.exifTooltip }}"
+            >
+              <img src="{{ photo.gridThumbUrl }}" alt="" loading="lazy" />
+            </a>
+            {% endfor %}
+          </div>
+          <a class="trip-photo-hover-preview">
+            <img alt="" />
           </a>
-          {% endfor %}
         </div>
       </div>
     </div>
@@ -171,7 +183,11 @@ eleventyComputed:
     });
   }
 
+  var stage = layout.querySelector(".trip-photos-stage");
   var grid = layout.querySelector(".trip-photo-grid");
+  var preview = layout.querySelector(".trip-photo-hover-preview");
+  var previewImg = preview ? preview.querySelector("img") : null;
+
   if (grid) {
     grid.querySelectorAll(".trip-photo-grid-item[data-photo-url]").forEach(function (item) {
       item.addEventListener("mouseenter", function () {
@@ -188,26 +204,38 @@ eleventyComputed:
     });
   }
 
-  function setGridPhotoHighlight(url) {
-    if (!grid) return;
-    if (!url) {
-      grid.classList.remove("is-map-hovering");
-      grid.querySelectorAll(".trip-photo-grid-item.is-map-active").forEach(function (item) {
-        item.classList.remove("is-map-active");
-      });
+  function setGridPhotoPreview(photo) {
+    if (!stage || !preview || !previewImg) return;
+    var url = photo && photo.url;
+    var display = photo && photo.display;
+    var tooltip = "";
+    if (url && grid) {
+      var match = grid.querySelector(
+        '.trip-photo-grid-item[data-photo-url="' + url.replace(/"/g, '\\"') + '"]'
+      );
+      if (match) {
+        if (!display) display = match.getAttribute("data-display-url");
+        tooltip = match.getAttribute("title") || "";
+      }
+    }
+    if (!url || !display) {
+      stage.classList.remove("is-previewing");
+      preview.removeAttribute("href");
+      preview.removeAttribute("title");
+      previewImg.removeAttribute("src");
+      previewImg.alt = "";
       return;
     }
-    grid.classList.add("is-map-hovering");
-    grid.querySelectorAll(".trip-photo-grid-item[data-photo-url]").forEach(function (item) {
-      item.classList.toggle(
-        "is-map-active",
-        item.getAttribute("data-photo-url") === url
-      );
-    });
+    previewImg.src = display;
+    previewImg.alt = "";
+    preview.href = url;
+    if (tooltip) preview.title = tooltip;
+    else preview.removeAttribute("title");
+    stage.classList.add("is-previewing");
   }
 
   document.querySelectorAll(".trip-map").forEach(function (el) {
-    el._onMapPhotoHover = setGridPhotoHighlight;
+    el._onMapPhotoHover = setGridPhotoPreview;
   });
 })();
 </script>

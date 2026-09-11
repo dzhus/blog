@@ -162,6 +162,18 @@ body.trip-photo article.trip-photo-page {
   border: none;
 }
 
+/* Kill subpixel seams between scaled raster tiles. */
+.trip-map .leaflet-tile {
+  border: none;
+  outline: none;
+}
+
+.trip-map .leaflet-tile-container img {
+  /* Slight oversize closes hairlines from CSS transform rounding. */
+  width: 256.5px !important;
+  height: 256.5px !important;
+}
+
 .trip-gpx-list {
   list-style: none;
   padding: 0;
@@ -189,26 +201,40 @@ body.trip-photo article.trip-photo-page {
   gap: 0.5rem;
 }
 
+.trip-photos-stage.is-previewing .trip-photo-grid {
+  display: none;
+}
+
 .trip-photo-grid-item {
   display: block;
   aspect-ratio: 1;
   overflow: hidden;
   background: #d3d7cf;
-  transition: opacity 0.12s ease;
-}
-
-.trip-photo-grid.is-map-hovering .trip-photo-grid-item {
-  opacity: 0.28;
-}
-
-.trip-photo-grid.is-map-hovering .trip-photo-grid-item.is-map-active {
-  opacity: 1;
 }
 
 .trip-photo-grid-item img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
+}
+
+.trip-photo-hover-preview {
+  display: none;
+  background: #d3d7cf;
+  line-height: 0;
+}
+
+.trip-photos-stage.is-previewing .trip-photo-hover-preview {
+  display: block;
+}
+
+.trip-photo-hover-preview img {
+  width: 100%;
+  height: auto;
+  max-height: min(85vh, 48rem);
+  object-fit: contain;
+  object-position: top center;
   display: block;
 }
 

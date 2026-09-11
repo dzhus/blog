@@ -50,9 +50,10 @@ Optional metadata file in the trip folder (`trip.yml`, `trip.yaml`, `metadata.ym
 
 ```yaml
 name: Алтай
+thumbnail: 2026-08-08-07-33.jpg
 ```
 
-`name` overrides the display title derived from the folder name (URL slug stays the folder name). Trip `from` / `to` dates are inferred from min/max `<time>` values on GPX track points (required; build fails if a trip has no `.gpx` or no usable point times).
+`name` overrides the display title derived from the folder name (URL slug stays the folder name). `thumbnail` is an optional photo filename in the trip folder used as the cover on `/trips/` (defaults to the earliest photo by EXIF date). Trip `from` / `to` dates are inferred from min/max `<time>` values on GPX track points (required; build fails if a trip has no `.gpx` or no usable point times).
 
 Build output:
 

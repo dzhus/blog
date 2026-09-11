@@ -13,6 +13,7 @@ import {
   isValidBBox,
   mergeBBox,
   padBBox,
+  expandBBoxForIntegerContain,
 } from "./geo.ts";
 import { processGpxFiles, writeTracksJson, formatDistanceKm } from "./gpx.ts";
 import { processPhotoImages, formatFileSize } from "./images.ts";
@@ -76,6 +77,7 @@ export async function buildTrips(
       filename: string;
       capturedAt: Date;
       displayCapturedAt: string;
+      exifTooltip: string;
       lat: number;
       lon: number;
     }> = [];
@@ -87,6 +89,7 @@ export async function buildTrips(
         filename: path.basename(src),
         capturedAt: exif.capturedAt,
         displayCapturedAt: exif.displayCapturedAt,
+        exifTooltip: exif.tooltip,
         lat: exif.lat,
         lon: exif.lon,
       });
@@ -113,6 +116,7 @@ export async function buildTrips(
         filename: meta.filename,
         capturedAt: formatIsoCapturedAt(meta.capturedAt),
         displayCapturedAt: meta.displayCapturedAt,
+        exifTooltip: meta.exifTooltip,
         lat: meta.lat,
         lon: meta.lon,
         gridThumbUrl: derivatives.gridThumbRel,
@@ -134,6 +138,8 @@ export async function buildTrips(
       bounds = { south: 0, west: 0, north: 0.01, east: 0.01 };
     }
     bounds = padBBox(bounds, 0.1);
+    const fitBounds = bounds;
+    const tileRequestBounds = expandBBoxForIntegerContain(fitBounds);
 
     const mapDir = path.join(siteTripDir, "map");
     fs.mkdirSync(mapDir, { recursive: true });
@@ -141,9 +147,10 @@ export async function buildTrips(
     const mapScriptPath = path.join(mapDir, "map.js");
 
     type TileCacheMeta = {
-      version: 6;
+      version: 7;
       source: string;
       requestBounds: BBox;
+      fitBounds: BBox;
       zoom: number;
       xMin: number;
       xMax: number;
@@ -171,9 +178,11 @@ export async function buildTrips(
           fs.readFileSync(tilesMetaPath, "utf8"),
         ) as TileCacheMeta;
         if (
-          cached.version === 6 &&
+          cached.version === 7 &&
           cached.source === TILE_SOURCE_ID &&
-          JSON.stringify(cached.requestBounds) === JSON.stringify(bounds)
+          JSON.stringify(cached.requestBounds) ===
+            JSON.stringify(tileRequestBounds) &&
+          JSON.stringify(cached.fitBounds) === JSON.stringify(fitBounds)
         ) {
           tileSet = {
             zoom: cached.zoom,
@@ -219,16 +228,17 @@ export async function buildTrips(
 
     if (!cacheHit || !tileSet) {
       tileSet = await renderTripTiles(
-        bounds,
+        tileRequestBounds,
         trip.slug,
         mapDir,
         colorCacheDir,
         greyCacheDir,
       );
       const meta: TileCacheMeta = {
-        version: 6,
+        version: 7,
         source: TILE_SOURCE_ID,
-        requestBounds: bounds,
+        requestBounds: tileRequestBounds,
+        fitBounds,
         zoom: tileSet.zoom,
         xMin: tileSet.xMin,
         xMax: tileSet.xMax,
@@ -248,13 +258,23 @@ export async function buildTrips(
     writeTracksJson(tracks, tracksPath);
     writeMapScript(mapScriptPath);
 
-    const coverThumbUrl = photos[0]?.gridThumbUrl ?? null;
+    let coverThumbUrl = photos[0]?.gridThumbUrl ?? null;
+    if (trip.thumbnail) {
+      const cover = photos.find((p) => p.filename === trip.thumbnail);
+      if (!cover) {
+        throw new Error(
+          `Trip ${trip.slug}: thumbnail ${JSON.stringify(trip.thumbnail)} was not built as a photo`,
+        );
+      }
+      coverThumbUrl = cover.gridThumbUrl;
+    }
 
     const mapPhotosJson = JSON.stringify(
       photos.map((p) => ({
         lat: p.lat,
         lon: p.lon,
         thumb: p.mapThumbUrl,
+        display: p.displayUrl,
         url: p.photoPageUrl,
       })),
     );
@@ -271,9 +291,10 @@ export async function buildTrips(
       coverThumbUrl,
       photoCount: photos.length,
       trackCount: tracks.length,
-      bounds: tileSet.bounds,
-      boundsJson: JSON.stringify(tileSet.bounds),
-      mapAspect: mercatorAspectRatio(tileSet.bounds),
+      bounds: fitBounds,
+      boundsJson: JSON.stringify(fitBounds),
+      tileBoundsJson: JSON.stringify(tileSet.bounds),
+      mapAspect: mercatorAspectRatio(fitBounds),
       tileUrlTemplate: tileSet.tileUrlTemplate,
       tileZoom: tileSet.zoom,
       mapPhotosJson,

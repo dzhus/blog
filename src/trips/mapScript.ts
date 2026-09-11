@@ -6,21 +6,29 @@ export function writeMapScript(outPath: string): void {
 (function () {
   function init(el) {
     var bounds = JSON.parse(el.getAttribute("data-bounds"));
+    var tileBoundsRaw = el.getAttribute("data-tile-bounds");
+    var tileBounds = tileBoundsRaw ? JSON.parse(tileBoundsRaw) : bounds;
     var tilesUrl = el.getAttribute("data-tiles");
     var zoom = Number(el.getAttribute("data-zoom"));
     var tracksUrl = el.getAttribute("data-tracks");
     var photos = JSON.parse(el.getAttribute("data-photos") || "[]");
 
-    var southWest = L.latLng(bounds.south, bounds.west);
-    var northEast = L.latLng(bounds.north, bounds.east);
-    var latLngBounds = L.latLngBounds(southWest, northEast);
+    var fitLatLngBounds = L.latLngBounds(
+      L.latLng(bounds.south, bounds.west),
+      L.latLng(bounds.north, bounds.east)
+    );
+    var tileLatLngBounds = L.latLngBounds(
+      L.latLng(tileBounds.south, tileBounds.west),
+      L.latLng(tileBounds.north, tileBounds.east)
+    );
 
-    // zoomSnap: 0 so fitBounds can match the map pane aspect exactly.
-    // Integer snap zooms out and reveals grey outside the local tile set.
+    // Integer zoomSnap: smooth wheel zoom and no fractional-scale tile seams.
+    // Tiles are fetched oversized (see expandBBoxForIntegerContain) so contain
+    // fit at floor(z) still has coverage across the whole pane.
     var map = L.map(el, {
       crs: L.CRS.EPSG3857,
-      zoomSnap: 0,
-      zoomDelta: 0.25,
+      zoomSnap: 1,
+      zoomDelta: 1,
       minZoom: Math.max(0, zoom - 2),
       maxZoom: zoom + 1,
       scrollWheelZoom: true,
@@ -40,19 +48,18 @@ export function writeMapScript(outPath: string): void {
       minZoom: Math.max(0, zoom - 2),
       maxZoom: zoom + 1,
       noWrap: true,
-      bounds: latLngBounds,
+      bounds: tileLatLngBounds,
       attribution: "",
     }).addTo(map);
 
-    map.fitBounds(latLngBounds, { animate: false, padding: [0, 0] });
-    // Nudge in slightly so subpixel / control chrome cannot leave a grey hairline.
-    map.setZoom(map.getZoom() + 0.02, { animate: false });
-    el._tripMap = map;
-    el._tripFit = function () {
+    function fitTripBounds() {
       map.invalidateSize({ animate: false });
-      map.fitBounds(latLngBounds, { animate: false, padding: [0, 0] });
-      map.setZoom(map.getZoom() + 0.02, { animate: false });
-    };
+      map.fitBounds(fitLatLngBounds, { animate: false, padding: [0, 0] });
+    }
+
+    fitTripBounds();
+    el._tripMap = map;
+    el._tripFit = fitTripBounds;
 
     fetch(tracksUrl)
       .then(function (r) { return r.json(); })
@@ -105,7 +112,9 @@ export function writeMapScript(outPath: string): void {
       });
       var marker = L.marker([p.lat, p.lon], { icon: icon });
       marker.on("mouseover", function () {
-        if (el._onMapPhotoHover) el._onMapPhotoHover(p.url);
+        if (el._onMapPhotoHover) {
+          el._onMapPhotoHover({ url: p.url, display: p.display });
+        }
       });
       marker.on("mouseout", function () {
         if (el._onMapPhotoHover) el._onMapPhotoHover(null);

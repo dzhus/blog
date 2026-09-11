@@ -15,12 +15,12 @@ eleventyComputed:
   </p>
 
   <figure class="trip-photo-figure">
-    <img src="{{ item.photo.displayUrl }}" alt="{{ item.photo.displayCapturedAt }}" />
+    <img
+      src="{{ item.photo.displayUrl }}"
+      alt=""
+      title="{{ item.photo.exifTooltip }}"
+    />
     <figcaption>
-      {% if item.photo.displayCapturedAt %}
-      <time datetime="{{ item.photo.capturedAt }}">{{ item.photo.displayCapturedAt }}</time>
-      {% endif %}
-      ·
       <a href="{{ item.photo.originalUrl }}" download="{{ item.photo.filename }}">{{ item.photo.filename }} ({{ item.photo.originalSize }})</a>
       ·
       {{ item.index + 1 }}/{{ item.total }}

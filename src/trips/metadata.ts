@@ -6,6 +6,8 @@ const META_FILENAMES = ["trip.yml", "trip.yaml", "metadata.yml", "metadata.yaml"
 
 export type TripMetadata = {
   name?: string;
+  /** Basename of a trip photo to use as the listing cover (e.g. "2026-08-08-07-33.jpg"). */
+  thumbnail?: string;
 };
 
 function isPlainObject(v: unknown): v is Record<string, unknown> {
@@ -49,11 +51,26 @@ export function readTripMetadata(tripDir: string): TripMetadata {
     meta.name = raw.name.trim();
   }
 
-  const allowed = new Set(["name"]);
+  if (raw.thumbnail !== undefined) {
+    if (typeof raw.thumbnail !== "string" || raw.thumbnail.trim() === "") {
+      throw new Error(
+        `Invalid thumbnail in ${fileLabel}: expected a non-empty filename`,
+      );
+    }
+    const thumb = raw.thumbnail.trim();
+    if (thumb.includes("/") || thumb.includes("\\") || thumb === ".." || thumb === ".") {
+      throw new Error(
+        `Invalid thumbnail in ${fileLabel}: expected a bare filename in the trip folder, got ${JSON.stringify(raw.thumbnail)}`,
+      );
+    }
+    meta.thumbnail = thumb;
+  }
+
+  const allowed = new Set(["name", "thumbnail"]);
   for (const key of Object.keys(raw)) {
     if (!allowed.has(key)) {
       throw new Error(
-        `Unknown key "${key}" in ${fileLabel}. Allowed: name`,
+        `Unknown key "${key}" in ${fileLabel}. Allowed: name, thumbnail`,
       );
     }
   }

@@ -13,6 +13,8 @@ export type TripPhoto = {
   filename: string;
   capturedAt: string;
   displayCapturedAt: string;
+  /** Hover tooltip with date/time, exposure, GPS. */
+  exifTooltip: string;
   lat: number;
   lon: number;
   gridThumbUrl: string;
@@ -46,7 +48,9 @@ export type TripManifest = {
   trackCount: number;
   bounds: BBox;
   boundsJson: string;
-  /** Web Mercator width/height of tile coverage; used for CSS aspect-ratio. */
+  /** Exact WGS84 coverage of fetched tiles (may extend past fit bounds). */
+  tileBoundsJson: string;
+  /** Web Mercator width/height of the fitted trip bbox; used for CSS aspect-ratio. */
   mapAspect: number;
   tileUrlTemplate: string;
   tileZoom: number;
