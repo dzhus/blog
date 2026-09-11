@@ -16,7 +16,7 @@ export type DiscoveredTrip = {
 };
 
 function parseSlug(slug: string): { title: string; period: string } {
-  const m = /^(\d{4}-\d{2})-(.+)$/.exec(slug);
+  const m = /^(\d{4})-(.+)$/.exec(slug);
   if (m) {
     return { period: m[1]!, title: m[2]!.replace(/-/g, " ") };
   }

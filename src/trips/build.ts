@@ -301,6 +301,11 @@ export async function buildTrips(
     });
   }
 
+  trips.sort((a, b) => {
+    if (a.from !== b.from) return b.from.localeCompare(a.from, "en");
+    return b.slug.localeCompare(a.slug, "en");
+  });
+
   const manifest: TripsManifest = {
     generatedAt: new Date().toISOString(),
     trips,
