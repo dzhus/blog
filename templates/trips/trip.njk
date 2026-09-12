@@ -122,6 +122,7 @@
         <figcaption class="trip-modal-single-caption">
           <div class="trip-modal-single-exif"></div>
           <div class="trip-modal-single-meta">
+            <a class="trip-modal-page-link" id="trip-modal-page-link" href="" target="_self" aria-label="{{ t.photoPage }}">{{ t.photoPage }} ↗</a>
             <a class="trip-modal-single-download"></a>
             <span class="trip-modal-single-pos"></span>
           </div>
@@ -141,12 +142,13 @@
             <a href="{{ photo.originalUrl }}" download="{{ photo.filename }}">{{ photo.filename }} ({{ photo.originalSize }})</a>
             ·
             {{ loop.index }}/{{ trip.photos.length }}
+            ·
+            <a href="{{ photo.photoPageUrl }}">{{ t.photoPage }} ↗</a>
           </div>
         </figcaption>
       </figure>
       {% endfor %}
     </div>
-    <a class="trip-modal-page-link" id="trip-modal-page-link" href="" target="_self" aria-label="{{ t.photoPage }}">{{ t.photoPage }} ↗</a>
   </dialog>
 </article>
 
