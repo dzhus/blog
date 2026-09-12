@@ -99,6 +99,14 @@ export function writeMapScript(outPath: string): void {
         iconAnchor: [22, 22],
       });
       var marker = L.marker([p.lat, p.lon], { icon: icon });
+      marker.on("click", function (e) {
+        if (el._onMapPhotoClick) {
+          if (e.originalEvent && typeof e.originalEvent.preventDefault === "function") {
+            e.originalEvent.preventDefault();
+          }
+          el._onMapPhotoClick({ url: p.url, display: p.display });
+        }
+      });
       marker.on("mouseover", function () {
         if (el._onMapPhotoHover) {
           el._onMapPhotoHover({ url: p.url, display: p.display });
@@ -124,6 +132,17 @@ export function writeMapScript(outPath: string): void {
       focusedUrl = url || null;
       syncPhotoMarkers();
     };
+
+    el.addEventListener("click", function (e) {
+      var link = e.target.closest(".trip-map-photo-icon a");
+      if (link) {
+        e.preventDefault();
+        var targetUrl = link.getAttribute("href");
+        if (el._onMapPhotoClick) {
+          el._onMapPhotoClick({ url: targetUrl });
+        }
+      }
+    });
   }
 
   document.querySelectorAll(".trip-map[data-tiles]").forEach(init);

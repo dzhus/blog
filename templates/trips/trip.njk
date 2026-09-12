@@ -158,6 +158,8 @@
   var layout = document.querySelector(".trip-layout");
   if (!layout) return;
 
+  var openPhotoModalByUrl = null;
+
   var state = { map: true, photos: true };
 
   var hideMapBtn = layout.querySelector(".trip-chevron--map");
@@ -277,6 +279,12 @@
 
   document.querySelectorAll(".trip-map").forEach(function (el) {
     el._onMapPhotoHover = setGridPhotoPreview;
+    el._onMapPhotoClick = function (photo) {
+      var url = photo && photo.url;
+      if (url && typeof openPhotoModalByUrl === "function") {
+        openPhotoModalByUrl(url);
+      }
+    };
   });
 
   // Photo modal & lightbox
@@ -364,9 +372,26 @@
         prePrev.src = photos[index - 1].displayUrl;
       }
     }
-      if (index - 1 >= 0) {
-        var prePrev = new Image();
-        prePrev.src = photos[index - 1].displayUrl;
+
+    openPhotoModalByUrl = function (url) {
+      if (!url || !photos) return;
+      var foundIdx = photos.findIndex(function (p) {
+        return p.photoUrl === url;
+      });
+      if (foundIdx !== -1) {
+        openModal(foundIdx);
+      }
+    };
+
+    function loadFeedImage(item) {
+      if (!item) return;
+      var img = item.querySelector(".trip-modal-feed-img");
+      if (img) {
+        var dataSrc = img.getAttribute("data-src");
+        if (dataSrc) {
+          img.src = dataSrc;
+          img.removeAttribute("data-src");
+        }
       }
     }
 
@@ -378,14 +403,7 @@
         feedObserver = new IntersectionObserver(function (entries, observer) {
           entries.forEach(function (entry) {
             if (entry.isIntersecting) {
-              var img = entry.target.querySelector(".trip-modal-feed-img");
-              if (img) {
-                var dataSrc = img.getAttribute("data-src");
-                if (dataSrc) {
-                  img.src = dataSrc;
-                  img.removeAttribute("data-src");
-                }
-              }
+              loadFeedImage(entry.target);
               observer.unobserve(entry.target);
             }
           });
@@ -398,13 +416,7 @@
           feedObserver.observe(item);
         });
       } else {
-        feedItems.forEach(function (item) {
-          var img = item.querySelector(".trip-modal-feed-img");
-          if (img && img.getAttribute("data-src")) {
-            img.src = img.getAttribute("data-src");
-            img.removeAttribute("data-src");
-          }
-        });
+        feedItems.forEach(loadFeedImage);
       }
     }
 
@@ -462,14 +474,13 @@
       if (isMobile()) {
         initFeedObserver();
         if (feedItems[index]) {
+          loadFeedImage(feedItems[index]);
+          if (feedItems[index - 1]) loadFeedImage(feedItems[index - 1]);
+          if (feedItems[index + 1]) loadFeedImage(feedItems[index + 1]);
+          feedItems[index].scrollIntoView({ block: "start" });
           setTimeout(function () {
             feedItems[index].scrollIntoView({ block: "start" });
-            var img = feedItems[index].querySelector(".trip-modal-feed-img");
-            if (img && img.getAttribute("data-src")) {
-              img.src = img.getAttribute("data-src");
-              img.removeAttribute("data-src");
-            }
-          }, 20);
+          }, 30);
         }
       } else {
         renderDesktopPhoto(index);
@@ -499,12 +510,7 @@
         e.preventDefault();
         var targetUrl = preview.getAttribute("href");
         if (targetUrl) {
-          var foundIdx = photos.findIndex(function (p) {
-            return p.photoUrl === targetUrl;
-          });
-          if (foundIdx !== -1) {
-            openModal(foundIdx);
-          }
+          openPhotoModalByUrl(targetUrl);
         }
       });
     }
