@@ -27,6 +27,9 @@ export type TripUi = {
   hideMapThumbs: string;
   showMapThumbs: string;
   distanceUnit: string;
+  close: string;
+  prevPhoto: string;
+  nextPhoto: string;
 };
 
 export const tripUi: Record<TripLang, TripUi> = {
@@ -49,6 +52,9 @@ export const tripUi: Record<TripLang, TripUi> = {
     hideMapThumbs: "Скрыть миниатюры на карте",
     showMapThumbs: "Показать миниатюры на карте",
     distanceUnit: "км",
+    close: "Закрыть",
+    prevPhoto: "Предыдущее фото",
+    nextPhoto: "Следующее фото",
   },
   en: {
     lang: "en",
@@ -69,6 +75,9 @@ export const tripUi: Record<TripLang, TripUi> = {
     hideMapThumbs: "Hide map thumbnails",
     showMapThumbs: "Show map thumbnails",
     distanceUnit: "km",
+    close: "Close",
+    prevPhoto: "Previous photo",
+    nextPhoto: "Next photo",
   },
 };
 

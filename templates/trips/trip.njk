@@ -91,6 +91,10 @@
               href="{{ photo.photoPageUrl }}"
               data-photo-url="{{ photo.photoPageUrl }}"
               data-display-url="{{ photo.displayUrl }}"
+              data-original-url="{{ photo.originalUrl }}"
+              data-filename="{{ photo.filename }}"
+              data-original-size="{{ photo.originalSize }}"
+              data-photo-index="{{ loop.index0 }}"
               title="{{ photo.exifTooltip }}"
             >
               <img src="{{ photo.gridThumbUrl }}" alt="" loading="lazy" />
@@ -104,6 +108,36 @@
       </div>
     </div>
   </div>
+
+  <dialog class="trip-photo-modal" id="trip-photo-modal" aria-label="Фото">
+    <div class="trip-modal-bar">
+      <div class="trip-modal-counter"></div>
+      <button type="button" class="trip-modal-close" aria-label="{{ t.close }}" title="{{ t.close }}">✕</button>
+    </div>
+    <div class="trip-modal-single">
+      <button type="button" class="trip-modal-nav trip-modal-prev" aria-label="{{ t.prevPhoto }}" title="{{ t.prevPhoto }}">‹</button>
+      <figure class="trip-modal-single-figure">
+        <img class="trip-modal-single-img" alt="" />
+        <figcaption class="trip-modal-single-caption">
+          <a class="trip-modal-single-download"></a>
+          <span class="trip-modal-single-pos"></span>
+        </figcaption>
+      </figure>
+      <button type="button" class="trip-modal-nav trip-modal-next" aria-label="{{ t.nextPhoto }}" title="{{ t.nextPhoto }}">›</button>
+    </div>
+    <div class="trip-modal-feed">
+      {% for photo in trip.photos %}
+      <figure class="trip-modal-feed-item" data-photo-id="{{ photo.id }}" data-photo-index="{{ loop.index0 }}">
+        <img class="trip-modal-feed-img" data-src="{{ photo.displayUrl }}" alt="" loading="lazy" title="{{ photo.exifTooltip }}" />
+        <figcaption class="trip-modal-feed-caption">
+          <a href="{{ photo.originalUrl }}" download="{{ photo.filename }}">{{ photo.filename }} ({{ photo.originalSize }})</a>
+          ·
+          {{ loop.index }}/{{ trip.photos.length }}
+        </figcaption>
+      </figure>
+      {% endfor %}
+    </div>
+  </dialog>
 </article>
 
 <script src="/vendor/leaflet/leaflet.js"></script>
@@ -229,5 +263,259 @@
   document.querySelectorAll(".trip-map").forEach(function (el) {
     el._onMapPhotoHover = setGridPhotoPreview;
   });
+
+  // Photo modal & lightbox
+  var modal = document.getElementById("trip-photo-modal");
+  if (modal && grid) {
+    var gridItems = Array.from(grid.querySelectorAll(".trip-photo-grid-item"));
+    var photos = gridItems.map(function (item, idx) {
+      return {
+        index: idx,
+        id: item.getAttribute("data-photo-index") || String(idx),
+        displayUrl: item.getAttribute("data-display-url") || "",
+        originalUrl: item.getAttribute("data-original-url") || "",
+        filename: item.getAttribute("data-filename") || "",
+        originalSize: item.getAttribute("data-original-size") || "",
+        tooltip: item.getAttribute("title") || "",
+        photoUrl: item.getAttribute("data-photo-url") || ""
+      };
+    });
+
+    var totalPhotos = photos.length;
+    var currentPhotoIndex = 0;
+
+    var modalCloseBtn = modal.querySelector(".trip-modal-close");
+    var modalCounter = modal.querySelector(".trip-modal-counter");
+    var modalSingleImg = modal.querySelector(".trip-modal-single-img");
+    var modalSingleDownload = modal.querySelector(".trip-modal-single-download");
+    var modalSinglePos = modal.querySelector(".trip-modal-single-pos");
+    var modalPrevBtn = modal.querySelector(".trip-modal-prev");
+    var modalNextBtn = modal.querySelector(".trip-modal-next");
+    var modalFeed = modal.querySelector(".trip-modal-feed");
+    var feedItems = modalFeed ? Array.from(modalFeed.querySelectorAll(".trip-modal-feed-item")) : [];
+
+    function isMobile() {
+      return window.matchMedia("(max-width: 52rem)").matches;
+    }
+
+    function renderDesktopPhoto(index) {
+      if (index < 0 || index >= totalPhotos) return;
+      currentPhotoIndex = index;
+      var p = photos[index];
+
+      modalSingleImg.src = p.displayUrl;
+      modalSingleImg.alt = "";
+      if (p.tooltip) {
+        modalSingleImg.title = p.tooltip;
+      } else {
+        modalSingleImg.removeAttribute("title");
+      }
+
+      if (modalSingleDownload) {
+        modalSingleDownload.href = p.originalUrl;
+        modalSingleDownload.download = p.filename;
+        modalSingleDownload.textContent = p.filename + " (" + p.originalSize + ")";
+      }
+
+      if (modalSinglePos) {
+        modalSinglePos.textContent = " · " + (index + 1) + "/" + totalPhotos;
+      }
+
+      if (modalCounter) {
+        modalCounter.textContent = (index + 1) + " / " + totalPhotos;
+      }
+
+      if (modalPrevBtn) {
+        modalPrevBtn.hidden = index <= 0;
+      }
+      if (modalNextBtn) {
+        modalNextBtn.hidden = index >= totalPhotos - 1;
+      }
+
+      // Preload adjacent images
+      if (index + 1 < totalPhotos) {
+        var preNext = new Image();
+        preNext.src = photos[index + 1].displayUrl;
+      }
+      if (index - 1 >= 0) {
+        var prePrev = new Image();
+        prePrev.src = photos[index - 1].displayUrl;
+      }
+    }
+
+    // Lazy load observer for mobile feed
+    var feedObserver = null;
+    function initFeedObserver() {
+      if (feedObserver) return;
+      if ("IntersectionObserver" in window) {
+        feedObserver = new IntersectionObserver(function (entries, observer) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              var img = entry.target.querySelector(".trip-modal-feed-img");
+              if (img) {
+                var dataSrc = img.getAttribute("data-src");
+                if (dataSrc) {
+                  img.src = dataSrc;
+                  img.removeAttribute("data-src");
+                }
+              }
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          root: modalFeed,
+          rootMargin: "300px 0px"
+        });
+
+        feedItems.forEach(function (item) {
+          feedObserver.observe(item);
+        });
+      } else {
+        feedItems.forEach(function (item) {
+          var img = item.querySelector(".trip-modal-feed-img");
+          if (img && img.getAttribute("data-src")) {
+            img.src = img.getAttribute("data-src");
+            img.removeAttribute("data-src");
+          }
+        });
+      }
+    }
+
+    function openModal(index) {
+      currentPhotoIndex = index;
+      document.body.style.overflow = "hidden";
+
+      if (typeof modal.showModal === "function") {
+        if (!modal.open) modal.showModal();
+      } else {
+        modal.setAttribute("open", "");
+      }
+
+      if (isMobile()) {
+        initFeedObserver();
+        if (feedItems[index]) {
+          setTimeout(function () {
+            feedItems[index].scrollIntoView({ block: "start" });
+            var img = feedItems[index].querySelector(".trip-modal-feed-img");
+            if (img && img.getAttribute("data-src")) {
+              img.src = img.getAttribute("data-src");
+              img.removeAttribute("data-src");
+            }
+          }, 20);
+        }
+      } else {
+        renderDesktopPhoto(index);
+      }
+    }
+
+    function closeModal() {
+      document.body.style.overflow = "";
+      if (typeof modal.close === "function") {
+        if (modal.open) modal.close();
+      } else {
+        modal.removeAttribute("open");
+      }
+    }
+
+    // Grid clicks
+    gridItems.forEach(function (item, idx) {
+      item.addEventListener("click", function (e) {
+        e.preventDefault();
+        openModal(idx);
+      });
+    });
+
+    // Hover preview click (if preview is active)
+    if (preview) {
+      preview.addEventListener("click", function (e) {
+        e.preventDefault();
+        var targetUrl = preview.getAttribute("href");
+        if (targetUrl) {
+          var foundIdx = photos.findIndex(function (p) {
+            return p.photoUrl === targetUrl;
+          });
+          if (foundIdx !== -1) {
+            openModal(foundIdx);
+          }
+        }
+      });
+    }
+
+    // Close button
+    if (modalCloseBtn) {
+      modalCloseBtn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        closeModal();
+      });
+    }
+
+    // Navigation buttons
+    if (modalPrevBtn) {
+      modalPrevBtn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        if (currentPhotoIndex > 0) {
+          renderDesktopPhoto(currentPhotoIndex - 1);
+        }
+      });
+    }
+
+    if (modalNextBtn) {
+      modalNextBtn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        if (currentPhotoIndex < totalPhotos - 1) {
+          renderDesktopPhoto(currentPhotoIndex + 1);
+        }
+      });
+    }
+
+    // Keyboard navigation
+    document.addEventListener("keydown", function (e) {
+      if (!modal.open && !modal.hasAttribute("open")) return;
+      if (e.key === "Escape" || e.keyCode === 27) {
+        closeModal();
+      } else if (!isMobile()) {
+        if (e.key === "ArrowLeft" || e.keyCode === 37) {
+          if (currentPhotoIndex > 0) {
+            renderDesktopPhoto(currentPhotoIndex - 1);
+          }
+        } else if (e.key === "ArrowRight" || e.keyCode === 39) {
+          if (currentPhotoIndex < totalPhotos - 1) {
+            renderDesktopPhoto(currentPhotoIndex + 1);
+          }
+        }
+      }
+    });
+
+    modal.addEventListener("cancel", function () {
+      document.body.style.overflow = "";
+    });
+
+    modal.addEventListener("close", function () {
+      document.body.style.overflow = "";
+    });
+
+    // Backdrop click on desktop
+    modal.addEventListener("click", function (e) {
+      if (!isMobile()) {
+        if (
+          e.target === modal ||
+          e.target.classList.contains("trip-modal-single") ||
+          e.target.classList.contains("trip-modal-single-figure")
+        ) {
+          closeModal();
+        }
+      }
+    });
+
+    window.addEventListener("resize", function () {
+      if (modal.open || modal.hasAttribute("open")) {
+        if (isMobile()) {
+          initFeedObserver();
+        } else {
+          renderDesktopPhoto(currentPhotoIndex);
+        }
+      }
+    });
+  }
 })();
 </script>

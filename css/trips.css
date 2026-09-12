@@ -350,3 +350,208 @@ body.trip-photo article.trip-photo-page {
   display: flex;
   justify-content: space-between;
 }
+
+/* Full-screen photo modal dialog */
+.trip-photo-modal {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: rgba(20, 22, 23, 0.96);
+  color: #eeeeec;
+  z-index: 1000;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.trip-photo-modal::backdrop {
+  background: rgba(20, 22, 23, 0.96);
+}
+
+.trip-photo-modal[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+.trip-modal-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  z-index: 20;
+  background: linear-gradient(to bottom, rgba(20, 22, 23, 0.85) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+.trip-modal-bar > * {
+  pointer-events: auto;
+}
+
+.trip-modal-counter {
+  font-size: 0.95rem;
+  color: #888a85;
+  font-family: inherit;
+}
+
+.trip-modal-close {
+  background: transparent;
+  border: none;
+  color: #eeeeec;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.5rem;
+  opacity: 0.75;
+  transition: opacity 0.15s ease;
+  margin-left: auto;
+}
+
+.trip-modal-close:hover,
+.trip-modal-close:focus-visible {
+  opacity: 1;
+  color: #ffffff;
+  outline: none;
+}
+
+/* Desktop single-photo full screen */
+.trip-modal-single {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 3rem 1rem 1.5rem;
+  user-select: none;
+}
+
+.trip-modal-single-figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+.trip-modal-single-img {
+  max-width: calc(100vw - 10rem);
+  max-height: calc(100vh - 6.5rem);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.trip-modal-single-caption {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  color: #888a85;
+  text-align: center;
+}
+
+.trip-modal-single-caption a {
+  color: #babdb6;
+  text-decoration: none;
+}
+
+.trip-modal-single-caption a:hover {
+  text-decoration: underline;
+  color: #eeeeec;
+}
+
+.trip-modal-nav {
+  background: transparent;
+  border: none;
+  color: #eeeeec;
+  font-size: 3rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 1.5rem 1rem;
+  opacity: 0.5;
+  transition: opacity 0.15s ease, color 0.15s ease;
+  z-index: 10;
+  user-select: none;
+}
+
+.trip-modal-nav:hover,
+.trip-modal-nav:focus-visible {
+  opacity: 1;
+  color: #ffffff;
+  outline: none;
+}
+
+.trip-modal-nav[hidden] {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Mobile vertical feed */
+.trip-modal-feed {
+  display: none;
+}
+
+@media (max-width: 52rem) {
+  .trip-modal-single {
+    display: none;
+  }
+
+  .trip-modal-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 3.5rem 1rem 3rem;
+  }
+
+  .trip-modal-feed-item {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    min-height: 180px;
+  }
+
+  .trip-modal-feed-img {
+    width: 100%;
+    height: auto;
+    max-height: 80vh;
+    object-fit: contain;
+    display: block;
+    background: #2e3436;
+  }
+
+  .trip-modal-feed-caption {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: #888a85;
+    text-align: center;
+  }
+
+  .trip-modal-feed-caption a {
+    color: #babdb6;
+    text-decoration: none;
+  }
+
+  .trip-modal-counter {
+    display: none;
+  }
+}
