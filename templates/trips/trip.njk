@@ -140,11 +140,9 @@
           <div class="trip-modal-feed-exif">{{ photo.exifLine }}</div>
           {% endif %}
           <div class="trip-modal-feed-meta">
-            <a href="{{ photo.originalUrl }}" download="{{ photo.filename }}">{{ photo.filename }} ({{ photo.originalSize }})</a>
-            ·
-            {{ loop.index }}/{{ trip.photos.length }}
-            ·
             <a href="{{ photo.photoPageUrl }}">{{ t.photoPage }} 🔗</a>
+            ·
+            <a href="{{ photo.originalUrl }}" download="{{ photo.filename }}">{{ photo.filename }} ({{ photo.originalSize }})</a>
           </div>
         </figcaption>
       </figure>

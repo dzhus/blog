@@ -372,6 +372,10 @@ body.trip-photo article.trip-photo-page {
   margin-bottom: 0.25rem;
 }
 
+.trip-photo-meta {
+  font-size: 0.85rem;
+}
+
 .trip-modal-single-exif,
 .trip-modal-feed-exif {
   font-size: 0.85rem;
