@@ -30,6 +30,7 @@ export type TripUi = {
   close: string;
   prevPhoto: string;
   nextPhoto: string;
+  photoPage: string;
 };
 
 export const tripUi: Record<TripLang, TripUi> = {
@@ -55,6 +56,7 @@ export const tripUi: Record<TripLang, TripUi> = {
     close: "Закрыть",
     prevPhoto: "Предыдущее фото",
     nextPhoto: "Следующее фото",
+    photoPage: "Страница фото",
   },
   en: {
     lang: "en",
@@ -78,6 +80,7 @@ export const tripUi: Record<TripLang, TripUi> = {
     close: "Close",
     prevPhoto: "Previous photo",
     nextPhoto: "Next photo",
+    photoPage: "Photo page",
   },
 };
 

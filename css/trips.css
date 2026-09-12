@@ -230,6 +230,23 @@ body.trip-photo article.trip-photo-page {
   display: block;
 }
 
+.trip-photo-hover-preview-exif {
+  display: block;
+  line-height: 1.4;
+  padding: 0.35rem 0.5rem;
+  font-size: 0.85rem;
+  color: #555753;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  user-select: none;
+}
+
+.trip-photo-hover-preview-exif:empty {
+  display: none;
+}
+
 /* Leaflet photo markers */
 .trip-map-photo-icon {
   background: transparent;
@@ -344,6 +361,15 @@ body.trip-photo article.trip-photo-page {
 .trip-photo-figure figcaption {
   margin-top: 0.75em;
   color: #888a85;
+}
+
+.trip-photo-exif {
+  font-size: 0.85rem;
+  color: #888a85;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 0.25rem;
 }
 
 .trip-photo-nav {
@@ -462,6 +488,16 @@ body.trip-photo article.trip-photo-page {
   text-align: center;
 }
 
+.trip-modal-single-exif {
+  font-size: 0.85rem;
+  color: #888a85;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: calc(100vw - 12rem);
+  margin-bottom: 0.25rem;
+}
+
 .trip-modal-single-caption a {
   color: #babdb6;
   text-decoration: none;
@@ -497,6 +533,30 @@ body.trip-photo article.trip-photo-page {
   visibility: hidden;
   opacity: 0;
   pointer-events: none;
+}
+
+.trip-modal-page-link {
+  position: absolute;
+  bottom: 1.25rem;
+  right: 1.5rem;
+  z-index: 25;
+  font-size: 0.85rem;
+  color: #babdb6;
+  text-decoration: none;
+  background: rgba(46, 52, 54, 0.7);
+  padding: 0.35rem 0.65rem;
+  border-radius: 3px;
+  line-height: 1.2;
+  transition: background 0.15s ease, color 0.15s ease;
+  user-select: none;
+}
+
+.trip-modal-page-link:hover,
+.trip-modal-page-link:focus-visible {
+  background: rgba(46, 52, 54, 0.95);
+  color: #ffffff;
+  text-decoration: underline;
+  outline: none;
 }
 
 /* Mobile vertical feed */
@@ -546,9 +606,27 @@ body.trip-photo article.trip-photo-page {
     text-align: center;
   }
 
+  .trip-modal-feed-exif {
+    font-size: 0.85rem;
+    color: #888a85;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 90vw;
+    margin-bottom: 0.25rem;
+  }
+
   .trip-modal-feed-caption a {
     color: #babdb6;
     text-decoration: none;
+  }
+
+  .trip-modal-page-link {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    background: rgba(20, 22, 23, 0.85);
+    border: 1px solid rgba(238, 238, 236, 0.2);
   }
 
   .trip-modal-counter {

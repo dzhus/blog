@@ -94,6 +94,7 @@
               data-original-url="{{ photo.originalUrl }}"
               data-filename="{{ photo.filename }}"
               data-original-size="{{ photo.originalSize }}"
+              data-exif-line="{{ photo.exifLine }}"
               data-photo-index="{{ loop.index0 }}"
               title="{{ photo.exifTooltip }}"
             >
@@ -103,6 +104,7 @@
           </div>
           <a class="trip-photo-hover-preview">
             <img alt="" />
+            <div class="trip-photo-hover-preview-exif"></div>
           </a>
         </div>
       </div>
@@ -119,24 +121,33 @@
       <figure class="trip-modal-single-figure">
         <img class="trip-modal-single-img" alt="" />
         <figcaption class="trip-modal-single-caption">
-          <a class="trip-modal-single-download"></a>
-          <span class="trip-modal-single-pos"></span>
+          <div class="trip-modal-single-exif"></div>
+          <div class="trip-modal-single-meta">
+            <a class="trip-modal-single-download"></a>
+            <span class="trip-modal-single-pos"></span>
+          </div>
         </figcaption>
       </figure>
       <button type="button" class="trip-modal-nav trip-modal-next" aria-label="{{ t.nextPhoto }}" title="{{ t.nextPhoto }}">›</button>
     </div>
     <div class="trip-modal-feed">
       {% for photo in trip.photos %}
-      <figure class="trip-modal-feed-item" data-photo-id="{{ photo.id }}" data-photo-index="{{ loop.index0 }}">
-        <img class="trip-modal-feed-img" data-src="{{ photo.displayUrl }}" alt="" loading="lazy" title="{{ photo.exifTooltip }}" />
+      <figure class="trip-modal-feed-item" data-photo-id="{{ photo.id }}" data-photo-index="{{ loop.index0 }}" data-photo-url="{{ photo.photoPageUrl }}">
+        <img class="trip-modal-feed-img" data-src="{{ photo.displayUrl }}" alt="" loading="lazy" />
         <figcaption class="trip-modal-feed-caption">
-          <a href="{{ photo.originalUrl }}" download="{{ photo.filename }}">{{ photo.filename }} ({{ photo.originalSize }})</a>
-          ·
-          {{ loop.index }}/{{ trip.photos.length }}
+          {% if photo.exifLine %}
+          <div class="trip-modal-feed-exif">{{ photo.exifLine }}</div>
+          {% endif %}
+          <div class="trip-modal-feed-meta">
+            <a href="{{ photo.originalUrl }}" download="{{ photo.filename }}">{{ photo.filename }} ({{ photo.originalSize }})</a>
+            ·
+            {{ loop.index }}/{{ trip.photos.length }}
+          </div>
         </figcaption>
       </figure>
       {% endfor %}
     </div>
+    <a class="trip-modal-page-link" id="trip-modal-page-link" href="" target="_self" aria-label="{{ t.photoPage }}">{{ t.photoPage }} ↗</a>
   </dialog>
 </article>
 
@@ -232,16 +243,17 @@
 
   function setGridPhotoPreview(photo) {
     if (!stage || !preview || !previewImg) return;
+    var previewExif = preview.querySelector(".trip-photo-hover-preview-exif");
     var url = photo && photo.url;
     var display = photo && photo.display;
-    var tooltip = "";
+    var exifLine = "";
     if (url && grid) {
       var match = grid.querySelector(
         '.trip-photo-grid-item[data-photo-url="' + url.replace(/"/g, '\\"') + '"]'
       );
       if (match) {
         if (!display) display = match.getAttribute("data-display-url");
-        tooltip = match.getAttribute("title") || "";
+        exifLine = match.getAttribute("data-exif-line") || "";
       }
     }
     if (!url || !display) {
@@ -249,14 +261,17 @@
       preview.removeAttribute("href");
       preview.removeAttribute("title");
       previewImg.removeAttribute("src");
+      previewImg.removeAttribute("title");
       previewImg.alt = "";
+      if (previewExif) previewExif.textContent = "";
       return;
     }
     previewImg.src = display;
     previewImg.alt = "";
+    previewImg.removeAttribute("title");
     preview.href = url;
-    if (tooltip) preview.title = tooltip;
-    else preview.removeAttribute("title");
+    preview.removeAttribute("title");
+    if (previewExif) previewExif.textContent = exifLine;
     stage.classList.add("is-previewing");
   }
 
@@ -277,6 +292,7 @@
         filename: item.getAttribute("data-filename") || "",
         originalSize: item.getAttribute("data-original-size") || "",
         tooltip: item.getAttribute("title") || "",
+        exifLine: item.getAttribute("data-exif-line") || "",
         photoUrl: item.getAttribute("data-photo-url") || ""
       };
     });
@@ -287,10 +303,12 @@
     var modalCloseBtn = modal.querySelector(".trip-modal-close");
     var modalCounter = modal.querySelector(".trip-modal-counter");
     var modalSingleImg = modal.querySelector(".trip-modal-single-img");
+    var modalSingleExif = modal.querySelector(".trip-modal-single-exif");
     var modalSingleDownload = modal.querySelector(".trip-modal-single-download");
     var modalSinglePos = modal.querySelector(".trip-modal-single-pos");
     var modalPrevBtn = modal.querySelector(".trip-modal-prev");
     var modalNextBtn = modal.querySelector(".trip-modal-next");
+    var modalPageLink = modal.querySelector(".trip-modal-page-link");
     var modalFeed = modal.querySelector(".trip-modal-feed");
     var feedItems = modalFeed ? Array.from(modalFeed.querySelectorAll(".trip-modal-feed-item")) : [];
 
@@ -305,10 +323,14 @@
 
       modalSingleImg.src = p.displayUrl;
       modalSingleImg.alt = "";
-      if (p.tooltip) {
-        modalSingleImg.title = p.tooltip;
-      } else {
-        modalSingleImg.removeAttribute("title");
+      modalSingleImg.removeAttribute("title");
+
+      if (modalSingleExif) {
+        modalSingleExif.textContent = p.exifLine || "";
+      }
+
+      if (modalPageLink) {
+        modalPageLink.href = p.photoUrl;
       }
 
       if (modalSingleDownload) {
@@ -337,6 +359,11 @@
         var preNext = new Image();
         preNext.src = photos[index + 1].displayUrl;
       }
+      if (index - 1 >= 0) {
+        var prePrev = new Image();
+        prePrev.src = photos[index - 1].displayUrl;
+      }
+    }
       if (index - 1 >= 0) {
         var prePrev = new Image();
         prePrev.src = photos[index - 1].displayUrl;
@@ -381,9 +408,50 @@
       }
     }
 
+    function updateMobileActivePhoto() {
+      if (!modalFeed || !feedItems.length) return;
+      var feedRect = modalFeed.getBoundingClientRect();
+      var midY = feedRect.top + feedRect.height / 2;
+      var closestIdx = currentPhotoIndex;
+      var closestDist = Infinity;
+      for (var i = 0; i < feedItems.length; i++) {
+        var rect = feedItems[i].getBoundingClientRect();
+        var itemMidY = rect.top + rect.height / 2;
+        var dist = Math.abs(itemMidY - midY);
+        if (dist < closestDist) {
+          closestDist = dist;
+          closestIdx = i;
+        }
+      }
+      if (photos[closestIdx]) {
+        currentPhotoIndex = closestIdx;
+        if (modalPageLink) {
+          modalPageLink.href = photos[closestIdx].photoUrl;
+        }
+      }
+    }
+
+    var scrollTicking = false;
+    function onModalFeedScroll() {
+      if (!scrollTicking) {
+        window.requestAnimationFrame(function () {
+          updateMobileActivePhoto();
+          scrollTicking = false;
+        });
+        scrollTicking = true;
+      }
+    }
+    if (modalFeed) {
+      modalFeed.addEventListener("scroll", onModalFeedScroll, { passive: true });
+    }
+
     function openModal(index) {
       currentPhotoIndex = index;
       document.body.style.overflow = "hidden";
+
+      if (modalPageLink && photos[index]) {
+        modalPageLink.href = photos[index].photoUrl;
+      }
 
       if (typeof modal.showModal === "function") {
         if (!modal.open) modal.showModal();
@@ -507,10 +575,17 @@
       }
     });
 
+    if (modalPageLink) {
+      modalPageLink.addEventListener("click", function (e) {
+        e.stopPropagation();
+      });
+    }
+
     window.addEventListener("resize", function () {
       if (modal.open || modal.hasAttribute("open")) {
         if (isMobile()) {
           initFeedObserver();
+          updateMobileActivePhoto();
         } else {
           renderDesktopPhoto(currentPhotoIndex);
         }

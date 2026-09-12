@@ -17,6 +17,8 @@ export type TripPhoto = {
   displayCapturedAt: string;
   /** Hover tooltip with date/time, exposure, GPS. */
   exifTooltip: string;
+  /** Single-line EXIF summary for display views. */
+  exifLine: string;
   lat: number;
   lon: number;
   gridThumbUrl: string;

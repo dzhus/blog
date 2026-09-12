@@ -118,6 +118,7 @@ export async function buildTrips(
         capturedAt: formatIsoCapturedAt(meta.capturedAt),
         displayCapturedAt: meta.displayCapturedAt,
         exifTooltip: meta.exifTooltip,
+        exifLine: meta.exifTooltip.split("\n").filter(Boolean).join(" · "),
         lat: meta.lat,
         lon: meta.lon,
         gridThumbUrl: derivatives.gridThumbRel,
@@ -334,5 +335,13 @@ export function readTripsManifest(projectRoot: string): TripsManifest {
   if (!fs.existsSync(manifestPath)) {
     return { generatedAt: "", trips: [] };
   }
-  return JSON.parse(fs.readFileSync(manifestPath, "utf8")) as TripsManifest;
+  const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8")) as TripsManifest;
+  for (const trip of manifest.trips) {
+    for (const photo of trip.photos) {
+      if (!photo.exifLine && photo.exifTooltip) {
+        photo.exifLine = photo.exifTooltip.split("\n").filter(Boolean).join(" · ");
+      }
+    }
+  }
+  return manifest;
 }

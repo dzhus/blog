@@ -7,12 +7,16 @@
     <img
       src="{{ item.photo.displayUrl }}"
       alt=""
-      title="{{ item.photo.exifTooltip }}"
     />
     <figcaption>
-      <a href="{{ item.photo.originalUrl }}" download="{{ item.photo.filename }}">{{ item.photo.filename }} ({{ item.photo.originalSize }})</a>
-      ·
-      {{ item.index + 1 }}/{{ item.total }}
+      {% if item.photo.exifLine %}
+      <div class="trip-photo-exif">{{ item.photo.exifLine }}</div>
+      {% endif %}
+      <div class="trip-photo-meta">
+        <a href="{{ item.photo.originalUrl }}" download="{{ item.photo.filename }}">{{ item.photo.filename }} ({{ item.photo.originalSize }})</a>
+        ·
+        {{ item.index + 1 }}/{{ item.total }}
+      </div>
     </figcaption>
   </figure>
 </article>
