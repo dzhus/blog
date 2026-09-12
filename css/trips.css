@@ -574,21 +574,24 @@ body.trip-photo article.trip-photo-page {
     align-items: center;
     width: 100%;
     min-height: 180px;
+    flex-shrink: 0;
     scroll-margin-top: 3.5rem;
   }
 
   .trip-modal-feed-img {
-    width: 100%;
+    width: auto;
+    max-width: 100%;
     height: auto;
     max-height: 80vh;
     object-fit: contain;
     display: block;
-    background: #666666;
+    background: transparent;
   }
 
   .trip-modal-feed-caption {
     margin-top: 0.5rem;
     font-size: 0.85rem;
+    line-height: 1.4;
     color: #eeeeec;
     text-align: center;
   }
