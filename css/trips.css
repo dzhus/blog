@@ -363,7 +363,9 @@ body.trip-photo article.trip-photo-page {
   color: #888a85;
 }
 
-.trip-photo-exif {
+.trip-photo-exif,
+.trip-modal-single-exif,
+.trip-modal-feed-exif {
   font-size: 0.85rem;
   color: #888a85;
   white-space: nowrap;
@@ -491,15 +493,6 @@ body.trip-photo article.trip-photo-page {
   text-align: center;
 }
 
-.trip-modal-single-exif {
-  font-size: 0.85rem;
-  color: #888a85;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-bottom: 0.25rem;
-}
-
 .trip-modal-single-meta {
   white-space: nowrap;
   overflow: hidden;
@@ -592,13 +585,7 @@ body.trip-photo article.trip-photo-page {
   }
 
   .trip-modal-feed-exif {
-    font-size: 0.85rem;
-    color: #888a85;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     max-width: 90vw;
-    margin-bottom: 0.25rem;
   }
 
   .trip-modal-feed-caption a {

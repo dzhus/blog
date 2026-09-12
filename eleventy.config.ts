@@ -9,6 +9,7 @@ import {
   defaultCreator,
   defaultTitle,
   gravatar,
+  languages,
   localizedMeta,
   rootUrl,
   thisYear,
@@ -62,7 +63,9 @@ export default function (eleventyConfig: UserConfig) {
   eleventyConfig.addPassthroughCopy("images");
   eleventyConfig.addPassthroughCopy("css/default.css");
   eleventyConfig.addPassthroughCopy("css/trips.css");
+  eleventyConfig.addPassthroughCopy("js");
 
+  eleventyConfig.addGlobalData("languages", languages);
   eleventyConfig.addGlobalData("rootUrl", rootUrl);
   eleventyConfig.addGlobalData("gravatar", gravatar);
   eleventyConfig.addGlobalData("thisYear", thisYear());
@@ -71,16 +74,28 @@ export default function (eleventyConfig: UserConfig) {
   eleventyConfig.addGlobalData("lang", "ru");
   eleventyConfig.addGlobalData("langPrefix", "");
   eleventyConfig.addGlobalData("eleventyComputed.creator", () => {
-    return (data: any) => data.creator ?? localizedMeta(data.lang).creator;
+    return (data: any) => localizedMeta(data.lang).creator;
   });
   eleventyConfig.addGlobalData("eleventyComputed.siteTitle", () => {
-    return (data: any) => data.siteTitle ?? localizedMeta(data.lang).siteTitle;
+    return (data: any) => localizedMeta(data.lang).siteTitle;
   });
   eleventyConfig.addGlobalData("eleventyComputed.langPrefix", () => {
-    return (data: any) => data.langPrefix ?? localizedMeta(data.lang).langPrefix;
+    return (data: any) => localizedMeta(data.lang).langPrefix;
+  });
+  eleventyConfig.addGlobalData("eleventyComputed.langDef", () => {
+    return (data: any) => localizedMeta(data.lang);
   });
 
+  let cachedManifest: ReturnType<typeof readTripsManifest> | null = null;
+  function getTripsManifest() {
+    if (!cachedManifest) {
+      cachedManifest = readTripsManifest(__dirname);
+    }
+    return cachedManifest;
+  }
+
   eleventyConfig.on("eleventy.before", async () => {
+    cachedManifest = null;
     await buildTrips({ projectRoot: __dirname });
   });
 
@@ -105,19 +120,19 @@ export default function (eleventyConfig: UserConfig) {
   }
 
   eleventyConfig.addGlobalData("trips", () => {
-    return localizeTrips(readTripsManifest(__dirname).trips, "ru");
+    return localizeTrips(getTripsManifest().trips, "ru");
   });
 
   eleventyConfig.addGlobalData("tripsEn", () => {
-    return localizeTrips(readTripsManifest(__dirname).trips, "en");
+    return localizeTrips(getTripsManifest().trips, "en");
   });
 
   eleventyConfig.addGlobalData("tripPhotos", (): TripPhotoPage[] => {
-    return tripPhotoPages(localizeTrips(readTripsManifest(__dirname).trips, "ru"));
+    return tripPhotoPages(localizeTrips(getTripsManifest().trips, "ru"));
   });
 
   eleventyConfig.addGlobalData("tripPhotosEn", (): TripPhotoPage[] => {
-    return tripPhotoPages(localizeTrips(readTripsManifest(__dirname).trips, "en"));
+    return tripPhotoPages(localizeTrips(getTripsManifest().trips, "en"));
   });
 
   eleventyConfig.addCollection("postsAll", (api) =>

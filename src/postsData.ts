@@ -9,8 +9,7 @@ import {
   getGitAuthorDate,
 } from "./gitDates.ts";
 import { makeDescription, renderMarkdown } from "./markdown.ts";
-import { computeNavigation } from "./navigation.ts";
-import { localizedMeta } from "./siteConstants.ts";
+import { computeNavigation, type NavFields } from "./navigation.ts";
 import { tagHref } from "./tags.ts";
 import { extractLeadingH1, resolveTitle } from "./title.ts";
 
@@ -23,13 +22,20 @@ function readMarkdownBody(inputPath: string): string {
   return matter(raw).content;
 }
 
-function nav(data: any) {
+const navCache = new WeakMap<any, NavFields>();
+
+function nav(data: any): NavFields {
+  if (navCache.has(data)) return navCache.get(data)!;
   const collection =
     data.lang === "en" ? data.collections.postsEn : data.collections.postsRu;
   if (!collection) {
-    return { currentPageNum: 0, numPages: 0 };
+    const empty: NavFields = { currentPageNum: 0, numPages: 0 };
+    navCache.set(data, empty);
+    return empty;
   }
-  return computeNavigation(data.page.url, collection);
+  const result = computeNavigation(data.page.url, collection);
+  navCache.set(data, result);
+  return result;
 }
 
 export default {
@@ -59,15 +65,11 @@ export default {
       );
     },
     displayDate(data: any) {
-      const d =
-        dateFromFilename(postBasename(data.page.inputPath)) ??
-        getGitAuthorDate(data.page.inputPath);
+      const d = data.page.date;
       return formatDisplayDate(d);
     },
     isoDate(data: any) {
-      const d =
-        dateFromFilename(postBasename(data.page.inputPath)) ??
-        getGitAuthorDate(data.page.inputPath);
+      const d = data.page.date;
       return formatIsoDate(d);
     },
     modificationDate(data: any) {
@@ -84,14 +86,12 @@ export default {
         ? input.slice(idx + 1)
         : `posts/${postBasename(data.page.inputPath)}.md`;
     },
-    description(data: any) {
-      const body = readMarkdownBody(data.page.inputPath);
-      const { html } = renderMarkdown(body, { stripLeadingH1: true });
-      return makeDescription(html);
-    },
     contentHtml(data: any) {
       const body = readMarkdownBody(data.page.inputPath);
       return renderMarkdown(body, { stripLeadingH1: true }).html;
+    },
+    description(data: any) {
+      return makeDescription(data.contentHtml);
     },
     tagList(data: any) {
       const tags = data.tags;

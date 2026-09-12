@@ -17,7 +17,6 @@ import {
 import { processGpxFiles, writeTracksJson } from "./gpx.ts";
 import { processPhotoImages, formatFileSize } from "./images.ts";
 import { resolveTripTitle } from "./i18n.ts";
-import { writeMapScript } from "./mapScript.ts";
 import { formatTripDateRange } from "./metadata.ts";
 import type { TripManifest, TripPhoto, TripsManifest } from "./types.ts";
 import type { BBox } from "./types.ts";
@@ -144,7 +143,6 @@ export async function buildTrips(
     const mapDir = path.join(siteTripDir, "map");
     fs.mkdirSync(mapDir, { recursive: true });
     const tracksPath = path.join(mapDir, "tracks.json");
-    const mapScriptPath = path.join(mapDir, "map.js");
 
     type TileCacheMeta = {
       version: 5;
@@ -244,15 +242,9 @@ export async function buildTrips(
         tileUrlTemplate: tileSet.tileUrlTemplate,
       };
       fs.writeFileSync(tilesMetaPath, JSON.stringify(meta));
-      // Drop legacy basemap cache files
-      for (const legacy of ["basemap.json", "basemap.jpg", "basemap.key"]) {
-        const p = path.join(cacheTripDir, legacy);
-        if (fs.existsSync(p)) fs.unlinkSync(p);
-      }
     }
 
     writeTracksJson(tracks, tracksPath);
-    writeMapScript(mapScriptPath);
 
     let coverThumbUrl = photos[0]?.gridThumbUrl ?? null;
     if (trip.thumbnail) {
@@ -297,7 +289,6 @@ export async function buildTrips(
       tileZoom: tileSet.zoom,
       mapPhotosJson,
       tracksJsonUrl: `/trips/${trip.slug}/map/tracks.json`,
-      mapScriptUrl: `/trips/${trip.slug}/map/map.js`,
       photos,
       tracks: tracks.map((t) => ({
         id: t.id,

@@ -66,7 +66,6 @@ export type TripManifest = {
   tileZoom: number;
   mapPhotosJson: string;
   tracksJsonUrl: string;
-  mapScriptUrl: string;
   photos: TripPhoto[];
   tracks: Array<{
     id: string;

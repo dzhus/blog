@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import sharp from "sharp";
+import { sourceKey } from "./exif.ts";
 
 export type ImageDerivatives = {
   gridThumbRel: string;
@@ -9,9 +10,29 @@ export type ImageDerivatives = {
   originalRel: string;
 };
 
-const GRID = { max: 600, quality: 80 } as const;
-const MAP = { size: 48, quality: 75 } as const;
-const DISPLAY = { max: 2400, quality: 92 } as const;
+const DERIVATIVES = [
+  {
+    sub: "grid",
+    siteSub: path.join("thumbs", "grid"),
+    keySuffix: "grid_600_q80",
+    resize: { width: 600, height: 600, fit: "inside" as const, withoutEnlargement: true },
+    quality: 80,
+  },
+  {
+    sub: "map",
+    siteSub: path.join("thumbs", "map"),
+    keySuffix: "map_48_q75",
+    resize: { width: 48, height: 48, fit: "cover" as const },
+    quality: 75,
+  },
+  {
+    sub: "display",
+    siteSub: "display",
+    keySuffix: "display_2400_q92",
+    resize: { width: 2400, height: 2400, fit: "inside" as const, withoutEnlargement: true },
+    quality: 92,
+  },
+] as const;
 
 /** Format byte size for download labels (e.g. "4.2 MB"). */
 export function formatFileSize(bytes: number): string {
@@ -25,11 +46,6 @@ export function formatFileSize(bytes: number): string {
   const mb = bytes / (1000 * 1000);
   const text = mb < 10 ? mb.toFixed(1) : String(Math.round(mb));
   return `${text} MB`;
-}
-
-function sourceKey(srcPath: string): string {
-  const st = fs.statSync(srcPath);
-  return `${st.mtimeMs}_${st.size}`;
 }
 
 async function writeIfNeeded(
@@ -68,97 +84,43 @@ export async function processPhotoImages(
   cacheTripDir: string,
   siteTripDir: string,
 ): Promise<ImageDerivatives> {
-  const src = sourceKey(srcPath);
-  const gridKey = `${src}_grid_${GRID.max}_q${GRID.quality}`;
-  const mapKey = `${src}_map_${MAP.size}_q${MAP.quality}`;
-  const displayKey = `${src}_display_${DISPLAY.max}_q${DISPLAY.quality}`;
-
+  const { key: src } = sourceKey(srcPath);
   const base = path.basename(filename);
   const stem = path.basename(base, path.extname(base));
   const outName = `${stem}.jpg`;
 
-  const cacheGrid = path.join(cacheTripDir, "grid", outName);
-  const cacheMap = path.join(cacheTripDir, "map", outName);
-  const cacheDisplay = path.join(cacheTripDir, "display", outName);
-  const metaGrid = path.join(cacheTripDir, "grid", `${outName}.key`);
-  const metaMap = path.join(cacheTripDir, "map", `${outName}.key`);
-  const metaDisplay = path.join(cacheTripDir, "display", `${outName}.key`);
+  const specs = DERIVATIVES.map((d) => {
+    const cacheFile = path.join(cacheTripDir, d.sub, outName);
+    const metaFile = path.join(cacheTripDir, d.sub, `${outName}.key`);
+    const key = `${src}_${d.keySuffix}`;
+    const needsBuild =
+      !(
+        fs.existsSync(cacheFile) &&
+        fs.existsSync(metaFile) &&
+        fs.readFileSync(metaFile, "utf8") === key
+      );
+    const siteFile = path.join(siteTripDir, d.siteSub, outName);
+    return { ...d, cacheFile, metaFile, key, needsBuild, siteFile };
+  });
 
-  const needsGrid =
-    !(
-      fs.existsSync(cacheGrid) &&
-      fs.existsSync(metaGrid) &&
-      fs.readFileSync(metaGrid, "utf8") === gridKey
-    );
-  const needsMap =
-    !(
-      fs.existsSync(cacheMap) &&
-      fs.existsSync(metaMap) &&
-      fs.readFileSync(metaMap, "utf8") === mapKey
-    );
-  const needsDisplay =
-    !(
-      fs.existsSync(cacheDisplay) &&
-      fs.existsSync(metaDisplay) &&
-      fs.readFileSync(metaDisplay, "utf8") === displayKey
-    );
+  const needsAny = specs.some((s) => s.needsBuild);
+  const input = needsAny ? await fs.promises.readFile(srcPath) : null;
 
-  const input =
-    needsGrid || needsMap || needsDisplay
-      ? await fs.promises.readFile(srcPath)
-      : null;
-
-  if (needsGrid) {
-    if (!input) throw new Error(`Missing image buffer for ${srcPath}`);
-    await writeIfNeeded(cacheGrid, metaGrid, gridKey, async () => {
-      await sharp(input, { failOn: "none" })
-        .rotate()
-        .resize({
-          width: GRID.max,
-          height: GRID.max,
-          fit: "inside",
-          withoutEnlargement: true,
-        })
-        .jpeg({ quality: GRID.quality, mozjpeg: true })
-        .toFile(cacheGrid);
-    });
+  for (const s of specs) {
+    if (s.needsBuild) {
+      if (!input) throw new Error(`Missing image buffer for ${srcPath}`);
+      await writeIfNeeded(s.cacheFile, s.metaFile, s.key, async () => {
+        await sharp(input, { failOn: "none" })
+          .rotate()
+          .resize(s.resize)
+          .jpeg({ quality: s.quality, mozjpeg: true })
+          .toFile(s.cacheFile);
+      });
+    }
+    copyIfNeeded(s.cacheFile, s.siteFile);
   }
 
-  if (needsMap) {
-    if (!input) throw new Error(`Missing image buffer for ${srcPath}`);
-    await writeIfNeeded(cacheMap, metaMap, mapKey, async () => {
-      await sharp(input, { failOn: "none" })
-        .rotate()
-        .resize({ width: MAP.size, height: MAP.size, fit: "cover" })
-        .jpeg({ quality: MAP.quality, mozjpeg: true })
-        .toFile(cacheMap);
-    });
-  }
-
-  if (needsDisplay) {
-    if (!input) throw new Error(`Missing image buffer for ${srcPath}`);
-    await writeIfNeeded(cacheDisplay, metaDisplay, displayKey, async () => {
-      await sharp(input, { failOn: "none" })
-        .rotate()
-        .resize({
-          width: DISPLAY.max,
-          height: DISPLAY.max,
-          fit: "inside",
-          withoutEnlargement: true,
-        })
-        .jpeg({ quality: DISPLAY.quality, mozjpeg: true })
-        .toFile(cacheDisplay);
-    });
-  }
-
-  const siteGrid = path.join(siteTripDir, "thumbs", "grid", outName);
-  const siteMap = path.join(siteTripDir, "thumbs", "map", outName);
-  const siteDisplay = path.join(siteTripDir, "display", outName);
   const siteOriginal = path.join(siteTripDir, "originals", base);
-
-  copyIfNeeded(cacheGrid, siteGrid);
-  copyIfNeeded(cacheMap, siteMap);
-  copyIfNeeded(cacheDisplay, siteDisplay);
   copyIfNeeded(srcPath, siteOriginal);
 
   return {

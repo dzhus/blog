@@ -1,8 +1,3 @@
-/** URL path for a tag page (spaces kept in filename; encode for hrefs). */
-export function tagPermalink(tag: string): string {
-  return `/tag/${tag}.html`;
-}
-
 export function tagHref(tag: string): string {
   return `/tag/${encodeURIComponent(tag)}.html`;
 }

@@ -1,14 +1,15 @@
+{% set langDef = languages[lang] %}
 <article>
   <h1>{{ siteTitle }}</h1>
-  Последние записи:
+  {{ langDef.latestPosts }}
   {% for post in posts %}
   <h3><a href="{{ post.url }}">{{ post.data.title }}</a> — {{ post.data.displayDate }}</h3>
   {% endfor %}
-  <a href="/posts/index.html">Все записи одним списком</a>
+  <a href="{{ langDef.allPostsUrl }}">{{ langDef.allPosts }}</a>
   •
-  <a href="/trips/index.html">Поездки</a>
+  <a href="{{ langDef.tripsUrl }}">{{ langDef.trips }}</a>
   •
-  <a href="/en/index.html">English</a>
+  <a href="{{ langDef.switchLangUrl }}">{{ langDef.switchLangLabel }}</a>
   •
-  <a href="/tag/index.html">Темы</a>
+  <a href="{{ langDef.tagsUrl }}">{{ langDef.tags }}</a>
 </article>

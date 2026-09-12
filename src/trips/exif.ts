@@ -21,7 +21,7 @@ type CachedExifPayload = {
   tooltip: string;
 };
 
-function sourceKey(srcPath: string): { key: string; size: number } {
+export function sourceKey(srcPath: string): { key: string; size: number } {
   const st = fs.statSync(srcPath);
   return { key: `${st.mtimeMs}_${st.size}`, size: st.size };
 }
