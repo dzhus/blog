@@ -363,11 +363,19 @@ body.trip-photo article.trip-photo-page {
   color: #888a85;
 }
 
-.trip-photo-exif,
+.trip-photo-exif {
+  font-size: 0.85rem;
+  color: #888a85;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 0.25rem;
+}
+
 .trip-modal-single-exif,
 .trip-modal-feed-exif {
   font-size: 0.85rem;
-  color: #888a85;
+  color: #eeeeec;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -390,7 +398,7 @@ body.trip-photo article.trip-photo-page {
   margin: 0;
   padding: 0;
   border: none;
-  background: rgba(20, 22, 23, 0.96);
+  background: #777777;
   color: #eeeeec;
   z-index: 1000;
   box-sizing: border-box;
@@ -398,7 +406,7 @@ body.trip-photo article.trip-photo-page {
 }
 
 .trip-photo-modal::backdrop {
-  background: rgba(20, 22, 23, 0.96);
+  background: #777777;
 }
 
 .trip-photo-modal:not([open]) {
@@ -421,7 +429,7 @@ body.trip-photo article.trip-photo-page {
   justify-content: space-between;
   padding: 0 1.5rem;
   z-index: 20;
-  background: linear-gradient(to bottom, rgba(20, 22, 23, 0.85) 0%, transparent 100%);
+  background: linear-gradient(to bottom, rgba(119, 119, 119, 0.85) 0%, transparent 100%);
   pointer-events: none;
 }
 
@@ -437,7 +445,8 @@ body.trip-photo article.trip-photo-page {
   line-height: 1;
   cursor: pointer;
   padding: 0.5rem;
-  opacity: 0.75;
+  opacity: 0.85;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   transition: opacity 0.15s ease;
   margin-left: auto;
 }
@@ -489,7 +498,7 @@ body.trip-photo article.trip-photo-page {
   margin-top: 0.75rem;
   padding: 0 7.5rem;
   font-size: 0.9rem;
-  color: #888a85;
+  color: #eeeeec;
   text-align: center;
 }
 
@@ -500,12 +509,11 @@ body.trip-photo article.trip-photo-page {
 }
 
 .trip-modal-single-caption a {
-  color: #babdb6;
-  text-decoration: none;
+  color: #ffffff;
+  text-decoration: underline;
 }
 
 .trip-modal-single-caption a:hover {
-  text-decoration: underline;
   color: #eeeeec;
 }
 
@@ -517,7 +525,8 @@ body.trip-photo article.trip-photo-page {
   line-height: 1;
   cursor: pointer;
   padding: 1.5rem 1rem;
-  opacity: 0.5;
+  opacity: 0.75;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   transition: opacity 0.15s ease, color 0.15s ease;
   z-index: 10;
   user-select: none;
@@ -574,13 +583,13 @@ body.trip-photo article.trip-photo-page {
     max-height: 80vh;
     object-fit: contain;
     display: block;
-    background: #2e3436;
+    background: #666666;
   }
 
   .trip-modal-feed-caption {
     margin-top: 0.5rem;
     font-size: 0.85rem;
-    color: #888a85;
+    color: #eeeeec;
     text-align: center;
   }
 
@@ -589,7 +598,7 @@ body.trip-photo article.trip-photo-page {
   }
 
   .trip-modal-feed-caption a {
-    color: #babdb6;
-    text-decoration: none;
+    color: #ffffff;
+    text-decoration: underline;
   }
 }
