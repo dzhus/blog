@@ -146,7 +146,7 @@ export async function buildTrips(
     const mapScriptPath = path.join(mapDir, "map.js");
 
     type TileCacheMeta = {
-      version: 4;
+      version: 5;
       source: string;
       requestBounds: BBox;
       zoom: number;
@@ -176,7 +176,7 @@ export async function buildTrips(
           fs.readFileSync(tilesMetaPath, "utf8"),
         ) as TileCacheMeta;
         if (
-          cached.version === 4 &&
+          cached.version === 5 &&
           cached.source === TILE_SOURCE_ID &&
           JSON.stringify(cached.requestBounds) === JSON.stringify(bounds)
         ) {
@@ -231,7 +231,7 @@ export async function buildTrips(
         greyCacheDir,
       );
       const meta: TileCacheMeta = {
-        version: 4,
+        version: 5,
         source: TILE_SOURCE_ID,
         requestBounds: bounds,
         zoom: tileSet.zoom,

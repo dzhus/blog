@@ -20,6 +20,13 @@ const TILE_URL = (z: number, x: number, y: number) =>
 
 /** Soft cap on mosaic pixel span used only to pick zoom. */
 const MAX_EDGE = 2048;
+/**
+ * Assumed map viewport width/height. fitBounds shows more than the content
+ * bbox along the unconstrained axis; tiles must cover that overscan.
+ */
+const MAP_ASPECT = 1.5;
+/** Extra tile ring beyond the aspect-expanded mosaic (maxBounds pad, etc.). */
+const TILE_EDGE_MARGIN = 1;
 
 function chooseZoom(bounds: BBox): number {
   for (let z = 16; z >= 6; z--) {
@@ -34,6 +41,60 @@ function chooseZoom(bounds: BBox): number {
     }
   }
   return 6;
+}
+
+/** Grow tile index range so fitBounds into MAP_ASPECT leaves no empty sides. */
+function expandTileRange(
+  z: number,
+  xMin: number,
+  xMaxExcl: number,
+  yMin: number,
+  yMaxExcl: number,
+): { xMin: number; xMaxExcl: number; yMin: number; yMaxExcl: number } {
+  const max = Math.pow(2, z);
+  const w = Math.max(1, xMaxExcl - xMin);
+  const h = Math.max(1, yMaxExcl - yMin);
+  const minW = Math.max(w, Math.ceil(h * MAP_ASPECT));
+  const minH = Math.max(h, Math.ceil(w / MAP_ASPECT));
+
+  let x0 = xMin;
+  let x1 = xMaxExcl;
+  let y0 = yMin;
+  let y1 = yMaxExcl;
+
+  if (minW > w) {
+    const add = minW - w;
+    const left = Math.floor(add / 2);
+    x0 -= left;
+    x1 += add - left;
+  }
+  if (minH > h) {
+    const add = minH - h;
+    const top = Math.floor(add / 2);
+    y0 -= top;
+    y1 += add - top;
+  }
+
+  x0 -= TILE_EDGE_MARGIN;
+  x1 += TILE_EDGE_MARGIN;
+  y0 -= TILE_EDGE_MARGIN;
+  y1 += TILE_EDGE_MARGIN;
+
+  x0 = Math.max(0, x0);
+  y0 = Math.max(0, y0);
+  x1 = Math.min(max, x1);
+  y1 = Math.min(max, y1);
+
+  if (x1 <= x0) {
+    x0 = Math.max(0, Math.min(xMin, max - 1));
+    x1 = Math.min(max, x0 + 1);
+  }
+  if (y1 <= y0) {
+    y0 = Math.max(0, Math.min(yMin, max - 1));
+    y1 = Math.min(max, y0 + 1);
+  }
+
+  return { xMin: x0, xMaxExcl: x1, yMin: y0, yMaxExcl: y1 };
 }
 
 async function fetchColorTile(
@@ -113,14 +174,22 @@ export async function renderTripTiles(
   greyCacheDir: string,
 ): Promise<TripTileSet> {
   const z = chooseZoom(bounds);
-  const xMin = Math.floor(lonToTileX(bounds.west, z));
-  const xMaxExcl = Math.ceil(lonToTileX(bounds.east, z));
-  const yMin = Math.floor(latToTileY(bounds.north, z));
-  const yMaxExcl = Math.ceil(latToTileY(bounds.south, z));
+  let xMin = Math.floor(lonToTileX(bounds.west, z));
+  let xMaxExcl = Math.ceil(lonToTileX(bounds.east, z));
+  let yMin = Math.floor(latToTileY(bounds.north, z));
+  let yMaxExcl = Math.ceil(latToTileY(bounds.south, z));
 
   if (xMaxExcl <= xMin || yMaxExcl <= yMin) {
     throw new Error("Invalid tile range for trip bounds");
   }
+
+  ({ xMin, xMaxExcl, yMin, yMaxExcl } = expandTileRange(
+    z,
+    xMin,
+    xMaxExcl,
+    yMin,
+    yMaxExcl,
+  ));
 
   const siteTilesDir = path.join(siteMapDir, "tiles", String(z));
   fs.mkdirSync(siteTilesDir, { recursive: true });
