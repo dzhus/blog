@@ -1,4 +1,10 @@
 import { formatDistanceKm } from "./gpx.ts";
+import {
+  defaultCreator,
+  defaultTitle,
+  enCreator,
+  enTitle,
+} from "../siteConstants.ts";
 import type { TripManifest, TripPhoto } from "./types.ts";
 
 export type TripLang = "ru" | "en";
@@ -37,8 +43,8 @@ export const tripUi: Record<TripLang, TripUi> = {
   ru: {
     lang: "ru",
     langPrefix: "",
-    creator: "Дмитрий Джус",
-    siteTitle: "Журнал Дмитрия",
+    creator: defaultCreator,
+    siteTitle: defaultTitle,
     listTitle: "Поездки",
     listEmpty: "Пока нет поездок.",
     photoCount: (n) => `${n} фото`,
@@ -61,8 +67,8 @@ export const tripUi: Record<TripLang, TripUi> = {
   en: {
     lang: "en",
     langPrefix: "en/",
-    creator: "Dmitry Dzhus",
-    siteTitle: "Dmitry's journal",
+    creator: enCreator,
+    siteTitle: enTitle,
     listTitle: "Trips",
     listEmpty: "No trips yet.",
     photoCount: (n) => (n === 1 ? `${n} photo` : `${n} photos`),

@@ -38,15 +38,6 @@ export default {
     lang(data: any) {
       return data.lang === "en" ? "en" : "ru";
     },
-    langPrefix(data: any) {
-      return data.lang === "en" ? "en/" : "";
-    },
-    creator(data: any) {
-      return localizedMeta(data.lang).creator;
-    },
-    siteTitle(data: any) {
-      return localizedMeta(data.lang).siteTitle;
-    },
     permalink(data: any) {
       const slug = postBasename(data.page.inputPath);
       return data.lang === "en"

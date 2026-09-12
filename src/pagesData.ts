@@ -9,15 +9,6 @@ export default {
     lang(data: any) {
       return data.lang === "en" ? "en" : "ru";
     },
-    langPrefix(data: any) {
-      return data.lang === "en" ? "en/" : "";
-    },
-    creator(data: any) {
-      return localizedMeta(data.lang).creator;
-    },
-    siteTitle(data: any) {
-      return localizedMeta(data.lang).siteTitle;
-    },
     permalink(data: any) {
       const input = data.page.inputPath.replace(/\\/g, "/");
       const rel = input.split("/pages/").pop() ?? `${data.page.fileSlug}.md`;

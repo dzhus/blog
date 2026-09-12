@@ -3,13 +3,13 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import type { CollectionItem, UserConfig } from "@11ty/eleventy";
 import pluginRss from "@11ty/eleventy-plugin-rss";
-import MarkdownIt from "markdown-it";
-import hljs from "highlight.js";
+import { md } from "./src/markdown.ts";
 import { extractLeadingH1 } from "./src/title.ts";
 import {
   defaultCreator,
   defaultTitle,
   gravatar,
+  localizedMeta,
   rootUrl,
   thisYear,
 } from "./src/siteConstants.ts";
@@ -70,6 +70,15 @@ export default function (eleventyConfig: UserConfig) {
   eleventyConfig.addGlobalData("siteTitle", defaultTitle);
   eleventyConfig.addGlobalData("lang", "ru");
   eleventyConfig.addGlobalData("langPrefix", "");
+  eleventyConfig.addGlobalData("eleventyComputed.creator", () => {
+    return (data: any) => data.creator ?? localizedMeta(data.lang).creator;
+  });
+  eleventyConfig.addGlobalData("eleventyComputed.siteTitle", () => {
+    return (data: any) => data.siteTitle ?? localizedMeta(data.lang).siteTitle;
+  });
+  eleventyConfig.addGlobalData("eleventyComputed.langPrefix", () => {
+    return (data: any) => data.langPrefix ?? localizedMeta(data.lang).langPrefix;
+  });
 
   eleventyConfig.on("eleventy.before", async () => {
     await buildTrips({ projectRoot: __dirname });
@@ -150,27 +159,6 @@ export default function (eleventyConfig: UserConfig) {
     return renderTagCloud(counts, 100, 150);
   });
 
-  const md: MarkdownIt = new MarkdownIt({
-    html: true,
-    linkify: true,
-    typographer: false,
-    highlight(str: string, lang: string): string {
-      if (lang && hljs.getLanguage(lang)) {
-        try {
-          return (
-            '<pre class="hljs"><code>' +
-            hljs.highlight(str, { language: lang, ignoreIllegals: true }).value +
-            "</code></pre>"
-          );
-        } catch {
-          // fall through
-        }
-      }
-      return (
-        '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + "</code></pre>"
-      );
-    },
-  });
   eleventyConfig.setLibrary("md", md);
 
   eleventyConfig.addPreprocessor(

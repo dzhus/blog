@@ -2,7 +2,7 @@ import MarkdownIt from "markdown-it";
 import hljs from "highlight.js";
 import { extractLeadingH1 } from "./title.ts";
 
-const md: MarkdownIt = new MarkdownIt({
+export const md: MarkdownIt = new MarkdownIt({
   html: true,
   linkify: true,
   typographer: false,

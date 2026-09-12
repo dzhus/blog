@@ -6,8 +6,6 @@ pagination:
 permalink: "/trips/{{ item.trip.slug }}/photo/{{ item.photo.basename }}.html"
 layout: default.njk
 bodyClass: trip-photo
-lang: ru
-langPrefix: ""
 eleventyComputed:
   title: "{{ item.trip.title }} — {{ item.photo.displayCapturedAt }}"
 ---
