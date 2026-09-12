@@ -31,6 +31,10 @@
     <link rel="next" href="{{ nextPageUrl }}" />
     {% endif %}
 
+    {% if bodyClass == "trip-page" and trip.coverThumbUrl %}
+      <meta property="og:image" content="{{ trip.coverThumbUrl | absoluteUrl(rootUrl) }}" />
+    {% endif %}
+
     {% if description %}
       <meta property="og:title" content="{{ title }}" />
       <meta property="og:description" content="{{ description }}" />
