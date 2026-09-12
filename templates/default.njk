@@ -31,8 +31,15 @@
     <link rel="next" href="{{ nextPageUrl }}" />
     {% endif %}
 
-    {% if bodyClass == "trip-page" and trip.coverThumbUrl %}
+    {% if bodyClass == "trip-page" %}
+      <meta property="og:title" content="{{ trip.title }}" />
+      {% set tripDates %}{% if trip.dateRange %}{{ trip.dateRange }}{% endif %}{% if trip.dateRange and trip.distanceKm %} · {% endif %}{% if trip.distanceKm %}{{ trip.distanceKm }}{% endif %}{% endset %}
+      {% if tripDates | trim %}
+      <meta property="og:description" content="{{ tripDates | trim }}" />
+      {% endif %}
+      {% if trip.coverThumbUrl %}
       <meta property="og:image" content="{{ trip.coverThumbUrl | absoluteUrl(rootUrl) }}" />
+      {% endif %}
     {% endif %}
 
     {% if description %}
