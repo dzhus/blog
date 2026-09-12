@@ -113,7 +113,6 @@
 
   <dialog class="trip-photo-modal" id="trip-photo-modal" aria-label="Фото">
     <div class="trip-modal-bar">
-      <div class="trip-modal-counter"></div>
       <button type="button" class="trip-modal-close" aria-label="{{ t.close }}" title="{{ t.close }}">✕</button>
     </div>
     <div class="trip-modal-single">
@@ -309,7 +308,6 @@
     var currentPhotoIndex = 0;
 
     var modalCloseBtn = modal.querySelector(".trip-modal-close");
-    var modalCounter = modal.querySelector(".trip-modal-counter");
     var modalSingleImg = modal.querySelector(".trip-modal-single-img");
     var modalSingleExif = modal.querySelector(".trip-modal-single-exif");
     var modalSingleDownload = modal.querySelector(".trip-modal-single-download");
@@ -349,10 +347,6 @@
 
       if (modalSinglePos) {
         modalSinglePos.textContent = " · " + (index + 1) + "/" + totalPhotos;
-      }
-
-      if (modalCounter) {
-        modalCounter.textContent = (index + 1) + " / " + totalPhotos;
       }
 
       if (modalPrevBtn) {
