@@ -543,30 +543,6 @@ body.trip-photo article.trip-photo-page {
   pointer-events: none;
 }
 
-.trip-modal-page-link {
-  bottom: 0;
-  right: 0;
-  z-index: 25;
-  font-size: 0.85rem;
-  color: #babdb6;
-  text-decoration: none;
-  background: rgba(46, 52, 54, 0.7);
-  padding: 0.35rem 0.65rem;
-  border-radius: 3px;
-  line-height: 1.2;
-  transition: background 0.15s ease, color 0.15s ease;
-  user-select: none;
-  white-space: nowrap;
-}
-
-.trip-modal-page-link:hover,
-.trip-modal-page-link:focus-visible {
-  background: rgba(46, 52, 54, 0.95);
-  color: #ffffff;
-  text-decoration: underline;
-  outline: none;
-}
-
 /* Mobile vertical feed */
 .trip-modal-feed {
   display: none;
