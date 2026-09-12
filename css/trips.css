@@ -46,7 +46,9 @@ body.trip-photo article.trip-photo-page {
 }
 
 .trip-map-column {
-  align-self: stretch;
+  position: sticky;
+  top: 1rem;
+  align-self: start;
 }
 
 .trip-map-wrap,
@@ -56,17 +58,12 @@ body.trip-photo article.trip-photo-page {
   gap: 0.15rem;
 }
 
-.trip-map-wrap {
-  position: sticky;
-  top: 1rem;
-}
-
 @media (max-width: 52rem) {
   .trip-layout {
     grid-template-columns: 1fr;
   }
 
-  .trip-map-wrap {
+  .trip-map-column {
     position: static;
   }
 }
