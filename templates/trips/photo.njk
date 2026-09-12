@@ -88,5 +88,23 @@
     },
     { passive: true }
   );
+
+  document.addEventListener("keydown", function (e) {
+    if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey) return;
+    var target = e.target;
+    var tagName = target && target.tagName;
+    if (tagName === "INPUT" || tagName === "TEXTAREA" || tagName === "SELECT" || (target && target.isContentEditable)) {
+      return;
+    }
+    if (e.key === "ArrowLeft" || e.keyCode === 37) {
+      if (prev && prev.href) {
+        location.href = prev.href;
+      }
+    } else if (e.key === "ArrowRight" || e.keyCode === 39) {
+      if (next && next.href) {
+        location.href = next.href;
+      }
+    }
+  });
 })();
 </script>
