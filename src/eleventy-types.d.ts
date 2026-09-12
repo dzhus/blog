@@ -1,5 +1,6 @@
 declare module "@11ty/eleventy" {
   export interface UserConfig {
+    setWatchJavaScriptDependencies(watchEnabled: boolean): void;
     addPlugin(plugin: unknown, options?: unknown): void;
     setQuietMode(quiet: boolean): void;
     ignores: { add(pattern: string): void };

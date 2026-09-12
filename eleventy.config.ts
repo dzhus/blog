@@ -8,6 +8,9 @@ import { extractLeadingH1 } from "./src/title.ts";
 import {
   defaultCreator,
   defaultTitle,
+  email,
+  feedAuthorName,
+  feedTitle,
   gravatar,
   languages,
   localizedMeta,
@@ -39,6 +42,8 @@ function sortNewestFirst(a: CollectionItem, b: CollectionItem): number {
 }
 
 export default function (eleventyConfig: UserConfig) {
+  eleventyConfig.setWatchJavaScriptDependencies(false);
+
   eleventyConfig.addPlugin(pluginRss);
 
   eleventyConfig.setQuietMode(true);
@@ -73,6 +78,14 @@ export default function (eleventyConfig: UserConfig) {
   eleventyConfig.addGlobalData("siteTitle", defaultTitle);
   eleventyConfig.addGlobalData("lang", "ru");
   eleventyConfig.addGlobalData("langPrefix", "");
+  eleventyConfig.addGlobalData("site", () => ({
+    rootUrl,
+    email,
+    gravatar,
+    thisYear: thisYear(),
+    feedAuthorName,
+    feedTitle,
+  }));
   eleventyConfig.addGlobalData("eleventyComputed.creator", () => {
     return (data: any) => localizedMeta(data.lang).creator;
   });
