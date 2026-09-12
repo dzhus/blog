@@ -226,7 +226,6 @@ body.trip-photo article.trip-photo-page {
 
 .trip-photo-hover-preview {
   display: none;
-  background: #d3d7cf;
   line-height: 0;
 }
 
@@ -241,23 +240,6 @@ body.trip-photo article.trip-photo-page {
   object-fit: contain;
   object-position: top center;
   display: block;
-}
-
-.trip-photo-hover-preview-exif {
-  display: block;
-  line-height: 1.4;
-  padding: 0.35rem 0.5rem;
-  font-size: 0.85rem;
-  color: #555753;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  user-select: none;
-}
-
-.trip-photo-hover-preview-exif:empty {
-  display: none;
 }
 
 /* Leaflet photo markers */

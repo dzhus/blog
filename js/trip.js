@@ -234,17 +234,14 @@
 
   function setGridPhotoPreview(photo) {
     if (!stage || !preview || !previewImg) return;
-    var previewExif = preview.querySelector(".trip-photo-hover-preview-exif");
     var url = photo && photo.url;
     var display = photo && photo.display;
-    var exifLine = "";
-    if (url && grid) {
+    if (url && !display && grid) {
       var match = grid.querySelector(
         '.trip-photo-grid-item[data-photo-url="' + url.replace(/"/g, '\\"') + '"]'
       );
       if (match) {
-        if (!display) display = match.getAttribute("data-display-url");
-        exifLine = match.getAttribute("data-exif-line") || "";
+        display = match.getAttribute("data-display-url");
       }
     }
     if (!url || !display) {
@@ -254,7 +251,6 @@
       previewImg.removeAttribute("src");
       previewImg.removeAttribute("title");
       previewImg.alt = "";
-      if (previewExif) previewExif.textContent = "";
       return;
     }
     previewImg.src = display;
@@ -262,7 +258,6 @@
     previewImg.removeAttribute("title");
     preview.href = url;
     preview.removeAttribute("title");
-    if (previewExif) previewExif.textContent = exifLine;
     stage.classList.add("is-previewing");
   }
 
