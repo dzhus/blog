@@ -17,7 +17,7 @@
       crs: L.CRS.EPSG3857,
       minZoom: Math.max(0, zoom - 2),
       maxZoom: zoom + 1,
-      maxBounds: latLngBounds.pad(0.08),
+      maxBounds: latLngBounds,
       maxBoundsViscosity: 1.0,
       scrollWheelZoom: true,
       attributionControl: true,
@@ -30,7 +30,7 @@
       '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="https://opentopomap.org">OpenTopoMap</a> (CC-BY-SA)'
     );
 
-    L.tileLayer(tilesUrl, {
+    var tileLayer = L.tileLayer(tilesUrl, {
       minNativeZoom: zoom,
       maxNativeZoom: zoom,
       minZoom: Math.max(0, zoom - 2),
@@ -40,12 +40,17 @@
       attribution: "",
     }).addTo(map);
 
-    map.fitBounds(latLngBounds);
+    function fitTripMap() {
+      map.invalidateSize({ animate: false });
+      var coverZoom = map.getBoundsZoom(latLngBounds, true);
+      map.setMinZoom(coverZoom);
+      tileLayer.options.minZoom = coverZoom;
+      map.setView(latLngBounds.getCenter(), coverZoom, { animate: false });
+    }
+
+    fitTripMap();
     el._tripMap = map;
-    el._tripFit = function () {
-      map.invalidateSize();
-      map.fitBounds(latLngBounds);
-    };
+    el._tripFit = fitTripMap;
 
     fetch(tracksUrl)
       .then(function (r) { return r.json(); })

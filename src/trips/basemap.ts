@@ -21,12 +21,10 @@ const TILE_URL = (z: number, x: number, y: number) =>
 /** Soft cap on mosaic pixel span used only to pick zoom. */
 const MAX_EDGE = 2048;
 /**
- * Assumed map viewport width/height. fitBounds shows more than the content
- * bbox along the unconstrained axis; tiles must cover that overscan.
+ * Assumed map viewport width/height. Cover-zoom in the browser still needs
+ * tiles for overscan when the content bbox is fit into a wider pane.
  */
 const MAP_ASPECT = 1.5;
-/** Extra tile ring beyond the aspect-expanded mosaic (maxBounds pad, etc.). */
-const TILE_EDGE_MARGIN = 1;
 
 function chooseZoom(bounds: BBox): number {
   for (let z = 16; z >= 6; z--) {
@@ -43,8 +41,7 @@ function chooseZoom(bounds: BBox): number {
   return 6;
 }
 
-/** Grow tile index range so fitBounds into MAP_ASPECT leaves no empty sides,
- * then top up the shorter axis so the fetched mosaic is square. */
+/** Grow tile index range so MAP_ASPECT overscan is covered, then square the mosaic. */
 function expandTileRange(
   z: number,
   xMin: number,
@@ -75,11 +72,6 @@ function expandTileRange(
     y0 -= top;
     y1 += add - top;
   }
-
-  x0 -= TILE_EDGE_MARGIN;
-  x1 += TILE_EDGE_MARGIN;
-  y0 -= TILE_EDGE_MARGIN;
-  y1 += TILE_EDGE_MARGIN;
 
   x0 = Math.max(0, x0);
   y0 = Math.max(0, y0);
