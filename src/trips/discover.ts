@@ -20,9 +20,17 @@ export type DiscoveredTrip = {
 };
 
 function parseSlug(slug: string): { title: string; period: string } {
-  const m = /^(\d{4})-(.+)$/.exec(slug);
-  if (m) {
-    return { period: m[1]!, title: m[2]!.replace(/-/g, " ") };
+  // YYYY-MM-<Name> when Name does not start with a digit (disambiguates from YYYY-…).
+  const withMonth = /^(\d{4})-(\d{2})-([^\d].*)$/.exec(slug);
+  if (withMonth) {
+    return {
+      period: `${withMonth[1]}-${withMonth[2]}`,
+      title: withMonth[3]!.replace(/-/g, " "),
+    };
+  }
+  const withYear = /^(\d{4})-(.+)$/.exec(slug);
+  if (withYear) {
+    return { period: withYear[1]!, title: withYear[2]!.replace(/-/g, " ") };
   }
   return { period: "", title: slug.replace(/-/g, " ") };
 }

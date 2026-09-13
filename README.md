@@ -44,7 +44,7 @@ The first trip build downloads OpenTopoMap tiles (with contour lines; cached und
 
 ### Trips
 
-Each subdirectory of `trips/` is one trip and must include at least one `.gpx` file. Photos are ordered by EXIF `DateTimeOriginal` and must include GPS coordinates (build fails if either is missing).
+Each subdirectory of `trips/` is one trip and must include at least one `.gpx` file. Photos are ordered by EXIF `DateTimeOriginal` and must include GPS coordinates (build fails if either is missing). Folder names use `YYYY-<Trip-name>` or `YYYY-MM-<Trip-name>` (trip name must not start with a digit); the date prefix is stripped for the default display title.
 
 Optional metadata file in the trip folder (`trip.yml`, `trip.yaml`, `metadata.yml`, or `metadata.yaml`):
 
