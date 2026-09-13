@@ -170,6 +170,10 @@ body.trip-photo article.trip-photo-page {
   height: min(80vh, 40rem);
 }
 
+.trip-map-google {
+  margin: 0.75em 0 0;
+}
+
 .trip-gpx-list {
   list-style: none;
   padding: 0;

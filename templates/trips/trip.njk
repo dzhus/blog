@@ -50,6 +50,9 @@
             data-photos='{{ trip.mapPhotosJson | safe }}'
           ></div>
         </div>
+        <p class="trip-map-google">
+          <a class="trip-map-google-link" href="#" target="_blank" rel="noopener noreferrer">{{ t.googleMaps }}</a>
+        </p>
       </div>
 
       {% if trip.tracks and trip.tracks.length %}

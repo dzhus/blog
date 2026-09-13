@@ -37,6 +37,7 @@ export type TripUi = {
   prevPhoto: string;
   nextPhoto: string;
   photoPage: string;
+  googleMaps: string;
 };
 
 export const tripUi: Record<TripLang, TripUi> = {
@@ -63,6 +64,7 @@ export const tripUi: Record<TripLang, TripUi> = {
     prevPhoto: "Предыдущее фото",
     nextPhoto: "Следующее фото",
     photoPage: "Страница фото",
+    googleMaps: "Google Maps",
   },
   en: {
     lang: "en",
@@ -87,6 +89,7 @@ export const tripUi: Record<TripLang, TripUi> = {
     prevPhoto: "Previous photo",
     nextPhoto: "Next photo",
     photoPage: "Photo page",
+    googleMaps: "Google Maps",
   },
 };
 
