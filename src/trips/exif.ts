@@ -67,8 +67,28 @@ function formatGps(lat: number, lon: number): string {
   return `${lat.toFixed(5)}, ${lon.toFixed(5)}`;
 }
 
+/** Pretty labels for known EXIF Model values; unknown models fall back to raw Model. */
+const DEVICE_NAMES: Record<string, string> = {
+  "ILCE-7M3": "Sony A7 III",
+  "iPhone 12 Pro Max": "iPhone 12 Pro Max",
+  "E-M10 Mark III": "Olympus E-M10 Mark III",
+  "E-M10": "Olympus E-M10",
+  "Mi A2 Lite": "Xiaomi Mi A2 Lite",
+};
+
+function formatDevice(model: unknown): string | null {
+  if (typeof model !== "string") return null;
+  const trimmed = model.trim();
+  if (!trimmed) return null;
+  return DEVICE_NAMES[trimmed] ?? trimmed;
+}
+
+/** Bump when tooltip/format fields change so cached EXIF payloads regenerate. */
+const EXIF_CACHE_VERSION = "exif-v2";
+
 export function formatExifTooltip(parts: {
   displayCapturedAt: string;
+  device: string | null;
   aperture: string | null;
   shutter: string | null;
   iso: string | null;
@@ -76,7 +96,7 @@ export function formatExifTooltip(parts: {
   lon: number;
 }): string {
   const lines = [parts.displayCapturedAt];
-  const exposure = [parts.aperture, parts.shutter, parts.iso]
+  const exposure = [parts.device, parts.aperture, parts.shutter, parts.iso]
     .filter(Boolean)
     .join(" · ");
   if (exposure) lines.push(exposure);
@@ -125,6 +145,7 @@ async function parsePhotoExif(filePath: string): Promise<Omit<PhotoExif, "source
     data = await exifr.parse(buf, {
       pick: [
         "DateTimeOriginal",
+        "Model",
         "FNumber",
         "ExposureTime",
         "ISO",
@@ -174,6 +195,7 @@ async function parsePhotoExif(filePath: string): Promise<Omit<PhotoExif, "source
   }
 
   const displayCapturedAt = formatExifLocal(dt);
+  const device = formatDevice(data?.Model);
   const aperture = formatAperture(data?.FNumber);
   const shutter = formatShutter(data?.ExposureTime);
   const iso = formatIso(
@@ -187,6 +209,7 @@ async function parsePhotoExif(filePath: string): Promise<Omit<PhotoExif, "source
     lon,
     tooltip: formatExifTooltip({
       displayCapturedAt,
+      device,
       aperture,
       shutter,
       iso,
@@ -200,7 +223,8 @@ export async function readPhotoExif(
   filePath: string,
   cacheTripDir: string,
 ): Promise<PhotoExif> {
-  const { key, size } = sourceKey(filePath);
+  const { key: source, size } = sourceKey(filePath);
+  const key = `${EXIF_CACHE_VERSION}_${source}`;
   const base = path.basename(filePath);
   const exifDir = path.join(cacheTripDir, "exif");
   const cacheJsonPath = path.join(exifDir, `${base}.json`);
