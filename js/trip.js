@@ -40,36 +40,15 @@
       attribution: "",
     }).addTo(map);
 
-    function updateGoogleLink() {
-      if (!googleLink) return;
-      var center = map.getCenter();
-      var z = Math.round(map.getZoom());
-      googleLink.href =
-        "https://www.google.com/maps/@" +
-        center.lat.toFixed(6) +
-        "," +
-        center.lng.toFixed(6) +
-        "," +
-        z +
-        "z";
-    }
-
     function fitTripMap() {
       map.invalidateSize({ animate: false });
       var coverZoom = map.getBoundsZoom(latLngBounds, true);
       map.setMinZoom(coverZoom);
       tileLayer.options.minZoom = coverZoom;
       map.setView(latLngBounds.getCenter(), coverZoom, { animate: false });
-      updateGoogleLink();
     }
 
-    var mapColumn = el.closest(".trip-map-column");
-    var googleLink = mapColumn
-      ? mapColumn.querySelector(".trip-map-google-link")
-      : null;
-
     fitTripMap();
-    map.on("moveend zoomend", updateGoogleLink);
     el._tripMap = map;
     el._tripFit = fitTripMap;
 
