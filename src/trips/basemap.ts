@@ -43,7 +43,8 @@ function chooseZoom(bounds: BBox): number {
   return 6;
 }
 
-/** Grow tile index range so fitBounds into MAP_ASPECT leaves no empty sides. */
+/** Grow tile index range so fitBounds into MAP_ASPECT leaves no empty sides,
+ * then top up the shorter axis so the fetched mosaic is square. */
 function expandTileRange(
   z: number,
   xMin: number,
@@ -94,7 +95,39 @@ function expandTileRange(
     y1 = Math.min(max, y0 + 1);
   }
 
+  // Top up the shorter axis so the mosaic is square (equal tile counts).
+  const side = Math.max(x1 - x0, y1 - y0);
+  ({ lo: x0, hi: x1 } = expandAxisToSize(x0, x1, side, max));
+  ({ lo: y0, hi: y1 } = expandAxisToSize(y0, y1, side, max));
+
   return { xMin: x0, xMaxExcl: x1, yMin: y0, yMaxExcl: y1 };
+}
+
+/** Grow [lo, hi) to `target` length, centered; spill leftover onto the free side after clamp. */
+function expandAxisToSize(
+  lo: number,
+  hi: number,
+  target: number,
+  max: number,
+): { lo: number; hi: number } {
+  const cur = hi - lo;
+  if (cur >= target) return { lo, hi };
+
+  const add = target - cur;
+  const before = Math.floor(add / 2);
+  let nextLo = lo - before;
+  let nextHi = hi + (add - before);
+
+  if (nextLo < 0) {
+    nextHi = Math.min(max, nextHi - nextLo);
+    nextLo = 0;
+  }
+  if (nextHi > max) {
+    nextLo = Math.max(0, nextLo - (nextHi - max));
+    nextHi = max;
+  }
+
+  return { lo: nextLo, hi: nextHi };
 }
 
 async function fetchColorTile(
