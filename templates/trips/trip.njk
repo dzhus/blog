@@ -110,6 +110,18 @@
     </div>
   </div>
 
+  {% set related = tripBacklinks[lang][trip.slug] %}
+  {% if related and related.length %}
+  <section class="trip-relevant-posts">
+    <h2>{{ t.relevantPosts }}</h2>
+    <ul>
+      {% for post in related %}
+      <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+
   <dialog class="trip-photo-modal" id="trip-photo-modal" aria-label="Фото">
     <div class="trip-modal-bar">
       <button type="button" class="trip-modal-close" aria-label="{{ t.close }}" title="{{ t.close }}">✕</button>

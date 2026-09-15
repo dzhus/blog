@@ -170,6 +170,24 @@ body.trip-photo article.trip-photo-page {
   height: min(80vh, 40rem);
 }
 
+.trip-relevant-posts {
+  margin-top: 1.5em;
+}
+
+.trip-relevant-posts h2 {
+  font-size: 1.1em;
+  margin: 0 0 0.5em;
+}
+
+.trip-relevant-posts ul {
+  margin: 0;
+  padding-left: 1.25em;
+}
+
+.trip-relevant-posts li {
+  margin: 0.35em 0;
+}
+
 .trip-gpx-list {
   list-style: none;
   padding: 0;

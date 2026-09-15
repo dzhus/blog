@@ -21,6 +21,7 @@ import { collectTags, renderTagCloud } from "./src/tags.ts";
 import { buildTrips, readTripsManifest } from "./src/trips/build.ts";
 import { localizeTrips, tripUi } from "./src/trips/i18n.ts";
 import type { TripManifest, TripPhoto } from "./src/trips/types.ts";
+import { buildTripBacklinks } from "./src/tripBacklinks.ts";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -113,6 +114,9 @@ export default function (eleventyConfig: UserConfig) {
   });
 
   eleventyConfig.addGlobalData("tripUi", tripUi);
+  eleventyConfig.addGlobalData("tripBacklinks", () =>
+    buildTripBacklinks(path.join(__dirname, "posts")),
+  );
 
   function tripPhotoPages(trips: TripManifest[]): TripPhotoPage[] {
     const pages: TripPhotoPage[] = [];
