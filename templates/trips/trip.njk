@@ -1,5 +1,6 @@
 {% set t = tripUi[lang] %}
 <article class="trip">
+  <p class="trip-back"><a href="/{{ t.langPrefix }}trips/index.html">← {{ t.allTrips }}</a></p>
   <h1>{{ trip.title }}</h1>
   {% if trip.dateRange or trip.distanceKm %}
   <p class="trip-dates">
@@ -8,7 +9,6 @@
     {% if trip.distanceKm %}{{ trip.distanceKm }}{% endif %}
   </p>
   {% endif %}
-  <p class="trip-back"><a href="/{{ t.langPrefix }}trips/index.html">← {{ t.allTrips }}</a></p>
 
   <div class="trip-layout">
     <div class="trip-map-column">
