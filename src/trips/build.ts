@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import sharp from "sharp";
-import { renderTripTiles, TILE_SOURCE_ID } from "./basemap.ts";
+import { renderTripTiles, SHARED_TILE_URL_TEMPLATE, TILE_SOURCE_ID, sharedSiteTilesRoot } from "./basemap.ts";
 import { discoverTrips } from "./discover.ts";
 import {
   formatIsoCapturedAt,
@@ -145,7 +145,7 @@ export async function buildTrips(
     const tracksPath = path.join(mapDir, "tracks.json");
 
     type TileCacheMeta = {
-      version: 7;
+      version: 8;
       source: string;
       requestBounds: BBox;
       zoom: number;
@@ -157,6 +157,7 @@ export async function buildTrips(
       tileUrlTemplate: string;
     };
     const tilesMetaPath = path.join(cacheTripDir, "tiles.json");
+    const sharedTilesRoot = sharedSiteTilesRoot(siteRoot);
 
     let tileSet: {
       zoom: number;
@@ -175,7 +176,7 @@ export async function buildTrips(
           fs.readFileSync(tilesMetaPath, "utf8"),
         ) as TileCacheMeta;
         if (
-          cached.version === 7 &&
+          cached.version === 8 &&
           cached.source === TILE_SOURCE_ID &&
           JSON.stringify(cached.requestBounds) === JSON.stringify(bounds)
         ) {
@@ -186,9 +187,9 @@ export async function buildTrips(
             yMin: cached.yMin,
             yMax: cached.yMax,
             bounds: cached.bounds,
-            tileUrlTemplate: cached.tileUrlTemplate,
+            tileUrlTemplate: SHARED_TILE_URL_TEMPLATE,
           };
-          // Re-copy greyscale tiles from cache into _site
+          // Ensure greyscale tiles are present in the shared _site tree
           const z = cached.zoom;
           let missing = false;
           outer: for (let ty = cached.yMin; ty <= cached.yMax; ty++) {
@@ -203,9 +204,16 @@ export async function buildTrips(
                 missing = true;
                 break outer;
               }
-              const toDir = path.join(mapDir, "tiles", String(z), String(tx));
-              fs.mkdirSync(toDir, { recursive: true });
-              fs.copyFileSync(from, path.join(toDir, `${ty}.png`));
+              const toDir = path.join(
+                sharedTilesRoot,
+                String(z),
+                String(tx),
+              );
+              const toPath = path.join(toDir, `${ty}.png`);
+              if (!fs.existsSync(toPath)) {
+                fs.mkdirSync(toDir, { recursive: true });
+                fs.copyFileSync(from, toPath);
+              }
             }
           }
           if (missing) {
@@ -224,13 +232,12 @@ export async function buildTrips(
     if (!cacheHit || !tileSet) {
       tileSet = await renderTripTiles(
         bounds,
-        trip.slug,
-        mapDir,
+        siteRoot,
         colorCacheDir,
         greyCacheDir,
       );
       const meta: TileCacheMeta = {
-        version: 7,
+        version: 8,
         source: TILE_SOURCE_ID,
         requestBounds: bounds,
         zoom: tileSet.zoom,
@@ -239,7 +246,7 @@ export async function buildTrips(
         yMin: tileSet.yMin,
         yMax: tileSet.yMax,
         bounds: tileSet.bounds,
-        tileUrlTemplate: tileSet.tileUrlTemplate,
+        tileUrlTemplate: SHARED_TILE_URL_TEMPLATE,
       };
       fs.writeFileSync(tilesMetaPath, JSON.stringify(meta));
     }

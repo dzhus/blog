@@ -12,6 +12,13 @@ import type { BBox } from "./types.ts";
 
 /** Bump when changing tile provider so caches invalidate. */
 export const TILE_SOURCE_ID = "opentopomap";
+/** Site-wide XYZ template shared by every trip map. */
+export const SHARED_TILE_URL_TEMPLATE = `/tiles/${TILE_SOURCE_ID}/{z}/{x}/{y}.png`;
+
+export function sharedSiteTilesRoot(siteRoot: string): string {
+  return path.join(siteRoot, "tiles", TILE_SOURCE_ID);
+}
+
 const USER_AGENT =
   "dzhus.org-blog-static-map/1.0 (https://dzhus.org; personal static site build)";
 /** OpenTopoMap includes contour lines (CC-BY-SA). */
@@ -193,8 +200,7 @@ export type TripTileSet = {
 
 export async function renderTripTiles(
   bounds: BBox,
-  slug: string,
-  siteMapDir: string,
+  siteRoot: string,
   colorCacheDir: string,
   greyCacheDir: string,
 ): Promise<TripTileSet> {
@@ -216,8 +222,7 @@ export async function renderTripTiles(
     yMaxExcl,
   ));
 
-  const siteTilesDir = path.join(siteMapDir, "tiles", String(z));
-  fs.mkdirSync(siteTilesDir, { recursive: true });
+  const sharedRoot = sharedSiteTilesRoot(siteRoot);
 
   for (let ty = yMin; ty < yMaxExcl; ty++) {
     for (let tx = xMin; tx < xMaxExcl; tx++) {
@@ -229,9 +234,12 @@ export async function renderTripTiles(
         `${ty}.png`,
       );
       const grey = await greyscaleTile(color, greyCachePath);
-      const destDir = path.join(siteTilesDir, String(tx));
-      fs.mkdirSync(destDir, { recursive: true });
-      fs.writeFileSync(path.join(destDir, `${ty}.png`), grey);
+      const destDir = path.join(sharedRoot, String(z), String(tx));
+      const destPath = path.join(destDir, `${ty}.png`);
+      if (!fs.existsSync(destPath)) {
+        fs.mkdirSync(destDir, { recursive: true });
+        fs.writeFileSync(destPath, grey);
+      }
     }
   }
 
@@ -249,6 +257,6 @@ export async function renderTripTiles(
     yMin,
     yMax: yMaxExcl - 1,
     bounds: tileBounds,
-    tileUrlTemplate: `/trips/${slug}/map/tiles/{z}/{x}/{y}.png`,
+    tileUrlTemplate: SHARED_TILE_URL_TEMPLATE,
   };
 }

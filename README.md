@@ -27,7 +27,7 @@ npm run build    # writes to _site/
 npm start        # build + local server
 ```
 
-The first trip build downloads OpenTopoMap tiles (with contour lines; cached under `_cache/tiles/opentopomap/`), converts them to greyscale, and copies them into `_site/trips/<slug>/map/tiles/{z}/{x}/{y}.png`. Later builds reuse that cache. Rendered pages load those local tiles via Leaflet (EPSG:3857)—no tile CDN at runtime.
+The first trip build downloads OpenTopoMap tiles (with contour lines; cached under `_cache/tiles/opentopomap/`), converts them to greyscale, and publishes them once under `_site/tiles/opentopomap/{z}/{x}/{y}.png` (shared across all trips). Later builds reuse that cache. Rendered pages load those local tiles via Leaflet (EPSG:3857)—no tile CDN at runtime.
 
 ## Content layout
 
