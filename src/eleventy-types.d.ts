@@ -17,6 +17,7 @@ declare module "@11ty/eleventy" {
       callback: (data: any, content: string) => string | undefined,
     ): void;
     setLibrary(name: string, library: unknown): void;
+    setConcurrency(number: number): void;
     addTransform(
       name: string,
       callback: (

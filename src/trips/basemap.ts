@@ -33,6 +33,64 @@ const MAX_EDGE = 2048;
  */
 const MAP_ASPECT = 1.5;
 
+/** Min gap between outbound OpenTopoMap HTTP requests. */
+const FETCH_GAP_MS = 120;
+
+/** In-flight tile pipeline promises keyed by `z/x/y`. */
+const tileInflight = new Map<string, Promise<Buffer>>();
+
+let lastFetchAt = 0;
+let fetchChain: Promise<void> = Promise.resolve();
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((r) => setTimeout(r, ms));
+}
+
+/** Serialize + pace HTTP fetches across concurrent trips. */
+function scheduleTileFetch<T>(fn: () => Promise<T>): Promise<T> {
+  const run = fetchChain.then(async () => {
+    const wait = lastFetchAt + FETCH_GAP_MS - Date.now();
+    if (wait > 0) await sleep(wait);
+    lastFetchAt = Date.now();
+    return fn();
+  });
+  fetchChain = run.then(
+    () => undefined,
+    () => undefined,
+  );
+  return run;
+}
+
+function writeFileAtomic(destPath: string, data: Buffer): void {
+  fs.mkdirSync(path.dirname(destPath), { recursive: true });
+  const tmp = path.join(
+    path.dirname(destPath),
+    `.${path.basename(destPath)}.${process.pid}.${Date.now()}.${Math.random().toString(36).slice(2)}.tmp`,
+  );
+  try {
+    fs.writeFileSync(tmp, data);
+    fs.renameSync(tmp, destPath);
+  } catch (err) {
+    try {
+      fs.unlinkSync(tmp);
+    } catch {
+      // ignore
+    }
+    throw err;
+  }
+}
+
+/** Copy only when missing or size differs; atomic replace. */
+export function copyFileAtomicIfNeeded(from: string, to: string): void {
+  if (fs.existsSync(to)) {
+    const fromSt = fs.statSync(from);
+    const toSt = fs.statSync(to);
+    if (fromSt.size === toSt.size) return;
+  }
+  const data = fs.readFileSync(from);
+  writeFileAtomic(to, data);
+}
+
 function chooseZoom(bounds: BBox): number {
   for (let z = 16; z >= 6; z--) {
     const x0 = lonToTileX(bounds.west, z);
@@ -129,26 +187,28 @@ function expandAxisToSize(
   return { lo: nextLo, hi: nextHi };
 }
 
+async function blankTile(): Promise<Buffer> {
+  return sharp({
+    create: {
+      width: TILE_SIZE,
+      height: TILE_SIZE,
+      channels: 3,
+      background: { r: 238, g: 238, b: 236 },
+    },
+  })
+    .png()
+    .toBuffer();
+}
+
 async function fetchColorTile(
   z: number,
-  x: number,
-  y: number,
+  tx: number,
+  ty: number,
   colorCacheDir: string,
 ): Promise<Buffer> {
   const max = Math.pow(2, z);
-  const tx = ((x % max) + max) % max;
-  const ty = y;
   if (ty < 0 || ty >= max) {
-    return sharp({
-      create: {
-        width: TILE_SIZE,
-        height: TILE_SIZE,
-        channels: 3,
-        background: { r: 238, g: 238, b: 236 },
-      },
-    })
-      .png()
-      .toBuffer();
+    return blankTile();
   }
 
   const cachePath = path.join(colorCacheDir, String(z), String(tx), `${ty}.png`);
@@ -156,17 +216,21 @@ async function fetchColorTile(
     return fs.readFileSync(cachePath);
   }
 
-  fs.mkdirSync(path.dirname(cachePath), { recursive: true });
-  const url = TILE_URL(z, tx, ty);
-  const res = await fetch(url, {
-    headers: { "User-Agent": USER_AGENT, Accept: "image/png" },
+  const buf = await scheduleTileFetch(async () => {
+    if (fs.existsSync(cachePath)) {
+      return fs.readFileSync(cachePath);
+    }
+    const url = TILE_URL(z, tx, ty);
+    const res = await fetch(url, {
+      headers: { "User-Agent": USER_AGENT, Accept: "image/png" },
+    });
+    if (!res.ok) {
+      throw new Error(`Map tile fetch failed ${res.status} ${url}`);
+    }
+    const data = Buffer.from(await res.arrayBuffer());
+    writeFileAtomic(cachePath, data);
+    return data;
   });
-  if (!res.ok) {
-    throw new Error(`Map tile fetch failed ${res.status} ${url}`);
-  }
-  const buf = Buffer.from(await res.arrayBuffer());
-  fs.writeFileSync(cachePath, buf);
-  await new Promise((r) => setTimeout(r, 100));
   return buf;
 }
 
@@ -177,13 +241,66 @@ async function greyscaleTile(
   if (fs.existsSync(greyCachePath)) {
     return fs.readFileSync(greyCachePath);
   }
-  fs.mkdirSync(path.dirname(greyCachePath), { recursive: true });
   const out = await sharp(colorPng)
     .greyscale()
     .png({ compressionLevel: 9 })
     .toBuffer();
-  fs.writeFileSync(greyCachePath, out);
+  writeFileAtomic(greyCachePath, out);
   return out;
+}
+
+/**
+ * Ensure greyscale tile exists in grey cache and shared `_site/tiles` tree.
+ * Single-flight per z/x/y so concurrent trips share one fetch/encode.
+ */
+async function ensureSharedTile(
+  z: number,
+  x: number,
+  y: number,
+  siteRoot: string,
+  colorCacheDir: string,
+  greyCacheDir: string,
+): Promise<void> {
+  const max = Math.pow(2, z);
+  const tx = ((x % max) + max) % max;
+  const ty = y;
+  const key = `${z}/${tx}/${ty}`;
+
+  const existing = tileInflight.get(key);
+  if (existing) {
+    await existing;
+    return;
+  }
+
+  const work = (async () => {
+    const greyCachePath = path.join(
+      greyCacheDir,
+      String(z),
+      String(tx),
+      `${ty}.png`,
+    );
+    const sharedRoot = sharedSiteTilesRoot(siteRoot);
+    const destPath = path.join(sharedRoot, String(z), String(tx), `${ty}.png`);
+
+    let grey: Buffer;
+    if (fs.existsSync(greyCachePath)) {
+      grey = fs.readFileSync(greyCachePath);
+    } else {
+      const color = await fetchColorTile(z, tx, ty, colorCacheDir);
+      grey = await greyscaleTile(color, greyCachePath);
+    }
+    if (!fs.existsSync(destPath)) {
+      writeFileAtomic(destPath, grey);
+    }
+    return grey;
+  })();
+
+  tileInflight.set(key, work);
+  try {
+    await work;
+  } finally {
+    tileInflight.delete(key);
+  }
 }
 
 export type TripTileSet = {
@@ -222,24 +339,16 @@ export async function renderTripTiles(
     yMaxExcl,
   ));
 
-  const sharedRoot = sharedSiteTilesRoot(siteRoot);
-
   for (let ty = yMin; ty < yMaxExcl; ty++) {
     for (let tx = xMin; tx < xMaxExcl; tx++) {
-      const color = await fetchColorTile(z, tx, ty, colorCacheDir);
-      const greyCachePath = path.join(
+      await ensureSharedTile(
+        z,
+        tx,
+        ty,
+        siteRoot,
+        colorCacheDir,
         greyCacheDir,
-        String(z),
-        String(tx),
-        `${ty}.png`,
       );
-      const grey = await greyscaleTile(color, greyCachePath);
-      const destDir = path.join(sharedRoot, String(z), String(tx));
-      const destPath = path.join(destDir, `${ty}.png`);
-      if (!fs.existsSync(destPath)) {
-        fs.mkdirSync(destDir, { recursive: true });
-        fs.writeFileSync(destPath, grey);
-      }
     }
   }
 

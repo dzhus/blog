@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import type { CollectionItem, UserConfig } from "@11ty/eleventy";
@@ -36,6 +37,24 @@ import type { SiteLang } from "./src/siteConstants.ts";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+function envPositiveInt(name: string): number | null {
+  const raw = process.env[name];
+  if (!raw) return null;
+  const n = Number.parseInt(raw, 10);
+  return Number.isFinite(n) && n >= 1 ? n : null;
+}
+
+/** HTML render concurrency: default min(8, cores); override with ELEVENTY_CONCURRENCY. */
+function eleventyConcurrency(): number {
+  const fromEnv = envPositiveInt("ELEVENTY_CONCURRENCY");
+  if (fromEnv != null) return fromEnv;
+  const cores =
+    typeof os.availableParallelism === "function"
+      ? os.availableParallelism()
+      : os.cpus().length;
+  return Math.max(1, Math.min(8, cores));
+}
+
 export type TripPhotoPage = {
   trip: TripManifest;
   photo: TripPhoto;
@@ -68,6 +87,7 @@ export default function (eleventyConfig: UserConfig) {
   eleventyConfig.addPlugin(pluginRss);
 
   eleventyConfig.setQuietMode(true);
+  eleventyConfig.setConcurrency(eleventyConcurrency());
 
   eleventyConfig.ignores.add("README.md");
   eleventyConfig.ignores.add("LICENSE");
