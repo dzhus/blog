@@ -109,8 +109,8 @@ async function buildOneTrip(
     capturedAt: Date;
     displayCapturedAt: string;
     exifTooltip: string;
-    lat: number;
-    lon: number;
+    lat: number | null;
+    lon: number | null;
     sourceSize: number;
   }> = [];
 
@@ -142,7 +142,9 @@ async function buildOneTrip(
       siteTripDir,
     );
     const stem = path.basename(meta.filename, path.extname(meta.filename));
-    expandBBox(photoBounds, meta.lat, meta.lon);
+    if (meta.lat != null && meta.lon != null) {
+      expandBBox(photoBounds, meta.lat, meta.lon);
+    }
     photos.push({
       id: stem,
       basename: stem,
@@ -282,15 +284,23 @@ async function buildOneTrip(
     coverThumbUrl = cover.gridThumbUrl;
   }
 
-  const mapPhotosJson = JSON.stringify(
-    photos.map((p) => ({
-      lat: p.lat,
-      lon: p.lon,
-      thumb: p.mapThumbUrl,
-      display: p.displayUrl,
-      url: p.photoPageUrl,
-    })),
-  );
+    const mapPhotosJson = JSON.stringify(
+      photos
+        .filter(
+          (p) =>
+            typeof p.lat === "number" &&
+            typeof p.lon === "number" &&
+            Number.isFinite(p.lat) &&
+            Number.isFinite(p.lon),
+        )
+        .map((p) => ({
+          lat: p.lat,
+          lon: p.lon,
+          thumb: p.mapThumbUrl,
+          display: p.displayUrl,
+          url: p.photoPageUrl,
+        })),
+    );
 
   return {
     slug: trip.slug,

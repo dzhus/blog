@@ -58,13 +58,13 @@ async function buildLoosePhotos(
     capturedAt: Date;
     displayCapturedAt: string;
     exifTooltip: string;
-    lat: number;
-    lon: number;
+    lat: number | null;
+    lon: number | null;
     sourceSize: number;
   }> = [];
 
   for (const src of files) {
-    const exif = await readPhotoExif(src, cachePhotosDir);
+    const exif = await readPhotoExif(src, cachePhotosDir, { requireGps: false });
     metas.push({
       src,
       filename: path.basename(src),

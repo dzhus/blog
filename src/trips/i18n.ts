@@ -171,13 +171,21 @@ export function localizeTrip(
   const t = tripUi[lang];
   const photos = trip.photos.map((p) => localizePhoto(p, base, trip.slug));
   const mapPhotosJson = JSON.stringify(
-    photos.map((p) => ({
-      lat: p.lat,
-      lon: p.lon,
-      thumb: p.mapThumbUrl,
-      display: p.displayUrl,
-      url: p.photoPageUrl,
-    })),
+    photos
+      .filter(
+        (p) =>
+          typeof p.lat === "number" &&
+          typeof p.lon === "number" &&
+          Number.isFinite(p.lat) &&
+          Number.isFinite(p.lon),
+      )
+      .map((p) => ({
+        lat: p.lat,
+        lon: p.lon,
+        thumb: p.mapThumbUrl,
+        display: p.displayUrl,
+        url: p.photoPageUrl,
+      })),
   );
 
   return {

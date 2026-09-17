@@ -19,8 +19,10 @@ export type TripPhoto = {
   exifTooltip: string;
   /** Single-line EXIF summary for display views. */
   exifLine: string;
-  lat: number;
-  lon: number;
+  /** WGS84 latitude, or null when GPS EXIF is absent (loose photos). */
+  lat: number | null;
+  /** WGS84 longitude, or null when GPS EXIF is absent (loose photos). */
+  lon: number | null;
   gridThumbUrl: string;
   mapThumbUrl: string;
   displayUrl: string;

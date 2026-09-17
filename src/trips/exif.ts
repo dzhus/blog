@@ -5,9 +5,11 @@ import exifr from "exifr";
 export type PhotoExif = {
   capturedAt: Date;
   displayCapturedAt: string;
-  lat: number;
-  lon: number;
-  /** Multi-line hover tooltip: date/time, exposure, GPS. */
+  /** WGS84 latitude, or null when GPS EXIF is absent (allowed for loose photos). */
+  lat: number | null;
+  /** WGS84 longitude, or null when GPS EXIF is absent (allowed for loose photos). */
+  lon: number | null;
+  /** Multi-line hover tooltip: date/time, exposure, optional GPS. */
   tooltip: string;
   /** Source file size in bytes (from the same stat used for the cache key). */
   sourceSize: number;
@@ -16,9 +18,14 @@ export type PhotoExif = {
 type CachedExifPayload = {
   capturedAt: string;
   displayCapturedAt: string;
-  lat: number;
-  lon: number;
+  lat: number | null;
+  lon: number | null;
   tooltip: string;
+};
+
+export type ReadPhotoExifOptions = {
+  /** When true (default), missing GPS fails the read. Loose photos pass false. */
+  requireGps?: boolean;
 };
 
 export function sourceKey(srcPath: string): { key: string; size: number } {
@@ -97,7 +104,7 @@ function formatDevice(model: unknown): string | null {
 }
 
 /** Bump when tooltip/format fields change so cached EXIF payloads regenerate. */
-const EXIF_CACHE_VERSION = "exif-v3";
+const EXIF_CACHE_VERSION = "exif-v4";
 
 export function formatExifTooltip(parts: {
   displayCapturedAt: string;
@@ -106,8 +113,8 @@ export function formatExifTooltip(parts: {
   aperture: string | null;
   shutter: string | null;
   iso: string | null;
-  lat: number;
-  lon: number;
+  lat: number | null;
+  lon: number | null;
 }): string {
   const lines = [parts.displayCapturedAt];
   const exposure = [
@@ -120,7 +127,14 @@ export function formatExifTooltip(parts: {
     .filter(Boolean)
     .join(" · ");
   if (exposure) lines.push(exposure);
-  lines.push(formatGps(parts.lat, parts.lon));
+  if (
+    typeof parts.lat === "number" &&
+    typeof parts.lon === "number" &&
+    Number.isFinite(parts.lat) &&
+    Number.isFinite(parts.lon)
+  ) {
+    lines.push(formatGps(parts.lat, parts.lon));
+  }
   return lines.join("\n");
 }
 
@@ -138,17 +152,19 @@ function readCachedExif(
     if (
       typeof raw.capturedAt !== "string" ||
       typeof raw.displayCapturedAt !== "string" ||
-      typeof raw.lat !== "number" ||
-      typeof raw.lon !== "number" ||
-      typeof raw.tooltip !== "string"
+      typeof raw.tooltip !== "string" ||
+      !(
+        (typeof raw.lat === "number" && typeof raw.lon === "number") ||
+        (raw.lat === null && raw.lon === null)
+      )
     ) {
       return null;
     }
     return {
       capturedAt: raw.capturedAt,
       displayCapturedAt: raw.displayCapturedAt,
-      lat: raw.lat,
-      lon: raw.lon,
+      lat: raw.lat as number | null,
+      lon: raw.lon as number | null,
       tooltip: raw.tooltip,
     };
   } catch {
@@ -156,7 +172,10 @@ function readCachedExif(
   }
 }
 
-async function parsePhotoExif(filePath: string): Promise<Omit<PhotoExif, "sourceSize">> {
+async function parsePhotoExif(
+  filePath: string,
+  options: { requireGps: boolean },
+): Promise<Omit<PhotoExif, "sourceSize">> {
   const label = path.relative(process.cwd(), filePath) || filePath;
   const buf = await fs.promises.readFile(filePath);
 
@@ -177,7 +196,7 @@ async function parsePhotoExif(filePath: string): Promise<Omit<PhotoExif, "source
   } catch (err) {
     const detail = err instanceof Error ? err.message : String(err);
     throw new Error(
-      `Failed to read EXIF from ${label}: ${detail}. Each trip photo must include DateTimeOriginal and GPS coordinates.`,
+      `Failed to read EXIF from ${label}: ${detail}. Photos must include DateTimeOriginal.`,
     );
   }
 
@@ -188,8 +207,8 @@ async function parsePhotoExif(filePath: string): Promise<Omit<PhotoExif, "source
     );
   }
 
-  let lat: number | undefined;
-  let lon: number | undefined;
+  let lat: number | null = null;
+  let lon: number | null = null;
   try {
     const gps = await exifr.gps(buf);
     if (
@@ -203,13 +222,15 @@ async function parsePhotoExif(filePath: string): Promise<Omit<PhotoExif, "source
       lon = gps.longitude;
     }
   } catch (err) {
-    const detail = err instanceof Error ? err.message : String(err);
-    throw new Error(
-      `Failed to read GPS EXIF from ${label}: ${detail}. Each trip photo must include GPS latitude/longitude for the map.`,
-    );
+    if (options.requireGps) {
+      const detail = err instanceof Error ? err.message : String(err);
+      throw new Error(
+        `Failed to read GPS EXIF from ${label}: ${detail}. Each trip photo must include GPS latitude/longitude for the map.`,
+      );
+    }
   }
 
-  if (lat == null || lon == null) {
+  if (options.requireGps && (lat == null || lon == null)) {
     throw new Error(
       `Missing GPS coordinates in ${label}. Each trip photo must include EXIF GPS latitude/longitude to appear on the trip map.`,
     );
@@ -245,9 +266,11 @@ async function parsePhotoExif(filePath: string): Promise<Omit<PhotoExif, "source
 export async function readPhotoExif(
   filePath: string,
   cacheTripDir: string,
+  options: ReadPhotoExifOptions = {},
 ): Promise<PhotoExif> {
+  const requireGps = options.requireGps !== false;
   const { key: source, size } = sourceKey(filePath);
-  const key = `${EXIF_CACHE_VERSION}_${source}`;
+  const key = `${EXIF_CACHE_VERSION}_gps${requireGps ? "1" : "0"}_${source}`;
   const base = path.basename(filePath);
   const exifDir = path.join(cacheTripDir, "exif");
   const cacheJsonPath = path.join(exifDir, `${base}.json`);
@@ -257,18 +280,25 @@ export async function readPhotoExif(
   if (cached) {
     const capturedAt = new Date(cached.capturedAt);
     if (!Number.isNaN(+capturedAt)) {
-      return {
-        capturedAt,
-        displayCapturedAt: cached.displayCapturedAt,
-        lat: cached.lat,
-        lon: cached.lon,
-        tooltip: cached.tooltip,
-        sourceSize: size,
-      };
+      if (
+        requireGps &&
+        (cached.lat == null || cached.lon == null)
+      ) {
+        // Stale cache from a non-GPS read; re-parse.
+      } else {
+        return {
+          capturedAt,
+          displayCapturedAt: cached.displayCapturedAt,
+          lat: cached.lat,
+          lon: cached.lon,
+          tooltip: cached.tooltip,
+          sourceSize: size,
+        };
+      }
     }
   }
 
-  const parsed = await parsePhotoExif(filePath);
+  const parsed = await parsePhotoExif(filePath, { requireGps });
   fs.mkdirSync(exifDir, { recursive: true });
   const payload: CachedExifPayload = {
     capturedAt: parsed.capturedAt.toISOString(),
