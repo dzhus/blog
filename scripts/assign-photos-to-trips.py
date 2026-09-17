@@ -356,6 +356,14 @@ def main() -> int:
         help="Move matched photos into trip folders (default: dry-run)",
     )
     parser.add_argument(
+        "--clean-up-assigned",
+        action="store_true",
+        help=(
+            "Remove media files whose basename already exists under trips/ "
+            "(dry-run unless --apply is also set)"
+        ),
+    )
+    parser.add_argument(
         "--verbose",
         action="store_true",
         help="List unmatched photos and those missing EXIF dates",
@@ -393,14 +401,22 @@ def main() -> int:
 
     suggested = 0
     skipped = 0
+    to_remove = 0
     unmatched = 0
     no_exif = 0
     moved = 0
+    removed = 0
 
     for path in photos:
         if path.name in trip_basenames:
             skipped += 1
-            if args.verbose:
+            if args.clean_up_assigned:
+                print(f"REMOVE  {path}")
+                to_remove += 1
+                if args.apply:
+                    path.unlink()
+                    removed += 1
+            elif args.verbose:
                 print(f"SKIP  {path}  (basename already in trips/)", file=sys.stderr)
             continue
 
@@ -442,8 +458,12 @@ def main() -> int:
         f"{suggested} suggested, {skipped} skipped (already in trips), "
         f"{unmatched} unmatched, {no_exif} no EXIF date"
     )
+    if args.clean_up_assigned:
+        summary += f", {to_remove} to remove"
     if args.apply:
         summary += f", {moved} moved"
+        if args.clean_up_assigned:
+            summary += f", {removed} removed"
     print(summary, file=sys.stderr)
     return 0
 
