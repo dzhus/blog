@@ -29,6 +29,8 @@ export type LanguageDefinition = {
   allPostsUrl: string;
   trips: string;
   tripsUrl: string;
+  allPhotos: string;
+  allPhotosUrl: string;
   switchLangLabel: string;
   switchLangUrl: string;
   tags: string;
@@ -46,6 +48,8 @@ export const languages: Record<SiteLang, LanguageDefinition> = {
     allPostsUrl: "/posts/index.html",
     trips: "Поездки",
     tripsUrl: "/trips/index.html",
+    allPhotos: "Все фото",
+    allPhotosUrl: "/photos/index.html",
     switchLangLabel: "English",
     switchLangUrl: "/en/index.html",
     tags: "Темы",
@@ -61,6 +65,8 @@ export const languages: Record<SiteLang, LanguageDefinition> = {
     allPostsUrl: "/en/posts/index.html",
     trips: "Trips",
     tripsUrl: "/en/trips/index.html",
+    allPhotos: "All photos",
+    allPhotosUrl: "/en/photos/index.html",
     switchLangLabel: "По-русски",
     switchLangUrl: "/index.html",
     tags: "Tags",

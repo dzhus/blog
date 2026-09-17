@@ -5,7 +5,7 @@ import {
   enCreator,
   enTitle,
 } from "../siteConstants.ts";
-import type { TripManifest, TripPhoto } from "./types.ts";
+import type { SitePhoto, TripManifest, TripPhoto } from "./types.ts";
 
 export type TripLang = "ru" | "en";
 
@@ -38,6 +38,8 @@ export type TripUi = {
   nextPhoto: string;
   photoPage: string;
   relevantPosts: string;
+  allPhotos: string;
+  allPhotosBack: string;
 };
 
 export const tripUi: Record<TripLang, TripUi> = {
@@ -65,6 +67,8 @@ export const tripUi: Record<TripLang, TripUi> = {
     nextPhoto: "Следующее фото",
     photoPage: "Страница фото",
     relevantPosts: "Упоминания:",
+    allPhotos: "Все фото",
+    allPhotosBack: "Все фото",
   },
   en: {
     lang: "en",
@@ -90,6 +94,8 @@ export const tripUi: Record<TripLang, TripUi> = {
     nextPhoto: "Next photo",
     photoPage: "Photo page",
     relevantPosts: "Mentions:",
+    allPhotos: "All photos",
+    allPhotosBack: "All photos",
   },
 };
 
@@ -99,6 +105,10 @@ export function isTripLang(value: unknown): value is TripLang {
 
 export function tripsBase(lang: TripLang): string {
   return `/${tripUi[lang].langPrefix}trips/`;
+}
+
+export function photosBase(lang: TripLang): string {
+  return `/${tripUi[lang].langPrefix}photos/`;
 }
 
 export function resolveTripTitle(
@@ -116,8 +126,28 @@ export function resolveTripTitle(
   return folderTitle;
 }
 
-function photoPageUrl(base: string, slug: string, basename: string): string {
-  return `${base}${slug}/photo/${basename}.html`;
+export function localizeSitePhoto(
+  photo: SitePhoto,
+  lang: TripLang,
+): SitePhoto {
+  if (photo.tripSlug) {
+    const base = tripsBase(lang);
+    return {
+      ...photo,
+      photoPageUrl: `${base}${photo.tripSlug}/photo/${photo.basename}.html`,
+    };
+  }
+  return {
+    ...photo,
+    photoPageUrl: `${photosBase(lang)}${photo.basename}.html`,
+  };
+}
+
+export function localizeAllPhotos(
+  photos: SitePhoto[],
+  lang: TripLang,
+): SitePhoto[] {
+  return photos.map((p) => localizeSitePhoto(p, lang));
 }
 
 function localizePhoto(
@@ -127,7 +157,8 @@ function localizePhoto(
 ): TripPhoto {
   return {
     ...photo,
-    photoPageUrl: photoPageUrl(base, slug, photo.basename),
+    tripSlug: photo.tripSlug ?? slug,
+    photoPageUrl: `${base}${slug}/photo/${photo.basename}.html`,
   };
 }
 

@@ -96,24 +96,9 @@
           >›</button>
         </div>
         <div class="trip-photos-stage">
-          <div class="trip-photo-grid">
-            {% for photo in trip.photos %}
-            <a
-              class="trip-photo-grid-item"
-              href="{{ photo.photoPageUrl }}"
-              data-photo-url="{{ photo.photoPageUrl }}"
-              data-display-url="{{ photo.displayUrl }}"
-              data-original-url="{{ photo.originalUrl }}"
-              data-filename="{{ photo.filename }}"
-              data-original-size="{{ photo.originalSize }}"
-              data-exif-line="{{ photo.exifLine }}"
-              data-photo-index="{{ loop.index0 }}"
-              title="{{ photo.exifTooltip }}"
-            >
-              <img src="{{ photo.gridThumbUrl }}" alt="" loading="lazy" />
-            </a>
-            {% endfor %}
-          </div>
+          {% set photos = trip.photos %}
+          {% set indexOffset = 0 %}
+          {% include "photos/grid.njk" %}
           <a class="trip-photo-hover-preview">
             <img alt="" />
           </a>
@@ -122,44 +107,11 @@
     </div>
   </div>
 
-  <dialog class="trip-photo-modal" id="trip-photo-modal" aria-label="Фото">
-    <div class="trip-modal-bar">
-      <button type="button" class="trip-modal-close" aria-label="{{ t.close }}" title="{{ t.close }}">✕</button>
-    </div>
-    <div class="trip-modal-single">
-      <button type="button" class="trip-modal-nav trip-modal-prev" aria-label="{{ t.prevPhoto }}" title="{{ t.prevPhoto }}">‹</button>
-      <figure class="trip-modal-single-figure">
-        <img class="trip-modal-single-img" alt="" />
-        <figcaption class="trip-modal-single-caption">
-          <div class="trip-modal-single-exif"></div>
-          <div class="trip-modal-single-meta">
-            <a id="trip-modal-page-link" href="" target="_self" aria-label="{{ t.photoPage }}">{{ t.photoPage }} 🔗</a>
-            ·
-            <a class="trip-modal-single-download"></a>
-            <span class="trip-modal-single-pos"></span>
-          </div>
-        </figcaption>
-      </figure>
-      <button type="button" class="trip-modal-nav trip-modal-next" aria-label="{{ t.nextPhoto }}" title="{{ t.nextPhoto }}">›</button>
-    </div>
-    <div class="trip-modal-feed">
-      {% for photo in trip.photos %}
-      <figure class="trip-modal-feed-item" data-photo-id="{{ photo.id }}" data-photo-index="{{ loop.index0 }}" data-photo-url="{{ photo.photoPageUrl }}">
-        <img class="trip-modal-feed-img" data-src="{{ photo.displayUrl }}" alt="" loading="lazy" />
-        <figcaption class="trip-modal-feed-caption">
-          {% if photo.exifLine %}
-          <div class="trip-modal-feed-exif">{{ photo.exifLine }}</div>
-          {% endif %}
-          <div class="trip-modal-feed-meta">
-            <a href="{{ photo.photoPageUrl }}">{{ t.photoPage }} 🔗</a>
-            ·
-            <a href="{{ photo.originalUrl }}" download="{{ photo.filename }}">{{ photo.filename }} ({{ photo.originalSize }})</a>
-          </div>
-        </figcaption>
-      </figure>
-      {% endfor %}
-    </div>
-  </dialog>
+  <div class="photo-gallery" data-photo-gallery>
+    {% set photos = trip.photos %}
+    {% set indexOffset = 0 %}
+    {% include "photos/modal.njk" %}
+  </div>
 </article>
 
 <script src="/vendor/leaflet/leaflet.js"></script>

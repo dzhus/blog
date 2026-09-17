@@ -1,0 +1,20 @@
+{# Expects: photos (array), optional indexOffset (number, default 0) #}
+{% set indexOffset = indexOffset or 0 %}
+<div class="trip-photo-grid">
+  {% for photo in photos %}
+  <a
+    class="trip-photo-grid-item"
+    href="{{ photo.photoPageUrl }}"
+    data-photo-url="{{ photo.photoPageUrl }}"
+    data-display-url="{{ photo.displayUrl }}"
+    data-original-url="{{ photo.originalUrl }}"
+    data-filename="{{ photo.filename }}"
+    data-original-size="{{ photo.originalSize }}"
+    data-exif-line="{{ photo.exifLine }}"
+    data-photo-index="{{ indexOffset + loop.index0 }}"
+    title="{{ photo.exifTooltip }}"
+  >
+    <img src="{{ photo.gridThumbUrl }}" alt="" loading="lazy" />
+  </a>
+  {% endfor %}
+</div>

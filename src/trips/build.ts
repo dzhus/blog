@@ -21,6 +21,7 @@ import { formatTripDateRange } from "./metadata.ts";
 import type { TripManifest, TripPhoto, TripsManifest } from "./types.ts";
 import type { BBox } from "./types.ts";
 import { vendorLeaflet } from "./vendor.ts";
+import { buildAllPhotos } from "./allPhotos.ts";
 
 export type BuildTripsOptions = {
   projectRoot: string;
@@ -103,7 +104,7 @@ export async function buildTrips(
     for (const meta of photoMetas) {
       const derivatives = await processPhotoImages(
         meta.src,
-        trip.slug,
+        `/trips/${trip.slug}`,
         meta.filename,
         cacheTripDir,
         siteTripDir,
@@ -126,6 +127,7 @@ export async function buildTrips(
         originalUrl: derivatives.originalRel,
         originalSize: formatFileSize(meta.sourceSize),
         photoPageUrl: `/trips/${trip.slug}/photo/${stem}.html`,
+        tripSlug: trip.slug,
       });
     }
 
@@ -320,6 +322,12 @@ export async function buildTrips(
   fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
   fs.mkdirSync(path.join(siteRoot, "trips"), { recursive: true });
 
+  await buildAllPhotos(trips, {
+    projectRoot,
+    siteRoot,
+    cacheRoot,
+  });
+
   return manifest;
 }
 
@@ -338,6 +346,9 @@ export function readTripsManifest(projectRoot: string): TripsManifest {
     for (const photo of trip.photos) {
       if (!photo.exifLine && photo.exifTooltip) {
         photo.exifLine = photo.exifTooltip.split("\n").filter(Boolean).join(" · ");
+      }
+      if (photo.tripSlug == null) {
+        photo.tripSlug = trip.slug;
       }
     }
   }

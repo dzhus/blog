@@ -1,0 +1,13 @@
+---
+pagination:
+  data: loosePhotoPagesEn
+  size: 1
+  alias: item
+permalink: "/en/photos/{{ item.photo.basename }}.html"
+layout: default.njk
+bodyClass: trip-photo
+lang: en
+eleventyComputed:
+  title: "{{ item.photo.displayCapturedAt }}"
+---
+{% include "photos/photo.njk" %}

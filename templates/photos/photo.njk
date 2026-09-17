@@ -1,0 +1,130 @@
+{% set t = tripUi[lang] %}
+{% set photo = item.photo %}
+<article class="trip-photo-page">
+  <p class="trip-back">
+    {% if item.trip %}
+    <a href="{{ item.trip.url }}">← {{ item.trip.title }}</a>
+    {% else %}
+    <a href="/{{ t.langPrefix }}photos/index.html">← {{ t.allPhotosBack }}</a>
+    {% endif %}
+  </p>
+
+  {% if item.trip %}
+  {% set relatedForTrip = tripPhotoBacklinks[lang][item.trip.slug] %}
+  {% set related = relatedForTrip[photo.basename] if relatedForTrip else null %}
+  {% if related and related.length %}
+  <section class="trip-relevant-posts">
+    <h2>{{ t.relevantPosts }}</h2>
+    <ul>
+      {% for post in related %}
+      <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+  {% endif %}
+
+  <figure class="trip-photo-figure">
+    <img
+      src="{{ photo.displayUrl }}"
+      alt=""
+    />
+    <figcaption>
+      {% if photo.exifLine %}
+      <div class="trip-photo-exif">{{ photo.exifLine }}</div>
+      {% endif %}
+      <div class="trip-photo-meta">
+        <a href="{{ photo.originalUrl }}" download="{{ photo.filename }}">{{ photo.filename }} ({{ photo.originalSize }})</a>
+        ·
+        {{ item.index + 1 }}/{{ item.total }}
+      </div>
+    </figcaption>
+  </figure>
+</article>
+
+<footer id="neighbour-links">
+  <nav class="trip-photo-nav">
+    {% if item.prev %}
+    <a class="page-link" rel="prev" href="{{ item.prev.photoPageUrl }}">←</a>
+    {% else %}
+    <span></span>
+    {% endif %}
+    {% if item.next %}
+    <a class="page-link" rel="next" href="{{ item.next.photoPageUrl }}">→</a>
+    {% endif %}
+  </nav>
+</footer>
+
+<script>
+(function () {
+  var nav = document.getElementById("neighbour-links");
+  if (!nav) return;
+  var prev = nav.querySelector('a[rel="prev"]');
+  var next = nav.querySelector('a[rel="next"]');
+  if (!prev && !next) return;
+
+  var THRESHOLD = 50;
+  var startX = 0;
+  var startY = 0;
+  var tracking = false;
+
+  function isInteractive(el) {
+    return !!(el && el.closest && el.closest("a, button"));
+  }
+
+  document.addEventListener(
+    "touchstart",
+    function (e) {
+      if (!e.changedTouches || e.changedTouches.length !== 1) return;
+      if (isInteractive(e.target)) return;
+      var t = e.changedTouches[0];
+      tracking = true;
+      startX = t.clientX;
+      startY = t.clientY;
+    },
+    { passive: true }
+  );
+
+  document.addEventListener(
+    "touchend",
+    function (e) {
+      if (!tracking || !e.changedTouches || !e.changedTouches.length) return;
+      tracking = false;
+      var t = e.changedTouches[0];
+      var dx = t.clientX - startX;
+      var dy = t.clientY - startY;
+      if (Math.abs(dx) < THRESHOLD) return;
+      if (Math.abs(dx) <= Math.abs(dy)) return;
+      if (dx < 0 && next) location.href = next.href;
+      else if (dx > 0 && prev) location.href = prev.href;
+    },
+    { passive: true }
+  );
+
+  document.addEventListener(
+    "touchcancel",
+    function () {
+      tracking = false;
+    },
+    { passive: true }
+  );
+
+  document.addEventListener("keydown", function (e) {
+    if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey) return;
+    var target = e.target;
+    var tagName = target && target.tagName;
+    if (tagName === "INPUT" || tagName === "TEXTAREA" || tagName === "SELECT" || (target && target.isContentEditable)) {
+      return;
+    }
+    if (e.key === "ArrowLeft" || e.keyCode === 37) {
+      if (prev && prev.href) {
+        location.href = prev.href;
+      }
+    } else if (e.key === "ArrowRight" || e.keyCode === 39) {
+      if (next && next.href) {
+        location.href = next.href;
+      }
+    }
+  });
+})();
+</script>

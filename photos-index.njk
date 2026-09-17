@@ -1,0 +1,14 @@
+---
+pagination:
+  data: allPhotos
+  size: 100
+  alias: unused
+permalink: "{% if pagination.pageNumber == 0 %}/photos/index.html{% else %}/photos/page/{{ pagination.pageNumber + 1 }}.html{% endif %}"
+layout: default.njk
+bodyClass: all-photos
+eleventyComputed:
+  title: "{{ tripUi[lang].allPhotos }}"
+  previousPageUrl: "{{ pagination.href.previous }}"
+  nextPageUrl: "{{ pagination.href.next }}"
+---
+{% include "photos/index.njk" %}

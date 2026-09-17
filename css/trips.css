@@ -2,7 +2,8 @@
 
 body.trip-page,
 body.trips-index,
-body.trip-photo {
+body.trip-photo,
+body.all-photos {
   width: auto;
   max-width: 72rem;
   padding: 0 1rem;
@@ -10,7 +11,8 @@ body.trip-photo {
 
 body.trip-page article.trip,
 body.trips-index article.trips-index,
-body.trip-photo article.trip-photo-page {
+body.trip-photo article.trip-photo-page,
+body.all-photos article.all-photos {
   padding: 1.25em;
 }
 

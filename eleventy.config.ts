@@ -19,8 +19,14 @@ import {
 } from "./src/siteConstants.ts";
 import { collectTags, renderTagCloud } from "./src/tags.ts";
 import { buildTrips, readTripsManifest } from "./src/trips/build.ts";
-import { localizeTrips, tripUi } from "./src/trips/i18n.ts";
-import type { TripManifest, TripPhoto } from "./src/trips/types.ts";
+import { readAllPhotosManifest } from "./src/trips/allPhotos.ts";
+import {
+  localizeAllPhotos,
+  localizeTrips,
+  photosBase,
+  tripUi,
+} from "./src/trips/i18n.ts";
+import type { SitePhoto, TripManifest, TripPhoto } from "./src/trips/types.ts";
 import { buildTripBacklinks } from "./src/tripBacklinks.ts";
 import { addTripAnchorIds } from "./src/tripAnchors.ts";
 
@@ -31,6 +37,15 @@ export type TripPhotoPage = {
   photo: TripPhoto;
   prev: TripPhoto | null;
   next: TripPhoto | null;
+  index: number;
+  total: number;
+};
+
+/** Permanent page for a loose (non-trip) photo. */
+export type LoosePhotoPage = {
+  photo: SitePhoto;
+  prev: SitePhoto | null;
+  next: SitePhoto | null;
   index: number;
   total: number;
 };
@@ -66,6 +81,7 @@ export default function (eleventyConfig: UserConfig) {
   eleventyConfig.ignores.add("stack.yaml.lock");
   eleventyConfig.ignores.add("site.hs");
   eleventyConfig.ignores.add("trips/**");
+  eleventyConfig.ignores.add("photos/**");
 
   eleventyConfig.addPassthroughCopy("images");
   eleventyConfig.addPassthroughCopy("css/default.css");
@@ -102,15 +118,23 @@ export default function (eleventyConfig: UserConfig) {
   });
 
   let cachedManifest: ReturnType<typeof readTripsManifest> | null = null;
+  let cachedAllPhotos: ReturnType<typeof readAllPhotosManifest> | null = null;
   function getTripsManifest() {
     if (!cachedManifest) {
       cachedManifest = readTripsManifest(__dirname);
     }
     return cachedManifest;
   }
+  function getAllPhotosManifest() {
+    if (!cachedAllPhotos) {
+      cachedAllPhotos = readAllPhotosManifest(__dirname);
+    }
+    return cachedAllPhotos;
+  }
 
   eleventyConfig.on("eleventy.before", async () => {
     cachedManifest = null;
+    cachedAllPhotos = null;
     await buildTrips({ projectRoot: __dirname });
   });
 
@@ -150,6 +174,27 @@ export default function (eleventyConfig: UserConfig) {
     return pages;
   }
 
+  function loosePhotoPages(photos: SitePhoto[]): LoosePhotoPage[] {
+    const loose = photos.filter((p) => !p.tripSlug);
+    const all = photos;
+    return loose.map((photo) => {
+      const globalIndex = all.findIndex(
+        (p) =>
+          p.basename === photo.basename &&
+          p.tripSlug === photo.tripSlug &&
+          p.photoPageUrl === photo.photoPageUrl,
+      );
+      const index = globalIndex >= 0 ? globalIndex : 0;
+      return {
+        photo,
+        prev: index > 0 ? all[index - 1]! : null,
+        next: index < all.length - 1 ? all[index + 1]! : null,
+        index,
+        total: all.length,
+      };
+    });
+  }
+
   eleventyConfig.addGlobalData("trips", () => {
     return localizeTrips(getTripsManifest().trips, "ru");
   });
@@ -165,6 +210,25 @@ export default function (eleventyConfig: UserConfig) {
   eleventyConfig.addGlobalData("tripPhotosEn", (): TripPhotoPage[] => {
     return tripPhotoPages(localizeTrips(getTripsManifest().trips, "en"));
   });
+
+  eleventyConfig.addGlobalData("allPhotos", (): SitePhoto[] => {
+    return localizeAllPhotos(getAllPhotosManifest().photos, "ru");
+  });
+
+  eleventyConfig.addGlobalData("allPhotosEn", (): SitePhoto[] => {
+    return localizeAllPhotos(getAllPhotosManifest().photos, "en");
+  });
+
+  eleventyConfig.addGlobalData("loosePhotoPages", (): LoosePhotoPage[] => {
+    return loosePhotoPages(localizeAllPhotos(getAllPhotosManifest().photos, "ru"));
+  });
+
+  eleventyConfig.addGlobalData("loosePhotoPagesEn", (): LoosePhotoPage[] => {
+    return loosePhotoPages(localizeAllPhotos(getAllPhotosManifest().photos, "en"));
+  });
+
+  eleventyConfig.addGlobalData("photosBase", () => photosBase("ru"));
+  eleventyConfig.addGlobalData("photosBaseEn", () => photosBase("en"));
 
   eleventyConfig.addCollection("postsAll", (api) =>
     api.getFilteredByGlob("posts/*.md").sort(sortNewestFirst),

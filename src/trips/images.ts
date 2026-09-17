@@ -79,19 +79,21 @@ function copyIfNeeded(from: string, to: string): void {
 
 export async function processPhotoImages(
   srcPath: string,
-  slug: string,
+  /** Site URL prefix without trailing slash, e.g. `/trips/2022-Cornwall` or `/photos`. */
+  urlBase: string,
   filename: string,
-  cacheTripDir: string,
-  siteTripDir: string,
+  cacheDir: string,
+  siteDir: string,
 ): Promise<ImageDerivatives> {
   const { key: src } = sourceKey(srcPath);
   const base = path.basename(filename);
   const stem = path.basename(base, path.extname(base));
   const outName = `${stem}.jpg`;
+  const baseUrl = urlBase.replace(/\/$/, "");
 
   const specs = DERIVATIVES.map((d) => {
-    const cacheFile = path.join(cacheTripDir, d.sub, outName);
-    const metaFile = path.join(cacheTripDir, d.sub, `${outName}.key`);
+    const cacheFile = path.join(cacheDir, d.sub, outName);
+    const metaFile = path.join(cacheDir, d.sub, `${outName}.key`);
     const key = `${src}_${d.keySuffix}`;
     const needsBuild =
       !(
@@ -99,7 +101,7 @@ export async function processPhotoImages(
         fs.existsSync(metaFile) &&
         fs.readFileSync(metaFile, "utf8") === key
       );
-    const siteFile = path.join(siteTripDir, d.siteSub, outName);
+    const siteFile = path.join(siteDir, d.siteSub, outName);
     return { ...d, cacheFile, metaFile, key, needsBuild, siteFile };
   });
 
@@ -120,13 +122,13 @@ export async function processPhotoImages(
     copyIfNeeded(s.cacheFile, s.siteFile);
   }
 
-  const siteOriginal = path.join(siteTripDir, "originals", base);
+  const siteOriginal = path.join(siteDir, "originals", base);
   copyIfNeeded(srcPath, siteOriginal);
 
   return {
-    gridThumbRel: `/trips/${slug}/thumbs/grid/${outName}`,
-    mapThumbRel: `/trips/${slug}/thumbs/map/${outName}`,
-    displayRel: `/trips/${slug}/display/${outName}`,
-    originalRel: `/trips/${slug}/originals/${base}`,
+    gridThumbRel: `${baseUrl}/thumbs/grid/${outName}`,
+    mapThumbRel: `${baseUrl}/thumbs/map/${outName}`,
+    displayRel: `${baseUrl}/display/${outName}`,
+    originalRel: `${baseUrl}/originals/${base}`,
   };
 }

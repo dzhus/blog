@@ -1,0 +1,37 @@
+{% set t = tripUi[lang] %}
+<article class="all-photos">
+  <h1>{{ t.allPhotos }}</h1>
+
+  <div
+    class="photo-gallery"
+    data-photo-gallery
+    data-photos-catalog="/{{ t.langPrefix }}photos/catalog.json"
+  >
+    {% set photos = pagination.items %}
+    {% set indexOffset = pagination.pageNumber * pagination.size %}
+    {% include "photos/grid.njk" %}
+    {% include "photos/modal.njk" %}
+  </div>
+</article>
+
+{% if pagination.pages.length > 1 %}
+<footer id="neighbour-links">
+  <nav>
+    {% if pagination.href.previous %}
+    <span style="float: left;">
+      <a class="page-link" rel="prev" href="{{ pagination.href.previous }}">←</a>
+    </span>
+    {% endif %}
+
+    <div style="display: inline-block; text-align: center;">{{ pagination.pageNumber + 1 }}/{{ pagination.pages.length }}</div>
+
+    {% if pagination.href.next %}
+    <span style="float: right;">
+      <a class="page-link" rel="next" href="{{ pagination.href.next }}">→</a>
+    </span>
+    {% endif %}
+  </nav>
+</footer>
+{% endif %}
+
+<script src="/js/trip.js"></script>

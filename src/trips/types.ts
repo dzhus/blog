@@ -28,6 +28,16 @@ export type TripPhoto = {
   /** Human-readable size of the original file, e.g. "4.2 MB". */
   originalSize: string;
   photoPageUrl: string;
+  /** Trip folder slug, or null for photos outside trips. */
+  tripSlug: string | null;
+};
+
+/** Alias for photos in the unified all-photos catalog. */
+export type SitePhoto = TripPhoto;
+
+export type AllPhotosManifest = {
+  generatedAt: string;
+  photos: SitePhoto[];
 };
 
 export type TripTrack = {
