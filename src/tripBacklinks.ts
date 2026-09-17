@@ -23,14 +23,25 @@ export type TripPhotoBacklinksIndex = Record<
   Record<string, Record<string, TripBacklinkPost[]>>
 >;
 
+/** lang → loose photo basename → posts (newest first). */
+export type LoosePhotoBacklinksIndex = Record<
+  TripLang,
+  Record<string, TripBacklinkPost[]>
+>;
+
 export type TripBacklinksResult = {
   byTrip: TripBacklinksIndex;
   byPhoto: TripPhotoBacklinksIndex;
+  byLoosePhoto: LoosePhotoBacklinksIndex;
 };
 
 /** Capture trip slug and optional photo stem from href-like URLs. */
 const TRIP_HREF_RE =
   /(?:^|["'(\s])\/?(?:en\/)?trips\/([^/?#"'\s>]+)(?:\/photo\/([^/"'\s>]+)\.html|\/index\.html|\/)?/g;
+
+/** Capture loose photo stems from `/photos/{stem}.html`. */
+const LOOSE_PHOTO_HREF_RE =
+  /(?:^|["'(\s])\/?(?:en\/)?photos\/([^/"'#?\s>]+)\.html/g;
 
 type PostRef = {
   title: string;
@@ -46,6 +57,10 @@ function emptyTripIndex(): TripBacklinksIndex {
 }
 
 function emptyPhotoIndex(): TripPhotoBacklinksIndex {
+  return { ru: {}, en: {} };
+}
+
+function emptyLoosePhotoIndex(): LoosePhotoBacklinksIndex {
   return { ru: {}, en: {} };
 }
 
@@ -104,10 +119,24 @@ export function tripPhotoStemsFromBody(
   return bySlug;
 }
 
+/** Loose photo stems from `/photos/{stem}.html` (excludes index). */
+export function loosePhotoStemsFromBody(body: string): string[] {
+  const stems = new Set<string>();
+  LOOSE_PHOTO_HREF_RE.lastIndex = 0;
+  let match: RegExpExecArray | null;
+  while ((match = LOOSE_PHOTO_HREF_RE.exec(body)) !== null) {
+    const stem = match[1];
+    if (!stem || stem === "index") continue;
+    stems.add(stem);
+  }
+  return [...stems];
+}
+
 export function buildTripBacklinks(postsDir: string): TripBacklinksResult {
   const byTrip = emptyTripIndex();
   const byPhoto = emptyPhotoIndex();
-  if (!fs.existsSync(postsDir)) return { byTrip, byPhoto };
+  const byLoosePhoto = emptyLoosePhotoIndex();
+  if (!fs.existsSync(postsDir)) return { byTrip, byPhoto, byLoosePhoto };
 
   const files = fs
     .readdirSync(postsDir)
@@ -116,6 +145,7 @@ export function buildTripBacklinks(postsDir: string): TripBacklinksResult {
 
   const tripMaps = new Map<string, Map<string, PostRef>>();
   const photoMaps = new Map<string, Map<string, PostRef>>();
+  const looseMaps = new Map<string, Map<string, PostRef>>();
 
   for (const file of files) {
     const filePath = path.join(postsDir, file);
@@ -154,6 +184,16 @@ export function buildTripBacklinks(postsDir: string): TripBacklinksResult {
         map.set(basename, post);
       }
     }
+
+    for (const stem of loosePhotoStemsFromBody(parsed.content)) {
+      const key = `${lang}\0${stem}`;
+      let map = looseMaps.get(key);
+      if (!map) {
+        map = new Map();
+        looseMaps.set(key, map);
+      }
+      map.set(basename, post);
+    }
   }
 
   for (const [key, postsMap] of tripMaps) {
@@ -167,5 +207,10 @@ export function buildTripBacklinks(postsDir: string): TripBacklinksResult {
     byPhoto[lang][slug]![stem] = sortPosts(postsMap, photoAnchorId(stem));
   }
 
-  return { byTrip, byPhoto };
+  for (const [key, postsMap] of looseMaps) {
+    const [lang, stem] = key.split("\0") as [TripLang, string];
+    byLoosePhoto[lang][stem] = sortPosts(postsMap, photoAnchorId(stem));
+  }
+
+  return { byTrip, byPhoto, byLoosePhoto };
 }

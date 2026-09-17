@@ -155,6 +155,10 @@ export default function (eleventyConfig: UserConfig) {
     "tripPhotoBacklinks",
     () => getTripBacklinks().byPhoto,
   );
+  eleventyConfig.addGlobalData(
+    "loosePhotoBacklinks",
+    () => getTripBacklinks().byLoosePhoto,
+  );
 
   function tripPhotoPages(trips: TripManifest[]): TripPhotoPage[] {
     const pages: TripPhotoPage[] = [];

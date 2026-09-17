@@ -12,6 +12,9 @@
   {% if item.trip %}
   {% set relatedForTrip = tripPhotoBacklinks[lang][item.trip.slug] %}
   {% set related = relatedForTrip[photo.basename] if relatedForTrip else null %}
+  {% else %}
+  {% set related = loosePhotoBacklinks[lang][photo.basename] %}
+  {% endif %}
   {% if related and related.length %}
   <section class="trip-relevant-posts">
     <h2>{{ t.relevantPosts }}</h2>
@@ -21,7 +24,6 @@
       {% endfor %}
     </ul>
   </section>
-  {% endif %}
   {% endif %}
 
   <figure class="trip-photo-figure">

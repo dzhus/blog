@@ -14,15 +14,24 @@ const TRIP_HREF_RE =
   /^\/?(?:en\/)?trips\/([^/?#]+)(?:\/(?:index\.html)?\/?)?$/i;
 const DISPLAY_SRC_RE =
   /^\/?(?:en\/)?trips\/([^/?#]+)\/display\/([^/?#]+)\.(?:jpe?g|png|webp|gif)$/i;
+const LOOSE_PHOTO_HREF_RE =
+  /^\/?(?:en\/)?photos\/([^/?#]+)\.html\/?$/i;
+const LOOSE_DISPLAY_SRC_RE =
+  /^\/?(?:en\/)?photos\/display\/([^/?#]+)\.(?:jpe?g|png|webp|gif)$/i;
 
 type TripHrefTarget =
   | { kind: "photo"; slug: string; stem: string }
-  | { kind: "trip"; slug: string };
+  | { kind: "trip"; slug: string }
+  | { kind: "loose"; stem: string };
 
 function parseTripHref(href: string): TripHrefTarget | null {
   const photo = href.match(PHOTO_HREF_RE);
   if (photo?.[1] && photo[2]) {
     return { kind: "photo", slug: photo[1], stem: photo[2] };
+  }
+  const loose = href.match(LOOSE_PHOTO_HREF_RE);
+  if (loose?.[1] && loose[1] !== "index") {
+    return { kind: "loose", stem: loose[1] };
   }
   const trip = href.match(TRIP_HREF_RE);
   if (trip?.[1] && trip[1] !== "index.html") {
@@ -31,10 +40,12 @@ function parseTripHref(href: string): TripHrefTarget | null {
   return null;
 }
 
-function parseDisplaySrc(src: string): { slug: string; stem: string } | null {
-  const m = src.match(DISPLAY_SRC_RE);
-  if (!m?.[1] || !m[2]) return null;
-  return { slug: m[1], stem: m[2] };
+function parseDisplaySrc(src: string): { stem: string } | null {
+  const trip = src.match(DISPLAY_SRC_RE);
+  if (trip?.[2]) return { stem: trip[2] };
+  const loose = src.match(LOOSE_DISPLAY_SRC_RE);
+  if (loose?.[1]) return { stem: loose[1] };
+  return null;
 }
 
 function getAttr(attrs: string, name: string): string | null {
@@ -73,8 +84,11 @@ export function addTripAnchorIds(html: string): string {
       const href = getAttr(attrs, "href");
       if (href) {
         const target = parseTripHref(href);
-        if (target?.kind === "photo") id = photoAnchorId(target.stem);
-        else if (target?.kind === "trip") id = tripAnchorId(target.slug);
+        if (target?.kind === "photo" || target?.kind === "loose") {
+          id = photoAnchorId(target.stem);
+        } else if (target?.kind === "trip") {
+          id = tripAnchorId(target.slug);
+        }
       }
     } else {
       const src = getAttr(attrs, "src");

@@ -32,6 +32,40 @@
     {% endif %}
   </nav>
 </footer>
+<script>
+(function () {
+  var nav = document.getElementById("neighbour-links");
+  if (!nav) return;
+  var prev = nav.querySelector('a[rel="prev"]');
+  var next = nav.querySelector('a[rel="next"]');
+  if (!prev && !next) return;
+
+  function modalOpen() {
+    var modal = document.getElementById("trip-photo-modal");
+    return !!(modal && (modal.open || modal.hasAttribute("open")));
+  }
+
+  document.addEventListener("keydown", function (e) {
+    if (modalOpen()) return;
+    if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey) return;
+    var target = e.target;
+    var tagName = target && target.tagName;
+    if (
+      tagName === "INPUT" ||
+      tagName === "TEXTAREA" ||
+      tagName === "SELECT" ||
+      (target && target.isContentEditable)
+    ) {
+      return;
+    }
+    if (e.key === "ArrowLeft" || e.keyCode === 37) {
+      if (prev && prev.href) location.href = prev.href;
+    } else if (e.key === "ArrowRight" || e.keyCode === 39) {
+      if (next && next.href) location.href = next.href;
+    }
+  });
+})();
+</script>
 {% endif %}
 
 <script src="/js/trip.js"></script>
