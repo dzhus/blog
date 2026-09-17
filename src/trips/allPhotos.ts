@@ -13,6 +13,15 @@ const IMAGE_EXT = new Set([".jpg", ".jpeg", ".png", ".webp"]);
 /** Photos per all-photos listing page. */
 export const ALL_PHOTOS_PAGE_SIZE = 100;
 
+/** Log every N loose photos while building. */
+const LOOSE_PHOTO_PROGRESS_EVERY = 100;
+
+function logLoosePhotoProgress(done: number, total: number): void {
+  if (done === total || done % LOOSE_PHOTO_PROGRESS_EVERY === 0) {
+    console.log(`[photos] ${done}/${total}…`);
+  }
+}
+
 /** Entry URL for the all-photos section (newest page). */
 export function allPhotosHomeUrl(
   lang: "ru" | "en",
@@ -46,7 +55,8 @@ async function buildLoosePhotos(
   const files = discoverLoosePhotoFiles(photosRoot);
   if (files.length === 0) return [];
 
-  console.log(`[photos] building ${files.length} loose photo(s)…`);
+  const total = files.length;
+  console.log(`[photos] building ${total} loose photo(s)…`);
   const sitePhotosDir = path.join(siteRoot, "photos");
   const cachePhotosDir = path.join(cacheRoot, "photos", "loose");
   fs.mkdirSync(sitePhotosDir, { recursive: true });
@@ -80,7 +90,8 @@ async function buildLoosePhotos(
   metas.sort((a, b) => +a.capturedAt - +b.capturedAt);
 
   const photos: SitePhoto[] = [];
-  for (const meta of metas) {
+  for (let i = 0; i < metas.length; i++) {
+    const meta = metas[i]!;
     const derivatives = await processPhotoImages(
       meta.src,
       "/photos",
@@ -107,6 +118,7 @@ async function buildLoosePhotos(
       photoPageUrl: `/photos/${stem}.html`,
       tripSlug: null,
     });
+    logLoosePhotoProgress(i + 1, total);
   }
   return photos;
 }
