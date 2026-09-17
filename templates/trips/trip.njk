@@ -10,6 +10,18 @@
   </p>
   {% endif %}
 
+  {% set related = tripBacklinks[lang][trip.slug] %}
+  {% if related and related.length %}
+  <section class="trip-relevant-posts">
+    <h2>{{ t.relevantPosts }}</h2>
+    <ul>
+      {% for post in related %}
+      <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+
   <div class="trip-layout">
     <div class="trip-map-column">
       <div class="trip-map-wrap">
@@ -109,18 +121,6 @@
       </div>
     </div>
   </div>
-
-  {% set related = tripBacklinks[lang][trip.slug] %}
-  {% if related and related.length %}
-  <section class="trip-relevant-posts">
-    <h2>{{ t.relevantPosts }}</h2>
-    <ul>
-      {% for post in related %}
-      <li><a href="{{ post.url }}">{{ post.title }}</a></li>
-      {% endfor %}
-    </ul>
-  </section>
-  {% endif %}
 
   <dialog class="trip-photo-modal" id="trip-photo-modal" aria-label="Фото">
     <div class="trip-modal-bar">
