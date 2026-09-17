@@ -40,6 +40,19 @@ function formatAperture(fNumber: unknown): string | null {
   return `f/${text}`;
 }
 
+function formatFocalLength(focalLength: unknown): string | null {
+  if (
+    typeof focalLength !== "number" ||
+    !Number.isFinite(focalLength) ||
+    !(focalLength > 0)
+  ) {
+    return null;
+  }
+  const rounded = Math.round(focalLength * 10) / 10;
+  const text = Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(1);
+  return `${text}mm`;
+}
+
 function formatShutter(exposureTime: unknown): string | null {
   if (
     typeof exposureTime !== "number" ||
@@ -84,11 +97,12 @@ function formatDevice(model: unknown): string | null {
 }
 
 /** Bump when tooltip/format fields change so cached EXIF payloads regenerate. */
-const EXIF_CACHE_VERSION = "exif-v2";
+const EXIF_CACHE_VERSION = "exif-v3";
 
 export function formatExifTooltip(parts: {
   displayCapturedAt: string;
   device: string | null;
+  focalLength: string | null;
   aperture: string | null;
   shutter: string | null;
   iso: string | null;
@@ -96,7 +110,13 @@ export function formatExifTooltip(parts: {
   lon: number;
 }): string {
   const lines = [parts.displayCapturedAt];
-  const exposure = [parts.device, parts.aperture, parts.shutter, parts.iso]
+  const exposure = [
+    parts.device,
+    parts.focalLength,
+    parts.aperture,
+    parts.shutter,
+    parts.iso,
+  ]
     .filter(Boolean)
     .join(" · ");
   if (exposure) lines.push(exposure);
@@ -146,6 +166,7 @@ async function parsePhotoExif(filePath: string): Promise<Omit<PhotoExif, "source
       pick: [
         "DateTimeOriginal",
         "Model",
+        "FocalLength",
         "FNumber",
         "ExposureTime",
         "ISO",
@@ -196,6 +217,7 @@ async function parsePhotoExif(filePath: string): Promise<Omit<PhotoExif, "source
 
   const displayCapturedAt = formatExifLocal(dt);
   const device = formatDevice(data?.Model);
+  const focalLength = formatFocalLength(data?.FocalLength);
   const aperture = formatAperture(data?.FNumber);
   const shutter = formatShutter(data?.ExposureTime);
   const iso = formatIso(
@@ -210,6 +232,7 @@ async function parsePhotoExif(filePath: string): Promise<Omit<PhotoExif, "source
     tooltip: formatExifTooltip({
       displayCapturedAt,
       device,
+      focalLength,
       aperture,
       shutter,
       iso,
