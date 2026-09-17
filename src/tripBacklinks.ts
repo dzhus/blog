@@ -16,8 +16,20 @@ export type TripBacklinksIndex = Record<
   Record<string, TripBacklinkPost[]>
 >;
 
+/** lang → trip slug → photo basename → posts (newest first). */
+export type TripPhotoBacklinksIndex = Record<
+  TripLang,
+  Record<string, Record<string, TripBacklinkPost[]>>
+>;
+
+export type TripBacklinksResult = {
+  byTrip: TripBacklinksIndex;
+  byPhoto: TripPhotoBacklinksIndex;
+};
+
+/** Capture trip slug and optional photo stem from href-like URLs. */
 const TRIP_HREF_RE =
-  /(?:^|["'(\s])(\/?(?:en\/)?trips\/([^/?#"'\s>]+)(?:\/(?:index\.html)?)?(?:\/photo\/[^/"'\s>]+\.html)?)/g;
+  /(?:^|["'(\s])\/?(?:en\/)?trips\/([^/?#"'\s>]+)(?:\/photo\/([^/"'\s>]+)\.html|\/index\.html|\/)?/g;
 
 type PostRef = {
   title: string;
@@ -27,7 +39,11 @@ type PostRef = {
   basename: string;
 };
 
-function emptyIndex(): TripBacklinksIndex {
+function emptyTripIndex(): TripBacklinksIndex {
+  return { ru: {}, en: {} };
+}
+
+function emptyPhotoIndex(): TripPhotoBacklinksIndex {
   return { ru: {}, en: {} };
 }
 
@@ -41,30 +57,60 @@ function postPermalink(basename: string, lang: TripLang): string {
     : `/posts/${basename}.html`;
 }
 
-/** Collect unique trip slugs referenced by hrefs in markdown/HTML body. */
+function sortPosts(postsMap: Map<string, PostRef>): TripBacklinkPost[] {
+  return [...postsMap.values()]
+    .sort((a, b) => {
+      if (b.sortMs !== a.sortMs) return b.sortMs - a.sortMs;
+      return b.basename.localeCompare(a.basename);
+    })
+    .map(({ title, url }) => ({ title, url }));
+}
+
+/** Trip slugs referenced by any trip/photo href in the body. */
 export function tripSlugsFromBody(body: string): string[] {
   const slugs = new Set<string>();
   TRIP_HREF_RE.lastIndex = 0;
   let match: RegExpExecArray | null;
   while ((match = TRIP_HREF_RE.exec(body)) !== null) {
-    const slug = match[2];
-    if (slug && slug !== "index.html") {
-      slugs.add(slug);
-    }
+    const slug = match[1];
+    if (slug && slug !== "index.html") slugs.add(slug);
   }
   return [...slugs];
 }
 
-export function buildTripBacklinks(postsDir: string): TripBacklinksIndex {
-  const index = emptyIndex();
-  if (!fs.existsSync(postsDir)) return index;
+/** Photo stems linked for a given trip slug (`slug` → stem[]). */
+export function tripPhotoStemsFromBody(
+  body: string,
+): Map<string, Set<string>> {
+  const bySlug = new Map<string, Set<string>>();
+  TRIP_HREF_RE.lastIndex = 0;
+  let match: RegExpExecArray | null;
+  while ((match = TRIP_HREF_RE.exec(body)) !== null) {
+    const slug = match[1];
+    const stem = match[2];
+    if (!slug || slug === "index.html" || !stem) continue;
+    let set = bySlug.get(slug);
+    if (!set) {
+      set = new Set();
+      bySlug.set(slug, set);
+    }
+    set.add(stem);
+  }
+  return bySlug;
+}
+
+export function buildTripBacklinks(postsDir: string): TripBacklinksResult {
+  const byTrip = emptyTripIndex();
+  const byPhoto = emptyPhotoIndex();
+  if (!fs.existsSync(postsDir)) return { byTrip, byPhoto };
 
   const files = fs
     .readdirSync(postsDir)
     .filter((name) => name.endsWith(".md"))
     .sort();
 
-  const byLangSlug = new Map<string, Map<string, PostRef>>();
+  const tripMaps = new Map<string, Map<string, PostRef>>();
+  const photoMaps = new Map<string, Map<string, PostRef>>();
 
   for (const file of files) {
     const filePath = path.join(postsDir, file);
@@ -79,31 +125,42 @@ export function buildTripBacklinks(postsDir: string): TripBacklinksIndex {
     const url = postPermalink(basename, lang);
     const date = dateFromFilename(basename) ?? new Date(0);
     const sortMs = date.getTime();
-
-    const slugs = tripSlugsFromBody(parsed.content);
-    if (slugs.length === 0) continue;
-
     const post: PostRef = { title, url, lang, sortMs, basename };
-    for (const slug of slugs) {
+
+    const tripSlugs = tripSlugsFromBody(parsed.content);
+    for (const slug of tripSlugs) {
       const key = `${lang}\0${slug}`;
-      let map = byLangSlug.get(key);
+      let map = tripMaps.get(key);
       if (!map) {
         map = new Map();
-        byLangSlug.set(key, map);
+        tripMaps.set(key, map);
       }
       map.set(basename, post);
     }
+
+    for (const [slug, stems] of tripPhotoStemsFromBody(parsed.content)) {
+      for (const stem of stems) {
+        const key = `${lang}\0${slug}\0${stem}`;
+        let map = photoMaps.get(key);
+        if (!map) {
+          map = new Map();
+          photoMaps.set(key, map);
+        }
+        map.set(basename, post);
+      }
+    }
   }
 
-  for (const [key, postsMap] of byLangSlug) {
+  for (const [key, postsMap] of tripMaps) {
     const [lang, slug] = key.split("\0") as [TripLang, string];
-    const posts = [...postsMap.values()].sort((a, b) => {
-      if (b.sortMs !== a.sortMs) return b.sortMs - a.sortMs;
-      return b.basename.localeCompare(a.basename);
-    });
-    if (!index[lang][slug]) index[lang][slug] = [];
-    index[lang][slug] = posts.map(({ title, url }) => ({ title, url }));
+    byTrip[lang][slug] = sortPosts(postsMap);
   }
 
-  return index;
+  for (const [key, postsMap] of photoMaps) {
+    const [lang, slug, stem] = key.split("\0") as [TripLang, string, string];
+    if (!byPhoto[lang][slug]) byPhoto[lang][slug] = {};
+    byPhoto[lang][slug]![stem] = sortPosts(postsMap);
+  }
+
+  return { byTrip, byPhoto };
 }

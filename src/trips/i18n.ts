@@ -64,7 +64,7 @@ export const tripUi: Record<TripLang, TripUi> = {
     prevPhoto: "Предыдущее фото",
     nextPhoto: "Следующее фото",
     photoPage: "Страница фото",
-    relevantPosts: "Записи в тему:",
+    relevantPosts: "Упоминания:",
   },
   en: {
     lang: "en",
@@ -89,7 +89,7 @@ export const tripUi: Record<TripLang, TripUi> = {
     prevPhoto: "Previous photo",
     nextPhoto: "Next photo",
     photoPage: "Photo page",
-    relevantPosts: "Relevant posts:",
+    relevantPosts: "Mentions:",
   },
 };
 

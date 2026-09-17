@@ -114,8 +114,21 @@ export default function (eleventyConfig: UserConfig) {
   });
 
   eleventyConfig.addGlobalData("tripUi", tripUi);
-  eleventyConfig.addGlobalData("tripBacklinks", () =>
-    buildTripBacklinks(path.join(__dirname, "posts")),
+
+  let cachedBacklinks: ReturnType<typeof buildTripBacklinks> | null = null;
+  function getTripBacklinks() {
+    if (!cachedBacklinks) {
+      cachedBacklinks = buildTripBacklinks(path.join(__dirname, "posts"));
+    }
+    return cachedBacklinks;
+  }
+  eleventyConfig.on("eleventy.before", () => {
+    cachedBacklinks = null;
+  });
+  eleventyConfig.addGlobalData("tripBacklinks", () => getTripBacklinks().byTrip);
+  eleventyConfig.addGlobalData(
+    "tripPhotoBacklinks",
+    () => getTripBacklinks().byPhoto,
   );
 
   function tripPhotoPages(trips: TripManifest[]): TripPhotoPage[] {

@@ -1,7 +1,21 @@
 <article class="trip-photo-page">
+  {% set t = tripUi[lang] %}
   <p class="trip-back">
     <a href="{{ item.trip.url }}">← {{ item.trip.title }}</a>
   </p>
+
+  {% set relatedForTrip = tripPhotoBacklinks[lang][item.trip.slug] %}
+  {% set related = relatedForTrip[item.photo.basename] if relatedForTrip else null %}
+  {% if related and related.length %}
+  <section class="trip-relevant-posts">
+    <h2>{{ t.relevantPosts }}</h2>
+    <ul>
+      {% for post in related %}
+      <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
 
   <figure class="trip-photo-figure">
     <img
