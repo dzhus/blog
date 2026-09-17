@@ -17,6 +17,13 @@ declare module "@11ty/eleventy" {
       callback: (data: any, content: string) => string | undefined,
     ): void;
     setLibrary(name: string, library: unknown): void;
+    addTransform(
+      name: string,
+      callback: (
+        content: string,
+        outputPath: string | false,
+      ) => string | Promise<string>,
+    ): void;
     on(event: string, callback: () => void | Promise<void>): void;
   }
 

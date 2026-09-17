@@ -4,6 +4,7 @@ import matter from "gray-matter";
 import { dateFromFilename } from "./gitDates.ts";
 import type { TripLang } from "./trips/i18n.ts";
 import { extractLeadingH1, resolveTitle } from "./title.ts";
+import { photoAnchorId, tripAnchorId } from "./tripAnchors.ts";
 
 export type TripBacklinkPost = {
   title: string;
@@ -33,6 +34,7 @@ const TRIP_HREF_RE =
 
 type PostRef = {
   title: string;
+  /** Permalink without fragment. */
   url: string;
   lang: TripLang;
   sortMs: number;
@@ -57,13 +59,16 @@ function postPermalink(basename: string, lang: TripLang): string {
     : `/posts/${basename}.html`;
 }
 
-function sortPosts(postsMap: Map<string, PostRef>): TripBacklinkPost[] {
+function sortPosts(
+  postsMap: Map<string, PostRef>,
+  hash: string,
+): TripBacklinkPost[] {
   return [...postsMap.values()]
     .sort((a, b) => {
       if (b.sortMs !== a.sortMs) return b.sortMs - a.sortMs;
       return b.basename.localeCompare(a.basename);
     })
-    .map(({ title, url }) => ({ title, url }));
+    .map(({ title, url }) => ({ title, url: `${url}#${hash}` }));
 }
 
 /** Trip slugs referenced by any trip/photo href in the body. */
@@ -106,7 +111,7 @@ export function buildTripBacklinks(postsDir: string): TripBacklinksResult {
 
   const files = fs
     .readdirSync(postsDir)
-    .filter((name) => name.endsWith(".md"))
+    .filter((name) => name.endsWith(".md") && !name.startsWith("."))
     .sort();
 
   const tripMaps = new Map<string, Map<string, PostRef>>();
@@ -153,13 +158,13 @@ export function buildTripBacklinks(postsDir: string): TripBacklinksResult {
 
   for (const [key, postsMap] of tripMaps) {
     const [lang, slug] = key.split("\0") as [TripLang, string];
-    byTrip[lang][slug] = sortPosts(postsMap);
+    byTrip[lang][slug] = sortPosts(postsMap, tripAnchorId(slug));
   }
 
   for (const [key, postsMap] of photoMaps) {
     const [lang, slug, stem] = key.split("\0") as [TripLang, string, string];
     if (!byPhoto[lang][slug]) byPhoto[lang][slug] = {};
-    byPhoto[lang][slug]![stem] = sortPosts(postsMap);
+    byPhoto[lang][slug]![stem] = sortPosts(postsMap, photoAnchorId(stem));
   }
 
   return { byTrip, byPhoto };

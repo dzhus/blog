@@ -22,6 +22,7 @@ import { buildTrips, readTripsManifest } from "./src/trips/build.ts";
 import { localizeTrips, tripUi } from "./src/trips/i18n.ts";
 import type { TripManifest, TripPhoto } from "./src/trips/types.ts";
 import { buildTripBacklinks } from "./src/tripBacklinks.ts";
+import { addTripAnchorIds } from "./src/tripAnchors.ts";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -205,6 +206,17 @@ export default function (eleventyConfig: UserConfig) {
   });
 
   eleventyConfig.setLibrary("md", md);
+
+  // Site post pages only — keep Atom/contentHtml free of scroll anchors.
+  eleventyConfig.addTransform(
+    "trip-anchor-ids",
+    (content: string, outputPath: string | false) => {
+      if (!outputPath || typeof outputPath !== "string") return content;
+      const normalized = outputPath.replace(/\\/g, "/");
+      if (!/\/(?:en\/)?posts\/[^/]+\.html$/.test(normalized)) return content;
+      return addTripAnchorIds(content);
+    },
+  );
 
   eleventyConfig.addPreprocessor(
     "strip-post-h1",

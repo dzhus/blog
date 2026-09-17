@@ -68,6 +68,10 @@ article {
     hyphens: auto;
 }
 
+.post-body :target {
+    scroll-margin-top: 1.25rem;
+}
+
 pre {
     overflow-x: auto;
 }
