@@ -5,7 +5,7 @@
     {% if item.trip %}
     <a href="{{ item.trip.url }}">← {{ item.trip.title }}</a>
     {% else %}
-    <a href="/{{ t.langPrefix }}photos/index.html">← {{ t.allPhotosBack }}</a>
+    <a href="{{ languages[lang].allPhotosUrl }}">← {{ t.allPhotosBack }}</a>
     {% endif %}
   </p>
 

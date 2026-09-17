@@ -10,6 +10,22 @@ import { localizeAllPhotos } from "./i18n.ts";
 
 const IMAGE_EXT = new Set([".jpg", ".jpeg", ".png", ".webp"]);
 
+/** Photos per all-photos listing page. */
+export const ALL_PHOTOS_PAGE_SIZE = 100;
+
+/** Entry URL for the all-photos section (newest page). */
+export function allPhotosHomeUrl(
+  lang: "ru" | "en",
+  totalPhotos: number,
+): string {
+  const prefix = lang === "en" ? "/en" : "";
+  if (totalPhotos <= ALL_PHOTOS_PAGE_SIZE) {
+    return `${prefix}/photos/index.html`;
+  }
+  const pages = Math.ceil(totalPhotos / ALL_PHOTOS_PAGE_SIZE);
+  return `${prefix}/photos/page/${pages}.html`;
+}
+
 export function discoverLoosePhotoFiles(photosRoot: string): string[] {
   if (!fs.existsSync(photosRoot)) return [];
   return fs

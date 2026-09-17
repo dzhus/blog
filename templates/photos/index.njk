@@ -7,8 +7,10 @@
     data-photo-gallery
     data-photos-catalog="/{{ t.langPrefix }}photos/catalog.json"
   >
-    {% set photos = pagination.items %}
+    {# Page 1 = oldest chunk; within each page show newest first (older at bottom). #}
+    {% set photos = pagination.items | reverse %}
     {% set indexOffset = pagination.pageNumber * pagination.size %}
+    {% set indexNewestFirst = true %}
     {% include "photos/grid.njk" %}
     {% include "photos/modal.njk" %}
   </div>

@@ -25,7 +25,7 @@
     <figure
       class="trip-modal-feed-item"
       data-photo-id="{{ photo.id }}"
-      data-photo-index="{{ indexOffset + loop.index0 }}"
+      data-photo-index="{% if indexNewestFirst %}{{ indexOffset + photos.length - 1 - loop.index0 }}{% else %}{{ indexOffset + loop.index0 }}{% endif %}"
       data-photo-url="{{ photo.photoPageUrl }}"
     >
       <img class="trip-modal-feed-img" data-src="{{ photo.displayUrl }}" alt="" loading="lazy" />

@@ -1,4 +1,4 @@
-{# Expects: photos (array), optional indexOffset (number, default 0) #}
+{# Expects: photos (array), optional indexOffset, optional indexNewestFirst #}
 {% set indexOffset = indexOffset or 0 %}
 <div class="trip-photo-grid">
   {% for photo in photos %}
@@ -11,7 +11,7 @@
     data-filename="{{ photo.filename }}"
     data-original-size="{{ photo.originalSize }}"
     data-exif-line="{{ photo.exifLine }}"
-    data-photo-index="{{ indexOffset + loop.index0 }}"
+    data-photo-index="{% if indexNewestFirst %}{{ indexOffset + photos.length - 1 - loop.index0 }}{% else %}{{ indexOffset + loop.index0 }}{% endif %}"
     title="{{ photo.exifTooltip }}"
   >
     <img src="{{ photo.gridThumbUrl }}" alt="" loading="lazy" />

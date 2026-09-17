@@ -19,7 +19,10 @@ import {
 } from "./src/siteConstants.ts";
 import { collectTags, renderTagCloud } from "./src/tags.ts";
 import { buildTrips, readTripsManifest } from "./src/trips/build.ts";
-import { readAllPhotosManifest } from "./src/trips/allPhotos.ts";
+import {
+  allPhotosHomeUrl,
+  readAllPhotosManifest,
+} from "./src/trips/allPhotos.ts";
 import {
   localizeAllPhotos,
   localizeTrips,
@@ -29,6 +32,7 @@ import {
 import type { SitePhoto, TripManifest, TripPhoto } from "./src/trips/types.ts";
 import { buildTripBacklinks } from "./src/tripBacklinks.ts";
 import { addTripAnchorIds } from "./src/tripAnchors.ts";
+import type { SiteLang } from "./src/siteConstants.ts";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -88,7 +92,14 @@ export default function (eleventyConfig: UserConfig) {
   eleventyConfig.addPassthroughCopy("css/trips.css");
   eleventyConfig.addPassthroughCopy("js");
 
-  eleventyConfig.addGlobalData("languages", languages);
+  eleventyConfig.addGlobalData("languages", () => {
+    const count = getAllPhotosManifest().photos.length;
+    const patch = (lang: SiteLang) => ({
+      ...languages[lang],
+      allPhotosUrl: allPhotosHomeUrl(lang, count),
+    });
+    return { ru: patch("ru"), en: patch("en") };
+  });
   eleventyConfig.addGlobalData("rootUrl", rootUrl);
   eleventyConfig.addGlobalData("gravatar", gravatar);
   eleventyConfig.addGlobalData("thisYear", thisYear());
