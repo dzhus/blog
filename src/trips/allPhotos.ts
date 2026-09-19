@@ -35,6 +35,20 @@ export function allPhotosHomeUrl(
   return `${prefix}/photos/page/${pages}.html`;
 }
 
+/** Listing page URL that contains the photo at `photoIndex` (oldest-first). */
+export function allPhotosListingUrl(
+  lang: "ru" | "en",
+  photoIndex: number,
+  totalPhotos: number,
+): string {
+  const prefix = lang === "en" ? "/en" : "";
+  if (totalPhotos <= ALL_PHOTOS_PAGE_SIZE || photoIndex < ALL_PHOTOS_PAGE_SIZE) {
+    return `${prefix}/photos/index.html`;
+  }
+  const pageNumber = Math.floor(photoIndex / ALL_PHOTOS_PAGE_SIZE);
+  return `${prefix}/photos/page/${pageNumber + 1}.html`;
+}
+
 export function discoverLoosePhotoFiles(photosRoot: string): string[] {
   if (!fs.existsSync(photosRoot)) return [];
   return fs

@@ -22,6 +22,7 @@ import { collectTags, renderTagCloud } from "./src/tags.ts";
 import { buildTrips, readTripsManifest } from "./src/trips/build.ts";
 import {
   allPhotosHomeUrl,
+  allPhotosListingUrl,
   readAllPhotosManifest,
 } from "./src/trips/allPhotos.ts";
 import {
@@ -71,6 +72,8 @@ export type LoosePhotoPage = {
   next: SitePhoto | null;
   index: number;
   total: number;
+  /** All-photos listing page that contains this photo. */
+  allPhotosUrl: string;
 };
 
 function isEnglishPost(item: CollectionItem): boolean {
@@ -209,7 +212,10 @@ export default function (eleventyConfig: UserConfig) {
     return pages;
   }
 
-  function loosePhotoPages(photos: SitePhoto[]): LoosePhotoPage[] {
+  function loosePhotoPages(
+    photos: SitePhoto[],
+    lang: SiteLang,
+  ): LoosePhotoPage[] {
     const loose = photos.filter((p) => !p.tripSlug);
     const all = photos;
     return loose.map((photo) => {
@@ -226,6 +232,7 @@ export default function (eleventyConfig: UserConfig) {
         next: index < all.length - 1 ? all[index + 1]! : null,
         index,
         total: all.length,
+        allPhotosUrl: allPhotosListingUrl(lang, index, all.length),
       };
     });
   }
@@ -255,11 +262,17 @@ export default function (eleventyConfig: UserConfig) {
   });
 
   eleventyConfig.addGlobalData("loosePhotoPages", (): LoosePhotoPage[] => {
-    return loosePhotoPages(localizeAllPhotos(getAllPhotosManifest().photos, "ru"));
+    return loosePhotoPages(
+      localizeAllPhotos(getAllPhotosManifest().photos, "ru"),
+      "ru",
+    );
   });
 
   eleventyConfig.addGlobalData("loosePhotoPagesEn", (): LoosePhotoPage[] => {
-    return loosePhotoPages(localizeAllPhotos(getAllPhotosManifest().photos, "en"));
+    return loosePhotoPages(
+      localizeAllPhotos(getAllPhotosManifest().photos, "en"),
+      "en",
+    );
   });
 
   eleventyConfig.addGlobalData("photosBase", () => photosBase("ru"));
