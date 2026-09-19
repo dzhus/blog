@@ -29,6 +29,8 @@ npm start        # build + local server
 
 The first trip build downloads OpenTopoMap tiles (with contour lines; cached under `_cache/tiles/opentopomap/`), converts them to greyscale, and publishes them once under `_site/tiles/opentopomap/{z}/{x}/{y}.png` (shared across all trips). Later builds reuse that cache. Rendered pages load those local tiles via Leaflet (EPSG:3857)—no tile CDN at runtime.
 
+Total ascent is computed from Mapzen Terrarium DEM tiles (AWS Open Data) sampled at each GPX track point; tiles are cached under `_cache/elevation/terrarium/` and are not published to `_site`.
+
 ## Content layout
 
 | Path | Role |
@@ -40,7 +42,7 @@ The first trip build downloads OpenTopoMap tiles (with contour lines; cached und
 | `css/`, `images/` | Assets |
 | `eleventy.config.ts` | Site configuration |
 | `src/` | Build helpers (dates, titles, tags, markdown, trips) |
-| `_cache/trips/`, `_cache/tiles/` | Generated image/tile cache (gitignored) |
+| `_cache/trips/`, `_cache/tiles/`, `_cache/elevation/` | Generated image/tile/DEM cache (gitignored) |
 
 ### Trips
 

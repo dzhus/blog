@@ -68,6 +68,10 @@ export type TripManifest = {
   distanceMeters: number | null;
   /** Formatted distance for the current language (set by localizeTrip). */
   distanceKm: string | null;
+  /** Cumulative elevation gain from Terrarium DEM; format via localizeTrip. */
+  ascentMeters: number | null;
+  /** Formatted ascent for the current language (set by localizeTrip). */
+  ascentLabel: string | null;
   url: string;
   coverThumbUrl: string | null;
   photoCount: number;

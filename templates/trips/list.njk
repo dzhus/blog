@@ -13,11 +13,13 @@
         {% endif %}
         <span class="trips-list-meta">
           <span class="trips-list-title">{{ trip.title }}</span>
-          {% if trip.dateRange or trip.distanceKm %}
+          {% if trip.dateRange or trip.distanceKm or trip.ascentLabel %}
           <span class="trips-list-period">
             {% if trip.dateRange %}{{ trip.dateRange }}{% endif %}
             {% if trip.dateRange and trip.distanceKm %} · {% endif %}
             {% if trip.distanceKm %}{{ trip.distanceKm }}{% endif %}
+            {% if (trip.dateRange or trip.distanceKm) and trip.ascentLabel %} · {% endif %}
+            {% if trip.ascentLabel %}{{ trip.ascentLabel }}{% endif %}
           </span>
           {% endif %}
           <span class="trips-list-counts">{{ t.photoCount(trip.photoCount) }}{% if trip.trackCount %}{{ t.countsJoiner }}{{ t.trackCount(trip.trackCount) }}{% endif %}</span>

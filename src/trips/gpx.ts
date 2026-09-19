@@ -72,6 +72,15 @@ export function formatDistanceKm(
   return `${text}\u00a0${unit}`;
 }
 
+/** Format ascent metres for trip UI (e.g. "1850 м" / "1850 m"). */
+export function formatAscentMeters(
+  meters: number | null | undefined,
+  unit = "м",
+): string | null {
+  if (!(typeof meters === "number" && meters > 0)) return null;
+  return `${Math.round(meters)}\u00a0${unit}`;
+}
+
 function parsePointTime(raw: unknown): number | null {
   if (typeof raw !== "string" || raw.trim() === "") return null;
   const ms = Date.parse(raw);
@@ -122,6 +131,8 @@ export type GpxProcessResult = {
   tracks: TripTrack[];
   bounds: BBox;
   distanceMeters: number;
+  /** Full-resolution points per GPX file (same order as input files before track sort). */
+  trackPointLists: LatLon[][];
   /** Calendar YYYY-MM-DD from min/max of all GPX point times. */
   from: string;
   to: string;
@@ -145,6 +156,7 @@ export function processGpxFiles(
   let distanceMeters = 0;
   let tripMinMs: number | null = null;
   let tripMaxMs: number | null = null;
+  const trackPointLists: LatLon[][] = [];
 
   const parsed = gpxFiles.map((filePath) => {
     const filename = path.basename(filePath);
@@ -152,6 +164,7 @@ export function processGpxFiles(
     fs.copyFileSync(filePath, dest);
 
     const { points, minTimeMs, maxTimeMs } = readGpx(filePath);
+    trackPointLists.push(points);
     for (const p of points) expandBBox(bounds, p.lat, p.lon);
     distanceMeters += pathLengthMeters(points);
 
@@ -196,6 +209,7 @@ export function processGpxFiles(
     tracks,
     bounds: isValidBBox(bounds) ? bounds : emptyBBox(),
     distanceMeters,
+    trackPointLists,
     from: calendarDateFromMs(tripMinMs),
     to: calendarDateFromMs(tripMaxMs),
   };

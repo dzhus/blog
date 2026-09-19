@@ -2,11 +2,13 @@
 <article class="trip">
   <p class="trip-back"><a href="/{{ t.langPrefix }}trips/index.html">← {{ t.allTrips }}</a></p>
   <h1>{{ trip.title }}</h1>
-  {% if trip.dateRange or trip.distanceKm %}
+  {% if trip.dateRange or trip.distanceKm or trip.ascentLabel %}
   <p class="trip-dates">
     {% if trip.dateRange %}{{ trip.dateRange }}{% endif %}
     {% if trip.dateRange and trip.distanceKm %} · {% endif %}
     {% if trip.distanceKm %}{{ trip.distanceKm }}{% endif %}
+    {% if (trip.dateRange or trip.distanceKm) and trip.ascentLabel %} · {% endif %}
+    {% if trip.ascentLabel %}{{ trip.ascentLabel }}{% endif %}
   </p>
   {% endif %}
 

@@ -1,4 +1,4 @@
-import { formatDistanceKm } from "./gpx.ts";
+import { formatAscentMeters, formatDistanceKm } from "./gpx.ts";
 import {
   defaultCreator,
   defaultTitle,
@@ -33,6 +33,7 @@ export type TripUi = {
   hideMapThumbs: string;
   showMapThumbs: string;
   distanceUnit: string;
+  ascentUnit: string;
   close: string;
   prevPhoto: string;
   nextPhoto: string;
@@ -62,6 +63,7 @@ export const tripUi: Record<TripLang, TripUi> = {
     hideMapThumbs: "Скрыть миниатюры на карте",
     showMapThumbs: "Показать миниатюры на карте",
     distanceUnit: "км",
+    ascentUnit: "м",
     close: "Закрыть",
     prevPhoto: "Предыдущее фото",
     nextPhoto: "Следующее фото",
@@ -89,6 +91,7 @@ export const tripUi: Record<TripLang, TripUi> = {
     hideMapThumbs: "Hide map thumbnails",
     showMapThumbs: "Show map thumbnails",
     distanceUnit: "km",
+    ascentUnit: "m",
     close: "Close",
     prevPhoto: "Previous photo",
     nextPhoto: "Next photo",
@@ -197,6 +200,7 @@ export function localizeTrip(
       lang,
     ),
     distanceKm: formatDistanceKm(trip.distanceMeters, t.distanceUnit),
+    ascentLabel: formatAscentMeters(trip.ascentMeters, t.ascentUnit),
     url: `${base}${trip.slug}/`,
     photos,
     mapPhotosJson,

@@ -23,6 +23,10 @@ import {
   padBBox,
 } from "./geo.ts";
 import { processGpxFiles, writeTracksJson } from "./gpx.ts";
+import {
+  ELEVATION_SOURCE_ID,
+  totalAscentMetersForTracks,
+} from "./elevation.ts";
 import { processPhotoImages, formatFileSize } from "./images.ts";
 import { resolveTripTitle } from "./i18n.ts";
 import { formatTripDateRange } from "./metadata.ts";
@@ -43,6 +47,7 @@ type TripBuildCtx = {
   tripsCacheDir: string;
   colorCacheDir: string;
   greyCacheDir: string;
+  elevCacheDir: string;
 };
 
 type TileCacheMeta = {
@@ -93,6 +98,7 @@ async function buildOneTrip(
     tracks,
     bounds: trackBounds,
     distanceMeters,
+    trackPointLists,
     from,
     to,
   } = processGpxFiles(trip.gpxFiles, trip.slug, siteTripDir);
@@ -102,6 +108,12 @@ async function buildOneTrip(
       `Trip ${trip.slug}: could not derive date range from GPX timestamps.`,
     );
   }
+
+  const ascentRaw = await totalAscentMetersForTracks(
+    trackPointLists,
+    ctx.elevCacheDir,
+  );
+  const ascentMeters = ascentRaw > 0 ? ascentRaw : null;
 
   const photoMetas: Array<{
     src: string;
@@ -314,6 +326,8 @@ async function buildOneTrip(
     dateRange,
     distanceMeters: distanceMeters > 0 ? distanceMeters : null,
     distanceKm: null,
+    ascentMeters,
+    ascentLabel: null,
     url: `/trips/${trip.slug}/`,
     coverThumbUrl,
     photoCount: photos.length,
@@ -349,6 +363,7 @@ export async function buildTrips(
 
   const colorCacheDir = path.join(cacheRoot, "tiles", TILE_SOURCE_ID);
   const greyCacheDir = path.join(cacheRoot, "tiles", `${TILE_SOURCE_ID}-grey`);
+  const elevCacheDir = path.join(cacheRoot, "elevation", ELEVATION_SOURCE_ID);
   const tripsCacheDir = path.join(cacheRoot, "trips");
   const manifestPath = path.join(tripsCacheDir, "manifest.json");
 
@@ -364,6 +379,7 @@ export async function buildTrips(
     tripsCacheDir,
     colorCacheDir,
     greyCacheDir,
+    elevCacheDir,
   };
 
   const trips = await asyncPool(tripConcurrency, discovered, (trip) =>

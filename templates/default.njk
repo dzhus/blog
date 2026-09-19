@@ -33,7 +33,7 @@
 
     {% if bodyClass == "trip-page" %}
       <meta property="og:title" content="{{ trip.title }}" />
-      {% set tripDates %}{% if trip.dateRange %}{{ trip.dateRange }}{% endif %}{% if trip.dateRange and trip.distanceKm %} · {% endif %}{% if trip.distanceKm %}{{ trip.distanceKm }}{% endif %}{% endset %}
+      {% set tripDates %}{% if trip.dateRange %}{{ trip.dateRange }}{% endif %}{% if trip.dateRange and trip.distanceKm %} · {% endif %}{% if trip.distanceKm %}{{ trip.distanceKm }}{% endif %}{% if (trip.dateRange or trip.distanceKm) and trip.ascentLabel %} · {% endif %}{% if trip.ascentLabel %}{{ trip.ascentLabel }}{% endif %}{% endset %}
       {% if tripDates | trim %}
       <meta property="og:description" content="{{ tripDates | trim }}" />
       {% endif %}
