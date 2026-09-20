@@ -12,8 +12,13 @@ import type { LatLon } from "./types.ts";
 export const ELEVATION_SOURCE_ID = "terrarium";
 /** Terrarium sample zoom (~30 m-class DEM). */
 export const ELEVATION_ZOOM = 12;
-/** Ignore elevation deltas smaller than this when summing ascent (metres). */
-export const ASCENT_THRESHOLD_M = 5;
+/**
+ * Minimum elevation change (metres) counted toward ascent after smoothing.
+ * Smaller zigzags / DEM noise are ignored via hysteresis around local extrema.
+ */
+export const ASCENT_THRESHOLD_M = 15;
+/** Centered moving-average window applied before thresholded ascent (odd size). */
+const ASCENT_SMOOTH_WINDOW = 11;
 
 const USER_AGENT =
   "dzhus.org-blog-static-map/1.0 (https://dzhus.org; personal static site build)";
@@ -215,9 +220,38 @@ async function ensureTilesForPoints(
   }
 }
 
+
 /**
- * Cumulative elevation gain along a track, ignoring deltas smaller than
- * ASCENT_THRESHOLD_M relative to the last confirmed extreme.
+ * Centered moving-average smooth of an elevation series (reduces DEM noise).
+ * Window is clamped at track ends.
+ */
+export function smoothElevations(
+  elevations: number[],
+  windowSize: number,
+): number[] {
+  if (elevations.length === 0) return [];
+  const half = Math.floor(windowSize / 2);
+  const out = new Array<number>(elevations.length);
+  for (let i = 0; i < elevations.length; i++) {
+    let sum = 0;
+    let n = 0;
+    for (
+      let j = Math.max(0, i - half);
+      j <= Math.min(elevations.length - 1, i + half);
+      j++
+    ) {
+      sum += elevations[j]!;
+      n++;
+    }
+    out[i] = sum / n;
+  }
+  return out;
+}
+
+/**
+ * Cumulative elevation gain along a track on a (typically smoothed) elevation
+ * series, ignoring deltas smaller than `thresholdM` relative to the last
+ * confirmed extreme (hysteresis).
  */
 export function ascentFromElevations(
   elevations: number[],
@@ -250,7 +284,8 @@ export async function totalAscentMeters(
   for (const p of points) {
     elevations.push(await elevationAt(p.lat, p.lon, cacheDir));
   }
-  return ascentFromElevations(elevations);
+  const smoothed = smoothElevations(elevations, ASCENT_SMOOTH_WINDOW);
+  return ascentFromElevations(smoothed);
 }
 
 /** Sum total ascent across separate tracks (do not join end-to-start). */
