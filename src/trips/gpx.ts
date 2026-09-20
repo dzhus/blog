@@ -72,13 +72,13 @@ export function formatDistanceKm(
   return `${text}\u00a0${unit}`;
 }
 
-/** Format ascent metres for trip UI (e.g. "1850 м" / "1850 m"). */
+/** Format ascent metres for trip UI (e.g. "↑ 1850 м" / "↑ 1850 m"). */
 export function formatAscentMeters(
   meters: number | null | undefined,
   unit = "м",
 ): string | null {
   if (!(typeof meters === "number" && meters > 0)) return null;
-  return `${Math.round(meters)}\u00a0${unit}`;
+  return `\u2191\u00a0${Math.round(meters)}\u00a0${unit}`;
 }
 
 function parsePointTime(raw: unknown): number | null {
