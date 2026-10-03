@@ -50,8 +50,11 @@ type TripBuildCtx = {
   elevCacheDir: string;
 };
 
+/** Bump when tile-set derivation semantics change so per-trip tiles.json invalidates. */
+const TILE_CACHE_META_VERSION = 1;
+
 type TileCacheMeta = {
-  version: 1;
+  version: typeof TILE_CACHE_META_VERSION;
   source: string;
   requestBounds: BBox;
   zoom: number;
@@ -212,7 +215,7 @@ async function buildOneTrip(
         fs.readFileSync(tilesMetaPath, "utf8"),
       ) as TileCacheMeta;
       if (
-        cached.version === 1 &&
+        cached.version === TILE_CACHE_META_VERSION &&
         cached.source === TILE_SOURCE_ID &&
         JSON.stringify(cached.requestBounds) === JSON.stringify(bounds)
       ) {
@@ -269,7 +272,7 @@ async function buildOneTrip(
       ctx.greyCacheDir,
     );
     const meta: TileCacheMeta = {
-      version: 1,
+      version: TILE_CACHE_META_VERSION,
       source: TILE_SOURCE_ID,
       requestBounds: bounds,
       zoom: tileSet.zoom,
