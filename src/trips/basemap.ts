@@ -25,8 +25,11 @@ const USER_AGENT =
 const TILE_URL = (z: number, x: number, y: number) =>
   `https://tile.opentopomap.org/${z}/${x}/${y}.png`;
 
-/** Soft cap on mosaic pixel span used only to pick zoom. */
-const MAX_EDGE = 2048;
+/**
+ * Fixed basemap tile zoom for every trip.
+ * Extent still comes from GPX/photos + padding; only the zoom is constant.
+ */
+export const TRIP_TILE_ZOOM = 11;
 /**
  * Assumed map viewport width/height. Cover-zoom in the browser still needs
  * tiles for overscan when the content bbox is fit into a wider pane.
@@ -89,21 +92,6 @@ export function copyFileAtomicIfNeeded(from: string, to: string): void {
   }
   const data = fs.readFileSync(from);
   writeFileAtomic(to, data);
-}
-
-function chooseZoom(bounds: BBox): number {
-  for (let z = 16; z >= 6; z--) {
-    const x0 = lonToTileX(bounds.west, z);
-    const x1 = lonToTileX(bounds.east, z);
-    const y0 = latToTileY(bounds.north, z);
-    const y1 = latToTileY(bounds.south, z);
-    const width = Math.abs(x1 - x0) * TILE_SIZE;
-    const height = Math.abs(y1 - y0) * TILE_SIZE;
-    if (Math.max(width, height) <= MAX_EDGE) {
-      return z;
-    }
-  }
-  return 6;
 }
 
 /** Grow tile index range so MAP_ASPECT overscan is covered, then square the mosaic. */
@@ -321,7 +309,7 @@ export async function renderTripTiles(
   colorCacheDir: string,
   greyCacheDir: string,
 ): Promise<TripTileSet> {
-  const z = chooseZoom(bounds);
+  const z = TRIP_TILE_ZOOM;
   let xMin = Math.floor(lonToTileX(bounds.west, z));
   let xMaxExcl = Math.ceil(lonToTileX(bounds.east, z));
   let yMin = Math.floor(latToTileY(bounds.north, z));

@@ -51,7 +51,7 @@ type TripBuildCtx = {
 };
 
 type TileCacheMeta = {
-  version: 8;
+  version: 9;
   source: string;
   requestBounds: BBox;
   zoom: number;
@@ -212,7 +212,7 @@ async function buildOneTrip(
         fs.readFileSync(tilesMetaPath, "utf8"),
       ) as TileCacheMeta;
       if (
-        cached.version === 8 &&
+        cached.version === 9 &&
         cached.source === TILE_SOURCE_ID &&
         JSON.stringify(cached.requestBounds) === JSON.stringify(bounds)
       ) {
@@ -269,7 +269,7 @@ async function buildOneTrip(
       ctx.greyCacheDir,
     );
     const meta: TileCacheMeta = {
-      version: 8,
+      version: 9,
       source: TILE_SOURCE_ID,
       requestBounds: bounds,
       zoom: tileSet.zoom,
