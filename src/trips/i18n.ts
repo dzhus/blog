@@ -21,6 +21,8 @@ export type TripUi = {
   siteTitle: string;
   listTitle: string;
   listEmpty: string;
+  totalDistance: string;
+  totalAscent: string;
   photoCount: (n: number) => string;
   trackCount: (n: number) => string;
   countsJoiner: string;
@@ -51,6 +53,8 @@ export const tripUi: Record<TripLang, TripUi> = {
     siteTitle: defaultTitle,
     listTitle: "Поездки",
     listEmpty: "Пока нет поездок.",
+    totalDistance: "Общая дистанция",
+    totalAscent: "Общий набор",
     photoCount: (n) => `${n} фото`,
     trackCount: (n) => (n > 1 ? `${n} трека` : `${n} трек`),
     countsJoiner: ", ",
@@ -79,6 +83,8 @@ export const tripUi: Record<TripLang, TripUi> = {
     siteTitle: enTitle,
     listTitle: "Trips",
     listEmpty: "No trips yet.",
+    totalDistance: "Total distance",
+    totalAscent: "Total ascent",
     photoCount: (n) => (n === 1 ? `${n} photo` : `${n} photos`),
     trackCount: (n) => (n === 1 ? `${n} track` : `${n} tracks`),
     countsJoiner: ", ",
@@ -212,4 +218,32 @@ export function localizeTrips(
   lang: TripLang,
 ): TripManifest[] {
   return trips.map((trip) => localizeTrip(trip, lang));
+}
+
+/** Sum distance and ascent across trips; format labels for the current language. */
+export function tripsListTotals(
+  trips: TripManifest[] | null | undefined,
+  lang: TripLang,
+): { distanceKm: string | null; ascentLabel: string | null } {
+  let distanceMeters = 0;
+  let ascentMeters = 0;
+  for (const trip of trips ?? []) {
+    if (typeof trip.distanceMeters === "number" && trip.distanceMeters > 0) {
+      distanceMeters += trip.distanceMeters;
+    }
+    if (typeof trip.ascentMeters === "number" && trip.ascentMeters > 0) {
+      ascentMeters += trip.ascentMeters;
+    }
+  }
+  const t = tripUi[lang];
+  return {
+    distanceKm: formatDistanceKm(
+      distanceMeters > 0 ? distanceMeters : null,
+      t.distanceUnit,
+    ),
+    ascentLabel: formatAscentMeters(
+      ascentMeters > 0 ? ascentMeters : null,
+      t.ascentUnit,
+    ),
+  };
 }

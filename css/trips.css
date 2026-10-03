@@ -17,12 +17,14 @@ body.all-photos article.all-photos {
 }
 
 .trip-period,
-.trip-dates {
+.trip-dates,
+.trips-totals {
   color: #888a85;
   font-weight: normal;
 }
 
-.trip-dates {
+.trip-dates,
+.trips-totals {
   margin: 0 0 0.75em;
 }
 

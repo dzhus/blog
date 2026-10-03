@@ -1,6 +1,14 @@
 {% set t = tripUi[lang] %}
+{% set totals = tripsList | tripsTotals(lang) %}
 <article class="trips-index">
   <h1>{{ t.listTitle }}</h1>
+  {% if totals.distanceKm or totals.ascentLabel %}
+  <p class="trips-totals">
+    {% if totals.distanceKm %}{{ t.totalDistance }}: {{ totals.distanceKm }}{% endif %}
+    {% if totals.distanceKm and totals.ascentLabel %} · {% endif %}
+    {% if totals.ascentLabel %}{{ t.totalAscent }}: {{ totals.ascentLabel }}{% endif %}
+  </p>
+  {% endif %}
   {% if tripsList and tripsList.length %}
   <ul class="trips-list">
     {% for trip in tripsList %}

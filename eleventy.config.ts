@@ -29,7 +29,9 @@ import {
   localizeAllPhotos,
   localizeTrips,
   photosBase,
+  tripsListTotals,
   tripUi,
+  type TripLang,
 } from "./src/trips/i18n.ts";
 import type { SitePhoto, TripManifest, TripPhoto } from "./src/trips/types.ts";
 import { buildTripBacklinks } from "./src/tripBacklinks.ts";
@@ -316,6 +318,11 @@ export default function (eleventyConfig: UserConfig) {
     }));
     return renderTagCloud(counts, 100, 150);
   });
+
+  eleventyConfig.addFilter(
+    "tripsTotals",
+    (trips: TripManifest[], lang: TripLang) => tripsListTotals(trips, lang),
+  );
 
   eleventyConfig.setLibrary("md", md);
 
