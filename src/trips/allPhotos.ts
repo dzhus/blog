@@ -142,7 +142,7 @@ export async function buildAllPhotos(
     photosRoot?: string;
     siteRoot?: string;
     cacheRoot?: string;
-    /** Parallel loose-photo builds; same default/override as trip builds. */
+    /** Parallel loose-photo builds (same pool size as trip builds). */
     concurrency: number;
   },
 ): Promise<AllPhotosManifest> {

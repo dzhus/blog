@@ -79,9 +79,9 @@ function availableCores(): number {
     : os.cpus().length;
 }
 
-/** Parallel trip builds: default clamp(2, 4, cores-1); override with TRIP_BUILD_CONCURRENCY. */
-export function tripBuildConcurrency(): number {
-  const fromEnv = envPositiveInt("TRIP_BUILD_CONCURRENCY");
+/** Parallel trip/photo builds: default clamp(2, 4, cores-1); override with BUILD_CONCURRENCY. */
+export function buildConcurrency(): number {
+  const fromEnv = envPositiveInt("BUILD_CONCURRENCY");
   if (fromEnv != null) return fromEnv;
   const cores = availableCores();
   return Math.max(2, Math.min(4, Math.max(1, cores - 1)));
@@ -354,8 +354,8 @@ async function buildOneTrip(
 export async function buildTrips(
   options: BuildTripsOptions,
 ): Promise<TripsManifest> {
-  const tripConcurrency = tripBuildConcurrency();
-  const sharpConcurrency = Math.min(2, tripConcurrency);
+  const concurrency = buildConcurrency();
+  const sharpConcurrency = Math.min(2, concurrency);
   sharp.concurrency(sharpConcurrency);
   sharp.cache(false);
 
@@ -374,7 +374,7 @@ export async function buildTrips(
 
   const discovered = discoverTrips(tripsRoot);
   console.log(
-    `[trips] concurrency=${tripConcurrency} sharp=${sharpConcurrency} (${discovered.length} trip(s))`,
+    `[trips] concurrency=${concurrency} sharp=${sharpConcurrency} (${discovered.length} trip(s))`,
   );
 
   const ctx: TripBuildCtx = {
@@ -385,7 +385,7 @@ export async function buildTrips(
     elevCacheDir,
   };
 
-  const trips = await asyncPool(tripConcurrency, discovered, (trip) =>
+  const trips = await asyncPool(concurrency, discovered, (trip) =>
     buildOneTrip(trip, ctx),
   );
 
@@ -407,7 +407,7 @@ export async function buildTrips(
     projectRoot,
     siteRoot,
     cacheRoot,
-    concurrency: tripConcurrency,
+    concurrency,
   });
 
   return manifest;
