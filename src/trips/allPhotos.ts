@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { asyncPool } from "./asyncPool.ts";
 import {
   formatIsoCapturedAt,
   readPhotoExif,
@@ -65,75 +66,55 @@ async function buildLoosePhotos(
   photosRoot: string,
   siteRoot: string,
   cacheRoot: string,
+  concurrency: number,
 ): Promise<SitePhoto[]> {
   const files = discoverLoosePhotoFiles(photosRoot);
   if (files.length === 0) return [];
 
   const total = files.length;
-  console.log(`[photos] building ${total} loose photo(s)…`);
+  console.log(
+    `[photos] building ${total} loose photo(s)… concurrency=${concurrency}`,
+  );
   const sitePhotosDir = path.join(siteRoot, "photos");
   const cachePhotosDir = path.join(cacheRoot, "photos", "loose");
   fs.mkdirSync(sitePhotosDir, { recursive: true });
   fs.mkdirSync(cachePhotosDir, { recursive: true });
 
-  const metas: Array<{
-    src: string;
-    filename: string;
-    capturedAt: Date;
-    displayCapturedAt: string;
-    exifTooltip: string;
-    lat: number | null;
-    lon: number | null;
-    sourceSize: number;
-  }> = [];
-
-  for (const src of files) {
+  let done = 0;
+  const photos = await asyncPool(concurrency, files, async (src) => {
+    const filename = path.basename(src);
     const exif = await readPhotoExif(src, cachePhotosDir, { requireGps: false });
-    metas.push({
-      src,
-      filename: path.basename(src),
-      capturedAt: exif.capturedAt,
-      displayCapturedAt: exif.displayCapturedAt,
-      exifTooltip: exif.tooltip,
-      lat: exif.lat,
-      lon: exif.lon,
-      sourceSize: exif.sourceSize,
-    });
-  }
-
-  metas.sort((a, b) => +a.capturedAt - +b.capturedAt);
-
-  const photos: SitePhoto[] = [];
-  for (let i = 0; i < metas.length; i++) {
-    const meta = metas[i]!;
     const derivatives = await processPhotoImages(
-      meta.src,
+      src,
       "/photos",
-      meta.filename,
+      filename,
       cachePhotosDir,
       sitePhotosDir,
     );
-    const stem = path.basename(meta.filename, path.extname(meta.filename));
-    photos.push({
+    const stem = path.basename(filename, path.extname(filename));
+    done += 1;
+    logLoosePhotoProgress(done, total);
+    return {
       id: stem,
       basename: stem,
-      filename: meta.filename,
-      capturedAt: formatIsoCapturedAt(meta.capturedAt),
-      displayCapturedAt: meta.displayCapturedAt,
-      exifTooltip: meta.exifTooltip,
-      exifLine: meta.exifTooltip.split("\n").filter(Boolean).join(" · "),
-      lat: meta.lat,
-      lon: meta.lon,
+      filename,
+      capturedAt: formatIsoCapturedAt(exif.capturedAt),
+      displayCapturedAt: exif.displayCapturedAt,
+      exifTooltip: exif.tooltip,
+      exifLine: exif.tooltip.split("\n").filter(Boolean).join(" · "),
+      lat: exif.lat,
+      lon: exif.lon,
       gridThumbUrl: derivatives.gridThumbRel,
       mapThumbUrl: derivatives.mapThumbRel,
       displayUrl: derivatives.displayRel,
       originalUrl: derivatives.originalRel,
-      originalSize: formatFileSize(meta.sourceSize),
+      originalSize: formatFileSize(exif.sourceSize),
       photoPageUrl: `/photos/${stem}.html`,
       tripSlug: null,
-    });
-    logLoosePhotoProgress(i + 1, total);
-  }
+    } satisfies SitePhoto;
+  });
+
+  photos.sort((a, b) => a.capturedAt.localeCompare(b.capturedAt, "en"));
   return photos;
 }
 
@@ -161,6 +142,8 @@ export async function buildAllPhotos(
     photosRoot?: string;
     siteRoot?: string;
     cacheRoot?: string;
+    /** Parallel loose-photo builds; same default/override as trip builds. */
+    concurrency: number;
   },
 ): Promise<AllPhotosManifest> {
   const projectRoot = options.projectRoot;
@@ -168,7 +151,12 @@ export async function buildAllPhotos(
   const siteRoot = options.siteRoot ?? path.join(projectRoot, "_site");
   const cacheRoot = options.cacheRoot ?? path.join(projectRoot, "_cache");
 
-  const loose = await buildLoosePhotos(photosRoot, siteRoot, cacheRoot);
+  const loose = await buildLoosePhotos(
+    photosRoot,
+    siteRoot,
+    cacheRoot,
+    options.concurrency,
+  );
   const fromTrips: SitePhoto[] = trips.flatMap((trip) =>
     trip.photos.map((p) => ({
       ...p,

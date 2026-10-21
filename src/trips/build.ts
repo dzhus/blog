@@ -407,6 +407,7 @@ export async function buildTrips(
     projectRoot,
     siteRoot,
     cacheRoot,
+    concurrency: tripConcurrency,
   });
 
   return manifest;
