@@ -68,10 +68,14 @@ export type TripManifest = {
   distanceMeters: number | null;
   /** Formatted distance for the current language (set by localizeTrip). */
   distanceKm: string | null;
-  /** Cumulative elevation gain from Terrarium DEM; format via localizeTrip. */
+  /** Cumulative elevation gain from Mapterhorn DEM; format via localizeTrip. */
   ascentMeters: number | null;
   /** Formatted ascent for the current language (set by localizeTrip). */
   ascentLabel: string | null;
+  /** Highest DEM elevation along tracks; format via localizeTrip. */
+  maxElevationMeters: number | null;
+  /** Formatted max elevation for the current language (set by localizeTrip). */
+  maxElevationLabel: string | null;
   url: string;
   coverThumbUrl: string | null;
   photoCount: number;

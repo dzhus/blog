@@ -81,6 +81,15 @@ export function formatAscentMeters(
   return `\u2191\u00a0${Math.round(meters)}\u00a0${unit}`;
 }
 
+/** Format max elevation for trip UI (e.g. "▲ 1850 м" / "▲ 1850 m"). */
+export function formatMaxElevationMeters(
+  meters: number | null | undefined,
+  unit = "м",
+): string | null {
+  if (!(typeof meters === "number" && Number.isFinite(meters))) return null;
+  return `\u25b2\u00a0${Math.round(meters)}\u00a0${unit}`;
+}
+
 function parsePointTime(raw: unknown): number | null {
   if (typeof raw !== "string" || raw.trim() === "") return null;
   const ms = Date.parse(raw);

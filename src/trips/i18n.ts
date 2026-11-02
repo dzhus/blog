@@ -1,4 +1,8 @@
-import { formatAscentMeters, formatDistanceKm } from "./gpx.ts";
+import {
+  formatAscentMeters,
+  formatDistanceKm,
+  formatMaxElevationMeters,
+} from "./gpx.ts";
 import {
   defaultCreator,
   defaultTitle,
@@ -207,6 +211,10 @@ export function localizeTrip(
     ),
     distanceKm: formatDistanceKm(trip.distanceMeters, t.distanceUnit),
     ascentLabel: formatAscentMeters(trip.ascentMeters, t.ascentUnit),
+    maxElevationLabel: formatMaxElevationMeters(
+      trip.maxElevationMeters,
+      t.ascentUnit,
+    ),
     url: `${base}${trip.slug}/`,
     photos,
     mapPhotosJson,

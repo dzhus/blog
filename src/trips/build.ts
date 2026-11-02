@@ -25,7 +25,7 @@ import {
 import { processGpxFiles, writeTracksJson } from "./gpx.ts";
 import {
   ELEVATION_SOURCE_ID,
-  totalAscentMetersForTracks,
+  elevationStatsForTracks,
 } from "./elevation.ts";
 import { processPhotoImages, formatFileSize } from "./images.ts";
 import { resolveTripTitle } from "./i18n.ts";
@@ -112,11 +112,16 @@ async function buildOneTrip(
     );
   }
 
-  const ascentRaw = await totalAscentMetersForTracks(
+  const elevStats = await elevationStatsForTracks(
     trackPointLists,
     ctx.elevCacheDir,
   );
-  const ascentMeters = ascentRaw > 0 ? ascentRaw : null;
+  const ascentMeters =
+    elevStats.ascentMeters > 0 ? elevStats.ascentMeters : null;
+  const maxElevationMeters =
+    typeof elevStats.maxElevationMeters === "number"
+      ? elevStats.maxElevationMeters
+      : null;
 
   const photoMetas: Array<{
     src: string;
@@ -331,6 +336,8 @@ async function buildOneTrip(
     distanceKm: null,
     ascentMeters,
     ascentLabel: null,
+    maxElevationMeters,
+    maxElevationLabel: null,
     url: `/trips/${trip.slug}/`,
     coverThumbUrl,
     photoCount: photos.length,
