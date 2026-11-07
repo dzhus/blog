@@ -1,5 +1,264 @@
 /* Trip map & interactive gallery logic */
 (function () {
+  // --- Elevation profile (canvas) + map hover marker ---
+  function initTripProfile(mapEl, map, profile) {
+    var column = mapEl.closest(".trip-map-column");
+    if (!column) return;
+    var wrap = column.querySelector(".trip-profile-wrap");
+    var canvas = column.querySelector(".trip-profile");
+    var readout = column.querySelector(".trip-profile-readout");
+    if (!wrap || !canvas || !profile || !profile.tracks) return;
+
+    var flat = [];
+    var minElev = Infinity;
+    var maxElev = -Infinity;
+    var maxKm = 0;
+    (profile.tracks || []).forEach(function (track) {
+      (track.points || []).forEach(function (pt) {
+        var km = pt[0];
+        var elev = pt[1];
+        flat.push({
+          km: km,
+          elev: elev,
+          lat: pt[2],
+          lon: pt[3],
+          dayIndex: pt[4],
+          color: track.color,
+        });
+        if (elev < minElev) minElev = elev;
+        if (elev > maxElev) maxElev = elev;
+        if (km > maxKm) maxKm = km;
+      });
+    });
+    if (flat.length < 2 || !(maxKm > 0) || !Number.isFinite(minElev)) return;
+
+    flat.sort(function (a, b) {
+      return a.km - b.km;
+    });
+
+    var elevPad = Math.max(20, (maxElev - minElev) * 0.08);
+    var yMin = minElev - elevPad;
+    var yMax = maxElev + elevPad;
+    if (yMax <= yMin) yMax = yMin + 1;
+
+    wrap.hidden = false;
+
+    var pad = { top: 12, right: 12, bottom: 28, left: 44 };
+    var hoverKm = null;
+    var hoverPt = null;
+    var marker = null;
+
+    function ensureMarker(color) {
+      if (!window.L) return null;
+      if (!map.getPane("profileHover")) {
+        map.createPane("profileHover");
+        // Above markerPane (600) so the hover point sits over photo thumbs.
+        map.getPane("profileHover").style.zIndex = 650;
+      }
+      if (!marker) {
+        marker = L.circleMarker([0, 0], {
+          pane: "profileHover",
+          radius: 7,
+          weight: 2,
+          color: "#2e3436",
+          fillColor: color || "#2e3436",
+          fillOpacity: 0.95,
+        });
+      } else if (color) {
+        marker.setStyle({ fillColor: color });
+      }
+      return marker;
+    }
+
+    function clearHover() {
+      hoverKm = null;
+      hoverPt = null;
+      if (marker && map.hasLayer(marker)) map.removeLayer(marker);
+      if (readout) {
+        readout.hidden = true;
+        readout.textContent = "";
+      }
+      draw();
+    }
+
+    function nearestPoint(km) {
+      var lo = 0;
+      var hi = flat.length - 1;
+      while (lo < hi) {
+        var mid = (lo + hi) >> 1;
+        if (flat[mid].km < km) lo = mid + 1;
+        else hi = mid;
+      }
+      var i = lo;
+      if (i > 0 && Math.abs(flat[i - 1].km - km) < Math.abs(flat[i].km - km)) {
+        i = i - 1;
+      }
+      return flat[i];
+    }
+
+    function plotRect() {
+      var w = canvas.clientWidth;
+      var h = canvas.clientHeight;
+      return {
+        w: w,
+        h: h,
+        left: pad.left,
+        top: pad.top,
+        right: w - pad.right,
+        bottom: h - pad.bottom,
+        width: Math.max(1, w - pad.left - pad.right),
+        height: Math.max(1, h - pad.top - pad.bottom),
+      };
+    }
+
+    function xOf(km, plot) {
+      return plot.left + (km / maxKm) * plot.width;
+    }
+
+    function yOf(elev, plot) {
+      return plot.bottom - ((elev - yMin) / (yMax - yMin)) * plot.height;
+    }
+
+    function draw() {
+      var dpr = window.devicePixelRatio || 1;
+      var plot = plotRect();
+      var cssW = plot.w;
+      var cssH = plot.h;
+      if (cssW < 2 || cssH < 2) return;
+
+      canvas.width = Math.round(cssW * dpr);
+      canvas.height = Math.round(cssH * dpr);
+      var ctx = canvas.getContext("2d");
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, cssW, cssH);
+
+      // Day bands (contiguous so night gaps between days stay filled)
+      var days = profile.days || [];
+      if (!days.length) {
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(plot.left, plot.top, plot.width, plot.height);
+      } else {
+        days.forEach(function (day, i) {
+          var x0 = xOf(i === 0 ? 0 : day.startKm, plot);
+          var x1 = xOf(
+            i + 1 < days.length ? days[i + 1].startKm : maxKm,
+            plot
+          );
+          ctx.fillStyle = i % 2 === 0 ? "#ffffff" : "#eeeeec";
+          ctx.fillRect(x0, plot.top, Math.max(1, x1 - x0), plot.height);
+        });
+      }
+
+      // Gridlines
+      ctx.strokeStyle = "rgba(136, 138, 133, 0.45)";
+      ctx.lineWidth = 1;
+      ctx.fillStyle = "#888a85";
+      ctx.font = "11px sans-serif";
+      ctx.textAlign = "right";
+      ctx.textBaseline = "middle";
+      var elevSteps = 4;
+      for (var gi = 0; gi <= elevSteps; gi++) {
+        var elev = yMin + ((yMax - yMin) * gi) / elevSteps;
+        var y = yOf(elev, plot);
+        ctx.beginPath();
+        ctx.moveTo(plot.left, y);
+        ctx.lineTo(plot.right, y);
+        ctx.stroke();
+        ctx.fillText(Math.round(elev) + " m", plot.left - 6, y);
+      }
+
+      ctx.textAlign = "center";
+      ctx.textBaseline = "top";
+      var kmSteps = Math.min(6, Math.max(2, Math.round(maxKm)));
+      for (var ki = 0; ki <= kmSteps; ki++) {
+        var km = (maxKm * ki) / kmSteps;
+        var x = xOf(km, plot);
+        ctx.beginPath();
+        ctx.moveTo(x, plot.top);
+        ctx.lineTo(x, plot.bottom);
+        ctx.stroke();
+        var label =
+          maxKm >= 100 ? String(Math.round(km)) : km.toFixed(km >= 10 ? 0 : 1);
+        ctx.fillText(label + " km", x, plot.bottom + 6);
+      }
+
+      // Track polylines
+      (profile.tracks || []).forEach(function (track) {
+        var pts = track.points || [];
+        if (pts.length < 2) return;
+        ctx.beginPath();
+        ctx.strokeStyle = track.color || "#2060a0";
+        ctx.lineWidth = 2;
+        ctx.lineJoin = "round";
+        ctx.lineCap = "round";
+        for (var i = 0; i < pts.length; i++) {
+          var px = xOf(pts[i][0], plot);
+          var py = yOf(pts[i][1], plot);
+          if (i === 0) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
+        }
+        ctx.stroke();
+      });
+
+      // Hover cursor
+      if (hoverPt) {
+        var hx = xOf(hoverPt.km, plot);
+        var hy = yOf(hoverPt.elev, plot);
+        ctx.strokeStyle = "#2e3436";
+        ctx.lineWidth = 1;
+        ctx.setLineDash([4, 3]);
+        ctx.beginPath();
+        ctx.moveTo(hx, plot.top);
+        ctx.lineTo(hx, plot.bottom);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.beginPath();
+        ctx.fillStyle = hoverPt.color || "#2e3436";
+        ctx.arc(hx, hy, 4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = "#2e3436";
+        ctx.stroke();
+      }
+    }
+
+    function onPointer(ev) {
+      var plot = plotRect();
+      var rect = canvas.getBoundingClientRect();
+      var x = ev.clientX - rect.left;
+      if (x < plot.left) x = plot.left;
+      if (x > plot.right) x = plot.right;
+      var km = ((x - plot.left) / plot.width) * maxKm;
+      hoverKm = km;
+      hoverPt = nearestPoint(km);
+      var m = ensureMarker(hoverPt.color);
+      if (m) {
+        m.setLatLng([hoverPt.lat, hoverPt.lon]);
+        if (!map.hasLayer(m)) m.addTo(map);
+      }
+      if (readout) {
+        var elevTxt = Math.round(hoverPt.elev) + " m";
+        var kmTxt =
+          maxKm >= 100
+            ? Math.round(hoverPt.km) + " km"
+            : hoverPt.km.toFixed(1) + " km";
+        readout.textContent = elevTxt + " · " + kmTxt;
+        readout.hidden = false;
+      }
+      draw();
+    }
+
+    canvas.addEventListener("pointermove", onPointer);
+    canvas.addEventListener("pointerdown", onPointer);
+    canvas.addEventListener("pointerleave", clearHover);
+    canvas.addEventListener("pointercancel", clearHover);
+
+    var ro = new ResizeObserver(function () {
+      draw();
+    });
+    ro.observe(wrap);
+    draw();
+  }
+
   // --- Leaflet Trip Map ---
   function initTripMap(el) {
     if (!window.L) return;
@@ -69,6 +328,9 @@
             lineJoin: "round",
           }).addTo(map);
         });
+        if (fc.profile) {
+          initTripProfile(el, map, fc.profile);
+        }
       })
       .catch(function () {});
 

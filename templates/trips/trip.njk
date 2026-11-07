@@ -66,6 +66,10 @@
             data-photos='{{ trip.mapPhotosJson | safe }}'
           ></div>
         </div>
+        <div class="trip-profile-wrap" hidden>
+          <canvas class="trip-profile" role="img" aria-label="Elevation profile"></canvas>
+          <p class="trip-profile-readout" hidden></p>
+        </div>
       </div>
 
       {% if trip.tracks and trip.tracks.length %}

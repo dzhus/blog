@@ -27,6 +27,7 @@ import {
   ELEVATION_SOURCE_ID,
   elevationStatsForTracks,
 } from "./elevation.ts";
+import { buildTripProfile } from "./profile.ts";
 import { processPhotoImages, formatFileSize } from "./images.ts";
 import { resolveTripTitle } from "./i18n.ts";
 import { formatTripDateRange } from "./metadata.ts";
@@ -122,6 +123,11 @@ async function buildOneTrip(
     typeof elevStats.maxElevationMeters === "number"
       ? elevStats.maxElevationMeters
       : null;
+  const profile = buildTripProfile(
+    tracks,
+    trackPointLists,
+    elevStats.elevationLists,
+  );
 
   const photoMetas: Array<{
     src: string;
@@ -291,7 +297,7 @@ async function buildOneTrip(
     fs.writeFileSync(tilesMetaPath, JSON.stringify(meta));
   }
 
-  writeTracksJson(tracks, tracksPath);
+  writeTracksJson(tracks, tracksPath, profile);
 
   let coverThumbUrl = photos[0]?.gridThumbUrl ?? null;
   if (trip.thumbnail) {

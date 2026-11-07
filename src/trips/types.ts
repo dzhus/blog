@@ -2,6 +2,20 @@ import type { TripNameEntry } from "./i18n.ts";
 
 export type LatLon = { lat: number; lon: number };
 
+/** Track point with optional GPX `<time>` (epoch ms). */
+export type TimedLatLon = LatLon & { timeMs: number | null };
+
+/** Elevation profile published in tracks.json for the trip page chart. */
+export type TripProfile = {
+  tracks: Array<{
+    id: string;
+    color: string;
+    /** `[distanceKm, elevM, lat, lon, dayIndex]` */
+    points: number[][];
+  }>;
+  days: Array<{ date: string; startKm: number; endKm: number }>;
+};
+
 export type BBox = {
   south: number;
   west: number;

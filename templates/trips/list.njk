@@ -23,13 +23,18 @@
           <span class="trips-list-title">{{ trip.title }}</span>
           {% if trip.dateRange or trip.distanceKm or trip.ascentLabel or trip.maxElevationLabel %}
           <span class="trips-list-period">
-            {% if trip.dateRange %}{{ trip.dateRange }}{% endif %}
-            {% if trip.dateRange and trip.distanceKm %} · {% endif %}
-            {% if trip.distanceKm %}{{ trip.distanceKm }}{% endif %}
-            {% if (trip.dateRange or trip.distanceKm) and trip.ascentLabel %} · {% endif %}
-            {% if trip.ascentLabel %}{{ trip.ascentLabel }}{% endif %}
-            {% if (trip.dateRange or trip.distanceKm or trip.ascentLabel) and trip.maxElevationLabel %} · {% endif %}
-            {% if trip.maxElevationLabel %}{{ trip.maxElevationLabel }}{% endif %}
+            {% if trip.dateRange %}
+            <span class="trips-list-dates">{{ trip.dateRange }}</span>
+            {% endif %}
+            {% if trip.distanceKm or trip.ascentLabel or trip.maxElevationLabel %}
+            <span class="trips-list-stats">
+              {% if trip.distanceKm %}{{ trip.distanceKm }}{% endif %}
+              {% if trip.distanceKm and trip.ascentLabel %} · {% endif %}
+              {% if trip.ascentLabel %}{{ trip.ascentLabel }}{% endif %}
+              {% if (trip.distanceKm or trip.ascentLabel) and trip.maxElevationLabel %} · {% endif %}
+              {% if trip.maxElevationLabel %}{{ trip.maxElevationLabel }}{% endif %}
+            </span>
+            {% endif %}
           </span>
           {% endif %}
           <span class="trips-list-counts">{{ t.photoCount(trip.photoCount) }}{% if trip.trackCount %}{{ t.countsJoiner }}{{ t.trackCount(trip.trackCount) }}{% endif %}</span>

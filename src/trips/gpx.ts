@@ -8,7 +8,7 @@ import {
   isValidBBox,
   simplifyTrack,
 } from "./geo.ts";
-import type { BBox, LatLon, TripTrack } from "./types.ts";
+import type { BBox, LatLon, TimedLatLon, TripProfile, TripTrack } from "./types.ts";
 
 const parser = new XMLParser({
   ignoreAttributes: false,
@@ -23,7 +23,7 @@ function asArray<T>(v: T | T[] | undefined | null): T[] {
 }
 
 type GpxParseResult = {
-  points: LatLon[];
+  points: TimedLatLon[];
   /** Min epoch ms among track/route points with a usable `<time>`, else null. */
   minTimeMs: number | null;
   /** Max epoch ms among track/route points with a usable `<time>`, else null. */
@@ -102,7 +102,7 @@ function readGpx(filePath: string): GpxParseResult {
   const gpx = doc.gpx;
   if (!gpx) return { points: [], minTimeMs: null, maxTimeMs: null };
 
-  const points: LatLon[] = [];
+  const points: TimedLatLon[] = [];
   let minTimeMs: number | null = null;
   let maxTimeMs: number | null = null;
 
@@ -110,11 +110,11 @@ function readGpx(filePath: string): GpxParseResult {
     const lat = Number(pt["@_lat"]);
     const lon = Number(pt["@_lon"]);
     if (!Number.isFinite(lat) || !Number.isFinite(lon)) return;
-    points.push({ lat, lon });
-    const t = parsePointTime(pt.time);
-    if (t == null) return;
-    if (minTimeMs == null || t < minTimeMs) minTimeMs = t;
-    if (maxTimeMs == null || t > maxTimeMs) maxTimeMs = t;
+    const timeMs = parsePointTime(pt.time);
+    points.push({ lat, lon, timeMs });
+    if (timeMs == null) return;
+    if (minTimeMs == null || timeMs < minTimeMs) minTimeMs = timeMs;
+    if (maxTimeMs == null || timeMs > maxTimeMs) maxTimeMs = timeMs;
   };
 
   for (const trk of asArray(gpx.trk)) {
@@ -140,8 +140,8 @@ export type GpxProcessResult = {
   tracks: TripTrack[];
   bounds: BBox;
   distanceMeters: number;
-  /** Full-resolution points per GPX file (same order as input files before track sort). */
-  trackPointLists: LatLon[][];
+  /** Full-resolution points per track (same order as `tracks`). */
+  trackPointLists: TimedLatLon[][];
   /** Calendar YYYY-MM-DD from min/max of all GPX point times. */
   from: string;
   to: string;
@@ -165,7 +165,6 @@ export function processGpxFiles(
   let distanceMeters = 0;
   let tripMinMs: number | null = null;
   let tripMaxMs: number | null = null;
-  const trackPointLists: LatLon[][] = [];
 
   const parsed = gpxFiles.map((filePath) => {
     const filename = path.basename(filePath);
@@ -173,7 +172,6 @@ export function processGpxFiles(
     fs.copyFileSync(filePath, dest);
 
     const { points, minTimeMs, maxTimeMs } = readGpx(filePath);
-    trackPointLists.push(points);
     for (const p of points) expandBBox(bounds, p.lat, p.lon);
     distanceMeters += pathLengthMeters(points);
 
@@ -190,6 +188,7 @@ export function processGpxFiles(
     return {
       filename,
       startedAtMs: minTimeMs,
+      points,
       coordinates: simplifyTrack(points),
       id: path.basename(filename, path.extname(filename)),
     };
@@ -218,7 +217,7 @@ export function processGpxFiles(
     tracks,
     bounds: isValidBBox(bounds) ? bounds : emptyBBox(),
     distanceMeters,
-    trackPointLists,
+    trackPointLists: parsed.map((t) => t.points),
     from: calendarDateFromMs(tripMinMs),
     to: calendarDateFromMs(tripMaxMs),
   };
@@ -227,8 +226,9 @@ export function processGpxFiles(
 export function writeTracksJson(
   tracks: TripTrack[],
   outPath: string,
+  profile: TripProfile | null = null,
 ): void {
-  const payload = {
+  const payload: Record<string, unknown> = {
     type: "FeatureCollection",
     features: tracks.map((t) => ({
       type: "Feature",
@@ -245,6 +245,9 @@ export function writeTracksJson(
       leafletCoordinates: t.coordinates,
     })),
   };
+  if (profile) {
+    payload.profile = profile;
+  }
   fs.mkdirSync(path.dirname(outPath), { recursive: true });
   fs.writeFileSync(outPath, JSON.stringify(payload));
 }

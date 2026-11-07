@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import sharp from "sharp";
 import { latToTileY, lonToTileX } from "./geo.ts";
-import type { LatLon } from "./types.ts";
+import type { LatLon, TimedLatLon } from "./types.ts";
 
 /** Bump when changing DEM source/zoom so caches invalidate. */
 export const ELEVATION_SOURCE_ID = "mapterhorn";
@@ -376,6 +376,15 @@ export type TrackElevationStats = {
   ascentMeters: number;
   /** Highest DEM sample along the track (metres), or null if empty. */
   maxElevationMeters: number | null;
+  /** DEM elevation (metres) per input point, same order. */
+  elevations: number[];
+};
+
+export type TripElevationStats = {
+  ascentMeters: number;
+  maxElevationMeters: number | null;
+  /** Per-track DEM elevations aligned with `trackPointLists`. */
+  elevationLists: number[][];
 };
 
 /** Ascent and max elevation for one track using Mapterhorn DEM samples. */
@@ -384,7 +393,7 @@ export async function elevationStatsForTrack(
   cacheDir: string,
 ): Promise<TrackElevationStats> {
   if (points.length === 0) {
-    return { ascentMeters: 0, maxElevationMeters: null };
+    return { ascentMeters: 0, maxElevationMeters: null, elevations: [] };
   }
   await ensureTilesForPoints(points, cacheDir);
   const elevations: number[] = [];
@@ -397,27 +406,30 @@ export async function elevationStatsForTrack(
     if (elev > maxElevationMeters) maxElevationMeters = elev;
   }
   if (elevations.length < 2) {
-    return { ascentMeters: 0, maxElevationMeters };
+    return { ascentMeters: 0, maxElevationMeters, elevations };
   }
   const smoothed = smoothElevations(elevations, ASCENT_SMOOTH_WINDOW);
   return {
     ascentMeters: ascentFromElevations(smoothed),
     maxElevationMeters,
+    elevations,
   };
 }
 
 /**
  * Sum ascent across separate tracks (do not join end-to-start); take the
- * highest max elevation among them.
+ * highest max elevation among them; keep per-track elevation series.
  */
 export async function elevationStatsForTracks(
-  trackPointLists: LatLon[][],
+  trackPointLists: TimedLatLon[][],
   cacheDir: string,
-): Promise<TrackElevationStats> {
+): Promise<TripElevationStats> {
   let ascentMeters = 0;
   let maxElevationMeters: number | null = null;
+  const elevationLists: number[][] = [];
   for (const points of trackPointLists) {
     const stats = await elevationStatsForTrack(points, cacheDir);
+    elevationLists.push(stats.elevations);
     ascentMeters += stats.ascentMeters;
     if (
       typeof stats.maxElevationMeters === "number" &&
@@ -427,5 +439,5 @@ export async function elevationStatsForTracks(
       maxElevationMeters = stats.maxElevationMeters;
     }
   }
-  return { ascentMeters, maxElevationMeters };
+  return { ascentMeters, maxElevationMeters, elevationLists };
 }
