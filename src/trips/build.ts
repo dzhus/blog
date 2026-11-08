@@ -88,6 +88,12 @@ export function buildConcurrency(): number {
   return Math.max(2, Math.min(4, Math.max(1, cores - 1)));
 }
 
+/** Local calendar YYYY-MM-DD, matching EXIF display day (not UTC ISO). */
+function calendarDateLocal(date: Date): string {
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+}
+
 async function buildOneTrip(
   trip: DiscoveredTrip,
   ctx: TripBuildCtx,
@@ -103,15 +109,16 @@ async function buildOneTrip(
     bounds: trackBounds,
     distanceMeters,
     trackPointLists,
-    from,
-    to,
+    from: gpxFrom,
+    to: gpxTo,
   } = processGpxFiles(trip.gpxFiles, trip.slug, siteTripDir);
-  const dateRange = formatTripDateRange(from, to);
-  if (!dateRange) {
+  if (!formatTripDateRange(gpxFrom, gpxTo)) {
     throw new Error(
       `Trip ${trip.slug}: could not derive date range from GPX timestamps.`,
     );
   }
+  let from = gpxFrom;
+  let to = gpxTo;
 
   const elevStats = await elevationStatsForTracks(
     trackPointLists,
@@ -155,6 +162,19 @@ async function buildOneTrip(
   }
 
   photoMetas.sort((a, b) => +a.capturedAt - +b.capturedAt);
+
+  // Widen trip dates to encompass EXIF capture days (local calendar date).
+  for (const meta of photoMetas) {
+    const day = calendarDateLocal(meta.capturedAt);
+    if (day < from) from = day;
+    if (day > to) to = day;
+  }
+  const dateRange = formatTripDateRange(from, to);
+  if (!dateRange) {
+    throw new Error(
+      `Trip ${trip.slug}: could not derive date range from GPX and photo timestamps.`,
+    );
+  }
 
   const photos: TripPhoto[] = [];
   const photoBounds = emptyBBox();
