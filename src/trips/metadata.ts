@@ -16,6 +16,47 @@ function isPlainObject(v: unknown): v is Record<string, unknown> {
   return typeof v === "object" && v !== null && !Array.isArray(v);
 }
 
+/** Parse trip.yml-style `names:` list of `{ lang, name }`. */
+export function parseNamesEntries(
+  raw: unknown,
+  fileLabel: string,
+  fieldLabel = "names",
+): TripNameEntry[] {
+  if (!Array.isArray(raw) || raw.length === 0) {
+    throw new Error(
+      `Invalid ${fieldLabel} in ${fileLabel}: expected a non-empty list of { lang, name }`,
+    );
+  }
+  const names: TripNameEntry[] = [];
+  const seen = new Set<TripLang>();
+  for (let i = 0; i < raw.length; i++) {
+    const entry = raw[i];
+    if (!isPlainObject(entry)) {
+      throw new Error(
+        `Invalid ${fieldLabel}[${i}] in ${fileLabel}: expected a mapping with lang and name`,
+      );
+    }
+    if (!isTripLang(entry.lang)) {
+      throw new Error(
+        `Invalid ${fieldLabel}[${i}].lang in ${fileLabel}: expected one of ru, en, got ${JSON.stringify(entry.lang)}`,
+      );
+    }
+    if (typeof entry.name !== "string" || entry.name.trim() === "") {
+      throw new Error(
+        `Invalid ${fieldLabel}[${i}].name in ${fileLabel}: expected a non-empty string`,
+      );
+    }
+    if (seen.has(entry.lang)) {
+      throw new Error(
+        `Duplicate ${fieldLabel} lang ${JSON.stringify(entry.lang)} in ${fileLabel}`,
+      );
+    }
+    seen.add(entry.lang);
+    names.push({ lang: entry.lang, name: entry.name.trim() });
+  }
+  return names;
+}
+
 export function findMetadataPath(tripDir: string): string | null {
   for (const name of META_FILENAMES) {
     const p = path.join(tripDir, name);
@@ -54,39 +95,7 @@ export function readTripMetadata(tripDir: string): TripMetadata {
   }
 
   if (raw.names !== undefined) {
-    if (!Array.isArray(raw.names) || raw.names.length === 0) {
-      throw new Error(
-        `Invalid names in ${fileLabel}: expected a non-empty list of { lang, name }`,
-      );
-    }
-    const names: TripNameEntry[] = [];
-    const seen = new Set<TripLang>();
-    for (let i = 0; i < raw.names.length; i++) {
-      const entry = raw.names[i];
-      if (!isPlainObject(entry)) {
-        throw new Error(
-          `Invalid names[${i}] in ${fileLabel}: expected a mapping with lang and name`,
-        );
-      }
-      if (!isTripLang(entry.lang)) {
-        throw new Error(
-          `Invalid names[${i}].lang in ${fileLabel}: expected one of ru, en, got ${JSON.stringify(entry.lang)}`,
-        );
-      }
-      if (typeof entry.name !== "string" || entry.name.trim() === "") {
-        throw new Error(
-          `Invalid names[${i}].name in ${fileLabel}: expected a non-empty string`,
-        );
-      }
-      if (seen.has(entry.lang)) {
-        throw new Error(
-          `Duplicate names lang ${JSON.stringify(entry.lang)} in ${fileLabel}`,
-        );
-      }
-      seen.add(entry.lang);
-      names.push({ lang: entry.lang, name: entry.name.trim() });
-    }
-    meta.names = names;
+    meta.names = parseNamesEntries(raw.names, fileLabel);
   }
 
   if (raw.thumbnail !== undefined) {

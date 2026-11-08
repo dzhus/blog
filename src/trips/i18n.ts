@@ -1,3 +1,4 @@
+import { applyNameAliases, loadTripAliases } from "./aliases.ts";
 import {
   formatAscentMeters,
   formatDistanceKm,
@@ -130,13 +131,16 @@ export function resolveTripTitle(
   folderTitle: string,
   lang: TripLang,
 ): string {
+  let title: string;
   if (names && names.length > 0) {
     const match = names.find((entry) => entry.lang === lang);
-    if (match) return match.name;
-    return names[0]!.name;
+    title = match ? match.name : names[0]!.name;
+  } else if (name) {
+    title = name;
+  } else {
+    title = folderTitle;
   }
-  if (name) return name;
-  return folderTitle;
+  return applyNameAliases(title, lang, loadTripAliases());
 }
 
 export function localizeSitePhoto(

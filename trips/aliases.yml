@@ -1,0 +1,11 @@
+aliases:
+  - names:
+      - lang: en
+        name: Scotland
+      - lang: ru
+        name: Шотландия
+  - names:
+      - lang: en
+        name: Switzerland
+      - lang: ru
+        name: Швейцария
