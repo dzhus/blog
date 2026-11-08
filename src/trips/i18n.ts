@@ -61,7 +61,15 @@ export const tripUi: Record<TripLang, TripUi> = {
     totalDistance: "Общая дистанция",
     totalAscent: "Общий набор",
     photoCount: (n) => `${n} фото`,
-    trackCount: (n) => (n > 1 ? `${n} трека` : `${n} трек`),
+    trackCount: (n) => {
+      const mod10 = n % 10;
+      const mod100 = n % 100;
+      if (mod10 === 1 && mod100 !== 11) return `${n} трек`;
+      if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) {
+        return `${n} трека`;
+      }
+      return `${n} треков`;
+    },
     countsJoiner: ", ",
     allTrips: "Все поездки",
     hideMap: "Скрыть карту",
