@@ -39,6 +39,8 @@ export type TripUi = {
   mapThumbsLabel: string;
   hideMapThumbs: string;
   showMapThumbs: string;
+  profileAxisDistance: string;
+  profileAxisTime: string;
   distanceUnit: string;
   ascentUnit: string;
   close: string;
@@ -79,6 +81,8 @@ export const tripUi: Record<TripLang, TripUi> = {
     mapThumbsLabel: "Миниатюры на карте",
     hideMapThumbs: "Скрыть миниатюры на карте",
     showMapThumbs: "Показать миниатюры на карте",
+    profileAxisDistance: "км",
+    profileAxisTime: "время",
     distanceUnit: "км",
     ascentUnit: "м",
     close: "Закрыть",
@@ -109,6 +113,8 @@ export const tripUi: Record<TripLang, TripUi> = {
     mapThumbsLabel: "Map thumbnails",
     hideMapThumbs: "Hide map thumbnails",
     showMapThumbs: "Show map thumbnails",
+    profileAxisDistance: "km",
+    profileAxisTime: "time",
     distanceUnit: "km",
     ascentUnit: "m",
     close: "Close",

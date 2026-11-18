@@ -1,36 +1,144 @@
 /* Trip map & interactive gallery logic */
 (function () {
   // --- Elevation profile (canvas) + map hover marker ---
+  function formatElapsedSec(sec) {
+    var s = Math.max(0, Math.round(sec));
+    var days = Math.floor(s / 86400);
+    var hours = Math.floor((s % 86400) / 3600);
+    var mins = Math.floor((s % 3600) / 60);
+    var parts = [];
+    if (days > 0) parts.push(days + "d");
+    if (hours > 0) parts.push(hours + "h");
+    if (mins > 0 || parts.length === 0) parts.push(mins + "m");
+    return parts.join(" ");
+  }
+
+  function formatTimestamp(ms, timeZone) {
+    var d = new Date(ms);
+    if (!Number.isFinite(d.getTime())) return "";
+    function pad(n) {
+      return n < 10 ? "0" + n : String(n);
+    }
+    if (timeZone) {
+      try {
+        var parts = new Intl.DateTimeFormat("en-GB", {
+          timeZone: timeZone,
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        }).formatToParts(d);
+        var map = {};
+        for (var i = 0; i < parts.length; i++) {
+          if (parts[i].type !== "literal") map[parts[i].type] = parts[i].value;
+        }
+        if (map.year && map.month && map.day && map.hour && map.minute) {
+          return (
+            map.year +
+            "-" +
+            map.month +
+            "-" +
+            map.day +
+            " " +
+            map.hour +
+            ":" +
+            map.minute
+          );
+        }
+      } catch (e) {
+        /* fall through to browser-local */
+      }
+    }
+    return (
+      d.getFullYear() +
+      "-" +
+      pad(d.getMonth() + 1) +
+      "-" +
+      pad(d.getDate()) +
+      " " +
+      pad(d.getHours()) +
+      ":" +
+      pad(d.getMinutes())
+    );
+  }
+
+  function niceTimeTicks(maxSec) {
+    if (!(maxSec > 0)) return [0];
+    var candidates = [
+      60,
+      120,
+      300,
+      600,
+      900,
+      1800,
+      3600,
+      7200,
+      10800,
+      21600,
+      43200,
+      86400,
+      172800,
+      259200,
+      604800,
+    ];
+    var target = Math.max(2, Math.min(6, Math.round(maxSec / 3600) || 2));
+    var step = candidates[candidates.length - 1];
+    for (var i = 0; i < candidates.length; i++) {
+      var n = Math.ceil(maxSec / candidates[i]);
+      if (n <= target) {
+        step = candidates[i];
+        break;
+      }
+    }
+    var ticks = [];
+    for (var t = 0; t <= maxSec + 1e-6; t += step) {
+      ticks.push(Math.min(maxSec, t));
+    }
+    if (ticks[ticks.length - 1] < maxSec) ticks.push(maxSec);
+    return ticks;
+  }
+
   function initTripProfile(mapEl, map, profile) {
     var column = mapEl.closest(".trip-map-column");
     if (!column) return;
     var wrap = column.querySelector(".trip-profile-wrap");
     var canvas = column.querySelector(".trip-profile");
     var readout = column.querySelector(".trip-profile-readout");
+    var axisToggle = column.querySelector(".trip-profile-axis-toggle");
     if (!wrap || !canvas || !profile || !profile.tracks) return;
 
     var flat = [];
     var minElev = Infinity;
     var maxElev = -Infinity;
     var maxKm = 0;
+    var maxElapsed = 0;
+    var hasTime = typeof profile.startMs === "number";
     (profile.tracks || []).forEach(function (track) {
       (track.points || []).forEach(function (pt) {
         var km = pt[0];
         var elev = pt[1];
+        var elapsed =
+          pt.length > 5 && typeof pt[5] === "number" ? pt[5] : null;
+        if (elapsed == null) hasTime = false;
         flat.push({
           km: km,
           elev: elev,
           lat: pt[2],
           lon: pt[3],
           dayIndex: pt[4],
+          elapsed: elapsed,
           color: track.color,
         });
         if (elev < minElev) minElev = elev;
         if (elev > maxElev) maxElev = elev;
         if (km > maxKm) maxKm = km;
+        if (elapsed != null && elapsed > maxElapsed) maxElapsed = elapsed;
       });
     });
     if (flat.length < 2 || !(maxKm > 0) || !Number.isFinite(minElev)) return;
+    if (!(maxElapsed > 0)) hasTime = false;
 
     flat.sort(function (a, b) {
       return a.km - b.km;
@@ -42,11 +150,50 @@
     if (yMax <= yMin) yMax = yMin + 1;
 
     wrap.hidden = false;
+    var axisMode = "distance";
+    if (axisToggle) {
+      if (hasTime) {
+        axisToggle.hidden = false;
+        axisToggle.querySelectorAll(".trip-profile-axis-btn").forEach(function (
+          btn
+        ) {
+          btn.addEventListener("click", function () {
+            var next = btn.getAttribute("data-axis");
+            if (next !== "distance" && next !== "time") return;
+            if (next === axisMode) return;
+            axisMode = next;
+            axisToggle
+              .querySelectorAll(".trip-profile-axis-btn")
+              .forEach(function (b) {
+                b.setAttribute(
+                  "aria-pressed",
+                  b.getAttribute("data-axis") === axisMode ? "true" : "false"
+                );
+              });
+            if (hoverX != null) {
+              applyHoverAtX(hoverX);
+            } else {
+              draw();
+            }
+          });
+        });
+      } else {
+        axisToggle.hidden = true;
+      }
+    }
 
     var pad = { top: 12, right: 12, bottom: 28, left: 44 };
-    var hoverKm = null;
+    var hoverX = null;
     var hoverPt = null;
     var marker = null;
+
+    function xValueOf(pt) {
+      return axisMode === "time" ? pt.elapsed : pt.km;
+    }
+
+    function maxX() {
+      return axisMode === "time" ? maxElapsed : maxKm;
+    }
 
     function ensureMarker(color) {
       if (!window.L) return null;
@@ -71,7 +218,7 @@
     }
 
     function clearHover() {
-      hoverKm = null;
+      hoverX = null;
       hoverPt = null;
       if (marker && map.hasLayer(marker)) map.removeLayer(marker);
       if (readout) {
@@ -81,16 +228,20 @@
       draw();
     }
 
-    function nearestPoint(km) {
+    function nearestPoint(xVal) {
+      var key = axisMode === "time" ? "elapsed" : "km";
       var lo = 0;
       var hi = flat.length - 1;
       while (lo < hi) {
         var mid = (lo + hi) >> 1;
-        if (flat[mid].km < km) lo = mid + 1;
+        if (flat[mid][key] < xVal) lo = mid + 1;
         else hi = mid;
       }
       var i = lo;
-      if (i > 0 && Math.abs(flat[i - 1].km - km) < Math.abs(flat[i].km - km)) {
+      if (
+        i > 0 &&
+        Math.abs(flat[i - 1][key] - xVal) < Math.abs(flat[i][key] - xVal)
+      ) {
         i = i - 1;
       }
       return flat[i];
@@ -111,12 +262,44 @@
       };
     }
 
-    function xOf(km, plot) {
-      return plot.left + (km / maxKm) * plot.width;
+    function xOf(val, plot) {
+      var max = maxX();
+      return plot.left + (val / max) * plot.width;
     }
 
     function yOf(elev, plot) {
       return plot.bottom - ((elev - yMin) / (yMax - yMin)) * plot.height;
+    }
+
+    function axisLabel(val) {
+      if (axisMode === "time") return formatElapsedSec(val);
+      var label =
+        maxKm >= 100
+          ? String(Math.round(val))
+          : val.toFixed(val >= 10 ? 0 : 1);
+      return label + " km";
+    }
+
+    function updateReadout(pt) {
+      if (!readout || !pt) return;
+      var elevTxt = Math.round(pt.elev) + " m";
+      var kmTxt =
+        maxKm >= 100
+          ? Math.round(pt.km) + " km"
+          : pt.km.toFixed(1) + " km";
+      var parts = [elevTxt, kmTxt];
+      if (hasTime && typeof pt.elapsed === "number") {
+        parts.push(formatElapsedSec(pt.elapsed));
+        if (typeof profile.startMs === "number") {
+          var ts = formatTimestamp(
+            profile.startMs + pt.elapsed * 1000,
+            profile.timeZone
+          );
+          if (ts) parts.push(ts);
+        }
+      }
+      readout.textContent = parts.join(" · ");
+      readout.hidden = false;
     }
 
     function draw() {
@@ -132,6 +315,7 @@
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, cssW, cssH);
 
+      var max = maxX();
       // Day bands (contiguous so night gaps between days stay filled)
       var days = profile.days || [];
       if (!days.length) {
@@ -139,11 +323,24 @@
         ctx.fillRect(plot.left, plot.top, plot.width, plot.height);
       } else {
         days.forEach(function (day, i) {
-          var x0 = xOf(i === 0 ? 0 : day.startKm, plot);
-          var x1 = xOf(
-            i + 1 < days.length ? days[i + 1].startKm : maxKm,
-            plot
-          );
+          var start;
+          var nextStart;
+          if (axisMode === "time") {
+            start = i === 0 ? 0 : day.startElapsedSec;
+            nextStart =
+              i + 1 < days.length
+                ? days[i + 1].startElapsedSec
+                : max;
+            if (typeof start !== "number" || typeof nextStart !== "number") {
+              return;
+            }
+          } else {
+            start = i === 0 ? 0 : day.startKm;
+            nextStart =
+              i + 1 < days.length ? days[i + 1].startKm : max;
+          }
+          var x0 = xOf(start, plot);
+          var x1 = xOf(nextStart, plot);
           ctx.fillStyle = i % 2 === 0 ? "#ffffff" : "#eeeeec";
           ctx.fillRect(x0, plot.top, Math.max(1, x1 - x0), plot.height);
         });
@@ -169,17 +366,24 @@
 
       ctx.textAlign = "center";
       ctx.textBaseline = "top";
-      var kmSteps = Math.min(6, Math.max(2, Math.round(maxKm)));
-      for (var ki = 0; ki <= kmSteps; ki++) {
-        var km = (maxKm * ki) / kmSteps;
-        var x = xOf(km, plot);
+      var xTicks;
+      if (axisMode === "time") {
+        xTicks = niceTimeTicks(max);
+      } else {
+        var kmSteps = Math.min(6, Math.max(2, Math.round(maxKm)));
+        xTicks = [];
+        for (var ki = 0; ki <= kmSteps; ki++) {
+          xTicks.push((maxKm * ki) / kmSteps);
+        }
+      }
+      for (var ti = 0; ti < xTicks.length; ti++) {
+        var xv = xTicks[ti];
+        var x = xOf(xv, plot);
         ctx.beginPath();
         ctx.moveTo(x, plot.top);
         ctx.lineTo(x, plot.bottom);
         ctx.stroke();
-        var label =
-          maxKm >= 100 ? String(Math.round(km)) : km.toFixed(km >= 10 ? 0 : 1);
-        ctx.fillText(label + " km", x, plot.bottom + 6);
+        ctx.fillText(axisLabel(xv), x, plot.bottom + 6);
       }
 
       // Track polylines
@@ -192,7 +396,11 @@
         ctx.lineJoin = "round";
         ctx.lineCap = "round";
         for (var i = 0; i < pts.length; i++) {
-          var px = xOf(pts[i][0], plot);
+          var xVal =
+            axisMode === "time" && typeof pts[i][5] === "number"
+              ? pts[i][5]
+              : pts[i][0];
+          var px = xOf(xVal, plot);
           var py = yOf(pts[i][1], plot);
           if (i === 0) ctx.moveTo(px, py);
           else ctx.lineTo(px, py);
@@ -202,7 +410,7 @@
 
       // Hover cursor
       if (hoverPt) {
-        var hx = xOf(hoverPt.km, plot);
+        var hx = xOf(xValueOf(hoverPt), plot);
         var hy = yOf(hoverPt.elev, plot);
         ctx.strokeStyle = "#2e3436";
         ctx.lineWidth = 1;
@@ -221,30 +429,25 @@
       }
     }
 
-    function onPointer(ev) {
+    function applyHoverAtX(x) {
       var plot = plotRect();
-      var rect = canvas.getBoundingClientRect();
-      var x = ev.clientX - rect.left;
       if (x < plot.left) x = plot.left;
       if (x > plot.right) x = plot.right;
-      var km = ((x - plot.left) / plot.width) * maxKm;
-      hoverKm = km;
-      hoverPt = nearestPoint(km);
+      var xVal = ((x - plot.left) / plot.width) * maxX();
+      hoverX = x;
+      hoverPt = nearestPoint(xVal);
       var m = ensureMarker(hoverPt.color);
       if (m) {
         m.setLatLng([hoverPt.lat, hoverPt.lon]);
         if (!map.hasLayer(m)) m.addTo(map);
       }
-      if (readout) {
-        var elevTxt = Math.round(hoverPt.elev) + " m";
-        var kmTxt =
-          maxKm >= 100
-            ? Math.round(hoverPt.km) + " km"
-            : hoverPt.km.toFixed(1) + " km";
-        readout.textContent = elevTxt + " · " + kmTxt;
-        readout.hidden = false;
-      }
+      updateReadout(hoverPt);
       draw();
+    }
+
+    function onPointer(ev) {
+      var rect = canvas.getBoundingClientRect();
+      applyHoverAtX(ev.clientX - rect.left);
     }
 
     canvas.addEventListener("pointermove", onPointer);

@@ -10,10 +10,23 @@ export type TripProfile = {
   tracks: Array<{
     id: string;
     color: string;
-    /** `[distanceKm, elevM, lat, lon, dayIndex]` */
+    /**
+     * `[distanceKm, elevM, lat, lon, dayIndex]` or, when timed,
+     * `[distanceKm, elevM, lat, lon, dayIndex, elapsedSec]`.
+     */
     points: number[][];
   }>;
-  days: Array<{ date: string; startKm: number; endKm: number }>;
+  days: Array<{
+    date: string;
+    startKm: number;
+    endKm: number;
+    startElapsedSec?: number;
+    endElapsedSec?: number;
+  }>;
+  /** Epoch ms of the first timed sample (trip start); omit when untimed. */
+  startMs?: number;
+  /** IANA timezone at the first timed sample (for local hover timestamps). */
+  timeZone?: string;
 };
 
 export type BBox = {

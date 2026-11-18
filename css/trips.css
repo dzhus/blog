@@ -199,6 +199,39 @@ body.all-photos article.all-photos {
   position: relative;
 }
 
+.trip-profile-axis-toggle {
+  display: flex;
+  gap: 0.15rem;
+  padding: 0.25rem 0.4rem;
+  border-bottom: 1px solid #888a85;
+  background: #eeeeec;
+}
+
+.trip-profile-axis-btn {
+  margin: 0;
+  padding: 0.15em 0.45em;
+  border: none;
+  background: transparent;
+  color: #888a85;
+  font: inherit;
+  font-size: 0.85em;
+  line-height: 1.2;
+  cursor: pointer;
+  opacity: 0.45;
+}
+
+.trip-profile-axis-btn:hover,
+.trip-profile-axis-btn:focus-visible {
+  opacity: 1;
+  color: #2e3436;
+  outline: none;
+}
+
+.trip-profile-axis-btn[aria-pressed="true"] {
+  opacity: 1;
+  color: #2e3436;
+}
+
 .trip-profile {
   display: block;
   width: 100%;

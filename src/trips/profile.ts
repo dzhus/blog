@@ -1,4 +1,5 @@
 import { pathLengthMeters } from "./gpx.ts";
+import { findTimeZone } from "./timezone.ts";
 import type { TimedLatLon, TripProfile, TripTrack } from "./types.ts";
 
 /** Max profile vertices retained per UTC calendar day after downsampling. */
@@ -11,6 +12,7 @@ type ProfileSample = {
   lat: number;
   lon: number;
   day: string;
+  timeMs: number | null;
 };
 
 function calendarDateFromMs(ms: number): string {
@@ -119,12 +121,21 @@ export function buildTripProfile(
         lat: p.lat,
         lon: p.lon,
         day,
+        timeMs: p.timeMs,
       });
     }
     distanceOffsetKm += distAlongKm;
   }
 
   if (samples.length < 2) return null;
+
+  let startMs: number | null = null;
+  for (const s of samples) {
+    if (s.timeMs != null) {
+      startMs = s.timeMs;
+      break;
+    }
+  }
 
   const dayOrder: string[] = [];
   const byDay = new Map<string, ProfileSample[]>();
@@ -149,29 +160,48 @@ export function buildTripProfile(
   const dayIndexByDate = new Map<string, number>();
   dayOrder.forEach((d, i) => dayIndexByDate.set(d, i));
 
+  const timed = startMs != null;
   const trackPoints: number[][][] = tracks.map(() => []);
+  let lastTimeMs = startMs;
   for (const s of selected) {
-    trackPoints[s.trackIdx]!.push([
+    const point: number[] = [
       round(s.distanceKm, 4),
       round(s.elevM, 1),
       round(s.lat, 6),
       round(s.lon, 6),
       dayIndexByDate.get(s.day)!,
-    ]);
+    ];
+    if (timed) {
+      if (s.timeMs != null) lastTimeMs = s.timeMs;
+      point.push(Math.round((lastTimeMs! - startMs!) / 1000));
+    }
+    trackPoints[s.trackIdx]!.push(point);
   }
 
   const days = dayOrder.map((date) => {
     const daySamples = selected.filter((s) => s.day === date);
     const startKm = daySamples[0]!.distanceKm;
     const endKm = daySamples[daySamples.length - 1]!.distanceKm;
-    return {
+    const day: TripProfile["days"][number] = {
       date,
       startKm: round(startKm, 4),
       endKm: round(endKm, 4),
     };
+    if (timed) {
+      const timedSamples = daySamples.filter((s) => s.timeMs != null);
+      if (timedSamples.length > 0) {
+        day.startElapsedSec = Math.round(
+          (timedSamples[0]!.timeMs! - startMs!) / 1000,
+        );
+        day.endElapsedSec = Math.round(
+          (timedSamples[timedSamples.length - 1]!.timeMs! - startMs!) / 1000,
+        );
+      }
+    }
+    return day;
   });
 
-  return {
+  const profile: TripProfile = {
     tracks: tracks.map((t, i) => ({
       id: t.id,
       color: t.color,
@@ -179,6 +209,15 @@ export function buildTripProfile(
     })),
     days,
   };
+  if (timed) {
+    profile.startMs = startMs!;
+    const anchor = samples.find((s) => s.timeMs != null);
+    if (anchor) {
+      const timeZone = findTimeZone(anchor.lat, anchor.lon);
+      if (timeZone) profile.timeZone = timeZone;
+    }
+  }
+  return profile;
 }
 
 function round(n: number, digits: number): number {

@@ -67,6 +67,20 @@
           ></div>
         </div>
         <div class="trip-profile-wrap" hidden>
+          <div class="trip-profile-axis-toggle" hidden>
+            <button
+              type="button"
+              class="trip-profile-axis-btn"
+              data-axis="distance"
+              aria-pressed="true"
+            >{{ t.profileAxisDistance }}</button>
+            <button
+              type="button"
+              class="trip-profile-axis-btn"
+              data-axis="time"
+              aria-pressed="false"
+            >{{ t.profileAxisTime }}</button>
+          </div>
           <canvas class="trip-profile" role="img" aria-label="Elevation profile"></canvas>
           <p class="trip-profile-readout" hidden></p>
         </div>
